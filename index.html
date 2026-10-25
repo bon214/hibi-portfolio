@@ -29,7 +29,14 @@
         <button class="nav-button" id="about-open" aria-haspopup="dialog">日々について</button>
       </nav>
     </header>
+    <div class="collection-dock" role="group" aria-label="作品の種類" id="collection-switch">
+      <span class="collection-dock-label" aria-hidden="true">Photographs</span>
+      <button class="collection-button" data-collection="color" aria-pressed="true" aria-controls="main"><span class="collection-dot" aria-hidden="true"></span><span>カラー</span></button>
+      <span class="collection-divider" aria-hidden="true"></span>
+      <button class="collection-button" data-collection="mono" aria-pressed="false" aria-controls="main"><span class="collection-dot" aria-hidden="true"></span><span>モノクロ</span></button>
+    </div>
     <main id="main" tabindex="-1">
+      <div id="collection-empty" class="collection-empty" hidden><p>作品を準備しています。</p><p>公開まで、Instagramでご覧いただけます。</p><a class="instagram-link underlined-button" href="https://www.instagram.com/hibi_mono/" target="_blank" rel="noopener noreferrer">Instagramで見る ↗</a></div>
       <section id="work-view" class="work-view" aria-label="作品の鑑賞">
         <h1 class="visually-hidden">日々の写真</h1>
         <div id="gallery" class="gallery">
