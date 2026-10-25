@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+assets/reference/
+assets/photos/reference/
+artifacts/
+要件定義.md
+*.log
+
