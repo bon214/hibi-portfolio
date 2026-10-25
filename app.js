@@ -1,5 +1,4 @@
 import { artist, works } from './data/works.js';
-import { createWheelGesture } from './scroll-gesture.js';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -8,8 +7,6 @@ const about = $('about-dialog');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const imageCache = new Map();
 const entries = [];
-const wheelGesture = createWheelGesture();
-let wheelAnimating = false;
 let currentIndex = 0;
 let currentView = 'work';
 let indexScroll = 0;
@@ -65,7 +62,6 @@ function syncActiveWork() {
 
 function unlockRoute() {
   routeLocked = false;
-  wheelAnimating = false;
   syncActiveWork();
 }
 
@@ -94,7 +90,6 @@ function focusIndexWork() {
 function updateSnapMode() {
   const enabled = currentView === 'work' && !lightbox.open && !about.open;
   document.documentElement.classList.toggle('is-work-view', enabled);
-  if (!enabled) { wheelGesture.reset(); wheelAnimating = false; }
 }
 
 function renderView() {
@@ -412,29 +407,8 @@ function restoreRoute() {
 }
 window.addEventListener('popstate', restoreRoute);
 window.addEventListener('hashchange', restoreRoute);
-window.addEventListener('wheel', (event) => {
-  if (currentView !== 'work' || lightbox.open || about.open || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || !event.cancelable) return;
-  if (!wheelAnimating) syncActiveWork();
-  // Let enlarged content scroll normally when it cannot fit in a single frame.
-  if (entries[currentIndex].article.scrollHeight > innerHeight + 2) return;
-  const lastIndex = works.length - 1;
-  const lastTop = entries[lastIndex].article.getBoundingClientRect().top + scrollY;
-  const result = wheelGesture.update({
-    deltaX: event.deltaX, deltaY: event.deltaY, deltaMode: event.deltaMode,
-    viewportHeight: innerHeight, now: performance.now(), busy: wheelAnimating,
-    atStart: currentIndex === 0 && scrollY <= 1,
-    atEnd: currentIndex === lastIndex && scrollY >= lastTop - 1,
-  });
-  if (result.preventDefault) event.preventDefault();
-  if (!result.direction) return;
-  const fromFooter = result.direction < 0 && scrollY > lastTop + 2;
-  const target = fromFooter ? lastIndex : currentIndex + result.direction;
-  wheelAnimating = true;
-  navigate(target, 'work', {
-    replace: true, behavior: 'smooth',
-    focus: Boolean(document.activeElement?.closest('.work-entry')),
-  });
-}, { passive: false });
+// Keep scrolling native across the entire page, including photo buttons.
+// CSS Scroll Snap aligns photographs after wheel, touch, and keyboard scrolling.
 window.addEventListener('scroll', () => {
   if (routeLocked) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
   if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = null; syncActiveWork(); });
