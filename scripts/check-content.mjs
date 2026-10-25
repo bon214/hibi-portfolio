@@ -52,6 +52,7 @@ for (const collection of collections) {
   collectionIds.add(collection.id);
   assert(collection.label&&collection.name,'Collection labels required');
   assert(new URL(collection.instagram).hostname==='www.instagram.com','Collection source must be Instagram');
+  if(!allowPreview) assert.equal(works.filter(work=>work.collection===collection.id).length,collection.targetCount,`${collection.id}: published collection count must match its target`);
 }
 for(const file of ['index.html','styles.css','app.js','assets/favicon.svg','assets/share.jpg','robots.txt','sitemap.xml','404.html','.nojekyll']) await stat(resolve(root,file));
 for(const work of works) {
@@ -61,6 +62,12 @@ for(const work of works) {
   assert(Number.isInteger(work.width)&&work.width>0&&Number.isInteger(work.height)&&work.height>0,`${work.id}: dimensions required`);
   assert(typeof work.alt==='string'&&work.alt.trim(),`${work.id}: alt required`);
   assert(['v1','approved',...(allowPreview?['preview']:[])].includes(work.selectionStatus),`${work.id}: preview image must be replaced with a selected original before publication (use check:preview for local review)`);
+  if(!allowPreview) {
+    const source=new URL(work.source);
+    const collection=collections.find(item=>item.id===work.collection);
+    assert.equal(source.origin,'https://www.instagram.com',`${work.id}: Instagram source required`);
+    assert(source.pathname.startsWith(new URL(collection.instagram).pathname+'p/'),`${work.id}: source must belong to its collection account`);
+  }
   await checkImage(work.src,{width:work.width,height:work.height});
   await checkImage(work.thumbnail);
   assert(work.variants?.length>=2,`${work.id}: responsive viewing copies required`);
