@@ -32,23 +32,19 @@
     <main id="main" tabindex="-1">
       <section id="work-view" class="work-view" aria-label="作品の鑑賞">
         <h1 class="visually-hidden">日々の写真</h1>
-        <div class="stage" id="stage" aria-busy="false">
-          <figure class="photo-figure">
-            <button id="photo-open" class="photo-button" aria-label="写真を大きく見る" aria-haspopup="dialog"><img id="main-photo" src="assets/photos/v1/hibi-2025-03-1400.webp" srcset="assets/photos/v1/hibi-2025-03-800.webp 800w, assets/photos/v1/hibi-2025-03-1400.webp 1400w, assets/photos/v1/hibi-2025-03-2200.webp 2200w" sizes="(max-width: 600px) calc(100vw - 40px), min(calc(100vw - 144px), calc((100svh - 212px) * 1.5))" width="2200" height="1467" alt="樹木に囲まれた通路の先、光の当たる建物の前を歩く一人の人物。" fetchpriority="high" decoding="async"></button>
-            <figcaption id="photo-caption" hidden></figcaption>
-          </figure>
-          <p class="loading-note" id="loading-note" hidden>読み込み中<span aria-hidden="true">…</span></p>
-          <div class="photo-error" id="photo-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button id="photo-retry" class="underlined-button">もう一度読み込む</button></div>
+        <div id="gallery" class="gallery">
+          <article class="work-entry is-first" id="work-hibi-2025-03" data-id="hibi-2025-03" style="--work-ratio: 1.5">
+            <figure class="work-figure">
+              <div class="work-image-wrap">
+                <button class="gallery-photo" aria-label="写真 1 を大きく見る" aria-haspopup="dialog"><img class="work-image" src="assets/photos/v1/hibi-2025-03-1400.webp" srcset="assets/photos/v1/hibi-2025-03-800.webp 800w, assets/photos/v1/hibi-2025-03-1400.webp 1400w, assets/photos/v1/hibi-2025-03-2200.webp 2200w" sizes="(max-width: 600px) calc(100vw - 40px), min(calc(100vw - 144px), calc((100svh - 212px) * 1.5))" width="2200" height="1467" alt="樹木に囲まれた通路の先、光の当たる建物の前を歩く一人の人物。" fetchpriority="high" decoding="async"></button>
+                <div class="work-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button class="underlined-button">もう一度読み込む</button></div>
+              </div>
+              <figcaption class="work-meta"><span class="work-number">01 / 05</span><button class="work-expand text-button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg>大きく見る</button><p class="work-caption" hidden></p></figcaption>
+            </figure>
+            <a class="scroll-cue" href="#work-hibi-2025-01">スクロールして作品を見る<span class="scroll-cue-arrow" aria-hidden="true">↓</span></a>
+          </article>
         </div>
-        <div class="work-controls">
-          <button id="expand-open" class="text-button expand-button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg>大きく見る</button>
-          <div class="sequence" aria-label="写真の切り替え">
-            <button id="previous" class="arrow-button" aria-label="前の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M31 8H2m6-6L2 8l6 6"/></svg></button>
-            <p class="counter"><span id="current-number">01</span><span class="counter-divider" aria-hidden="true">/</span><span id="total-number">05</span></p>
-            <button id="next" class="arrow-button" aria-label="次の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M1 8h29m-6-6 6 6-6 6"/></svg><span class="restart-label" hidden>最初へ</span></button>
-          </div>
-          <span class="keyboard-note" aria-hidden="true">← →</span>
-        </div>
+        <div id="gallery-end" class="gallery-end"><button id="end-index" class="text-button">作品一覧を見る</button><a id="back-to-start" href="#work-hibi-2025-03">最初の作品へ <span aria-hidden="true">↑</span></a></div>
         <p id="selection-status" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></p>
       </section>
       <section id="index-view" class="index-view" aria-labelledby="index-title" hidden>
@@ -69,9 +65,9 @@
   </dialog>
   <dialog id="lightbox" class="lightbox" aria-label="写真の拡大表示">
     <div class="lightbox-header"><span id="lightbox-artist">日々</span><p id="lightbox-count">01 / 05</p><button class="close-button" data-close="lightbox" aria-label="拡大表示を閉じる">閉じる <span aria-hidden="true">×</span></button></div>
-    <div id="lightbox-stage" class="lightbox-stage" role="region" aria-label="写真。細部表示中は矢印キーでスクロールできます" tabindex="-1"><img id="lightbox-photo" alt="" draggable="false"></div>
+    <div id="lightbox-stage" class="lightbox-stage" role="region" aria-label="写真。細部表示中は矢印キーでスクロールできます" tabindex="-1"><img id="lightbox-photo" alt="" draggable="false"><div id="lightbox-error" class="lightbox-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button id="lightbox-retry" class="underlined-button">もう一度読み込む</button></div></div>
     <div class="lightbox-footer"><button id="zoom-toggle" class="text-button" aria-pressed="false">細部を見る ＋</button><p id="zoom-note" class="zoom-note">写真全体を表示</p><div class="lightbox-sequence"><button id="lightbox-previous" class="arrow-button" aria-label="拡大表示で前の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M31 8H2m6-6L2 8l6 6"/></svg></button><button id="lightbox-next" class="arrow-button" aria-label="拡大表示で次の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M1 8h29m-6-6 6 6-6 6"/></svg><span class="restart-label" hidden>最初へ</span></button></div></div>
   </dialog>
-  <noscript><p class="noscript-notice">最初の写真を表示しています。他の作品を鑑賞するにはJavaScriptを有効にしてください。</p></noscript>
+  <noscript><p class="noscript-notice">最初の写真を表示しています。他の作品と拡大表示を鑑賞するにはJavaScriptを有効にしてください。</p></noscript>
 </body>
 </html>
