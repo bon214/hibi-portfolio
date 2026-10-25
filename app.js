@@ -1,4 +1,5 @@
 import { artist, works } from './data/works.js';
+import { createWheelGesture } from './scroll-gesture.js';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -7,10 +8,10 @@ const about = $('about-dialog');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const imageCache = new Map();
 const entries = [];
+const wheelGesture = createWheelGesture();
+let wheelAnimating = false;
 let currentIndex = 0;
 let currentView = 'work';
-let workScroll = null;
-let workScrollIndex = 0;
 let indexScroll = 0;
 let zoomed = false;
 let detailToken = 0;
@@ -64,15 +65,16 @@ function syncActiveWork() {
 
 function unlockRoute() {
   routeLocked = false;
+  wheelAnimating = false;
   syncActiveWork();
 }
 
-function scrollToWork(index, { behavior = 'auto', focus = false, restore = false } = {}) {
+function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
   routeLocked = true;
   clearTimeout(scrollIdle);
   scrollIdle = setTimeout(unlockRoute, 900);
   const entry = entries[index];
-  const top = restore && workScroll !== null && workScrollIndex === index ? workScroll : index === 0 ? 0 : entry.article.getBoundingClientRect().top + scrollY - 24;
+  const top = index === 0 ? 0 : entry.article.getBoundingClientRect().top + scrollY;
   // A destination selected from the index is immediately visible, even before reveal callbacks run.
   entry.entered = true;
   (entry.figure.getAnimations?.() || []).forEach((animation) => animation.cancel());
@@ -89,18 +91,24 @@ function focusIndexWork() {
   }
 }
 
+function updateSnapMode() {
+  const enabled = currentView === 'work' && !lightbox.open && !about.open;
+  document.documentElement.classList.toggle('is-work-view', enabled);
+  if (!enabled) { wheelGesture.reset(); wheelAnimating = false; }
+}
+
 function renderView() {
   const isIndex = currentView === 'index';
   $('work-view').hidden = isIndex;
   $('index-view').hidden = !isIndex;
   $('index-toggle').setAttribute('aria-expanded', String(isIndex));
   $('index-toggle-label').textContent = isIndex ? '鑑賞に戻る' : '作品一覧';
+  updateSnapMode();
   updateSelection();
 }
 
-function navigate(index, view = currentView, { replace = false, focus = false, restore = false, behavior = 'auto' } = {}) {
+function navigate(index, view = currentView, { replace = false, focus = false, behavior = 'auto' } = {}) {
   if (currentView === 'index') indexScroll = scrollY;
-  else if (!lightbox.open) { workScroll = scrollY; workScrollIndex = currentIndex; }
   currentIndex = Math.max(0, Math.min(works.length - 1, index));
   currentView = view;
   writeRoute(replace);
@@ -111,7 +119,7 @@ function navigate(index, view = currentView, { replace = false, focus = false, r
     clearTimeout(scrollIdle);
     window.scrollTo(0, indexScroll);
     if (focus) focusIndexWork();
-  } else scrollToWork(currentIndex, { focus, restore, behavior });
+  } else scrollToWork(currentIndex, { focus, behavior });
 }
 
 function configureImage(image, work, { first = false, index = false } = {}) {
@@ -329,6 +337,7 @@ function openLightbox(index, opener) {
   lightboxWorkId = work.id;
   setZoom(false);
   lightbox.showModal();
+  updateSnapMode();
   animateDialog(lightbox);
   renderLightbox();
 }
@@ -362,14 +371,15 @@ $('zoom-toggle').addEventListener('click', () => $('zoom-toggle').dataset.retry 
 $('lightbox-retry').addEventListener('click', renderLightbox);
 $('lightbox-previous').addEventListener('click', () => step(-1));
 $('lightbox-next').addEventListener('click', () => navigate(currentIndex === works.length - 1 ? 0 : currentIndex + 1, 'work'));
-$('index-toggle').addEventListener('click', () => navigate(currentIndex, currentView === 'index' ? 'work' : 'index', { focus: true, restore: currentView === 'index' }));
+$('index-toggle').addEventListener('click', () => navigate(currentIndex, currentView === 'index' ? 'work' : 'index', { focus: true }));
 $('end-index').addEventListener('click', () => navigate(currentIndex, 'index', { focus: true }));
 $('back-to-start').addEventListener('click', (event) => { event.preventDefault(); navigate(0, 'work', { focus: true, behavior: 'smooth' }); });
 document.querySelector('.wordmark').addEventListener('click', (event) => {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault(); navigate(0, 'work', { focus: true, behavior: 'smooth' });
 });
-$('about-open').addEventListener('click', () => { about.showModal(); animateDialog(about); });
+$('about-open').addEventListener('click', () => { about.showModal(); updateSnapMode(); animateDialog(about); });
+about.addEventListener('close', updateSnapMode);
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
 about.addEventListener('click', (event) => {
   if (event.target !== about) return;
@@ -379,10 +389,10 @@ about.addEventListener('click', (event) => {
 lightbox.addEventListener('close', () => {
   ++detailToken;
   setZoom(false);
+  updateSnapMode();
   if (currentView !== 'work') return;
-  const bounds = entries[currentIndex].figure.getBoundingClientRect();
-  if (lightboxOriginIndex !== currentIndex || bounds.bottom < 44 || bounds.top > innerHeight - 44) scrollToWork(currentIndex, { focus: true });
-  else lastLightboxOpener?.focus({ preventScroll: true });
+  scrollToWork(currentIndex, { focus: lightboxOriginIndex !== currentIndex });
+  if (lightboxOriginIndex === currentIndex) lastLightboxOpener?.focus({ preventScroll: true });
 });
 document.addEventListener('keydown', (event) => {
   if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || about.open || zoomed || currentView !== 'work') return;
@@ -402,11 +412,44 @@ function restoreRoute() {
 }
 window.addEventListener('popstate', restoreRoute);
 window.addEventListener('hashchange', restoreRoute);
+window.addEventListener('wheel', (event) => {
+  if (currentView !== 'work' || lightbox.open || about.open || event.ctrlKey || event.metaKey || event.altKey || event.shiftKey || !event.cancelable) return;
+  if (!wheelAnimating) syncActiveWork();
+  // Let enlarged content scroll normally when it cannot fit in a single frame.
+  if (entries[currentIndex].article.scrollHeight > innerHeight + 2) return;
+  const lastIndex = works.length - 1;
+  const lastTop = entries[lastIndex].article.getBoundingClientRect().top + scrollY;
+  const result = wheelGesture.update({
+    deltaX: event.deltaX, deltaY: event.deltaY, deltaMode: event.deltaMode,
+    viewportHeight: innerHeight, now: performance.now(), busy: wheelAnimating,
+    atStart: currentIndex === 0 && scrollY <= 1,
+    atEnd: currentIndex === lastIndex && scrollY >= lastTop - 1,
+  });
+  if (result.preventDefault) event.preventDefault();
+  if (!result.direction) return;
+  const fromFooter = result.direction < 0 && scrollY > lastTop + 2;
+  const target = fromFooter ? lastIndex : currentIndex + result.direction;
+  wheelAnimating = true;
+  navigate(target, 'work', {
+    replace: true, behavior: 'smooth',
+    focus: Boolean(document.activeElement?.closest('.work-entry')),
+  });
+}, { passive: false });
 window.addEventListener('scroll', () => {
   if (routeLocked) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
   if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = null; syncActiveWork(); });
 }, { passive: true });
-window.addEventListener('resize', () => { if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = null; syncActiveWork(); }); });
+let resizeFrame;
+window.addEventListener('resize', () => {
+  if (resizeFrame) return;
+  resizeFrame = requestAnimationFrame(() => {
+    resizeFrame = null;
+    if (currentView === 'work' && !lightbox.open && !about.open && routeLocked) {
+      scrollToWork(currentIndex);
+      unlockRoute();
+    } else syncActiveWork();
+  });
+});
 reducedMotion.addEventListener?.('change', () => { if (reducedMotion.matches) entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel())); });
 document.querySelector('.skip-link').addEventListener('click', (event) => {
   event.preventDefault();
