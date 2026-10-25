@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261026-40works';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
