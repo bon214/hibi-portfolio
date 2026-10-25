@@ -4,11 +4,13 @@
 
 ## 利用範囲
 
-このディレクトリの画像は、写真家「日々」氏の作品と確認できる展示主催者の公開ページから取得した、ローカルのデザイン・鑑賞体験検証用の参照素材です。正式な掲載作品、作品名、順番は未確定です。第三者のストック写真や生成画像は含めていません。
+写真家「日々」氏の作品と確認できる展示主催者の公開ページから取得した5点を、v1の掲載作品に選定しています。第三者のストック写真や生成画像は含めていません。
 
-ユーザーは写真家本人による正式素材の選定をサイト制作と並行して行う予定です。公開前には、本人から提供されたWeb用画像への置き換え、掲載する作品・順番・写真説明の確認を行います。この参照画像を含めた公開・第三者への再配布は今回の取得目的に含みません。
+ユーザーの2026-10-25の「閲覧できるサイトになるまで全作業を継続する」という公開指示に基づき、5点から作成した閲覧コピーを公開対象としています。`selectionStatus: 'v1'`はこの公開版への選定を表し、各写真について写真家本人の個別承認が別途得られたことを表すものではありません。正式な作品名・作品解説・ステートメントは創作せず、未提供の項目は`null`です。
 
-取得後のトリミング、色調変更、回転、描き足しは行っていません。作品名・撮影場所・撮影日・人物の属性は資料から確認できないため付与していません。以下の見た目の説明は画面確認のための観察であり、本人の作品解説ではありません。
+公開用は`assets/photos/v1/`のWebP 20ファイル（5点×長辺800・1400・2200pxおよびサムネイル、合計約5.91 MB）と、共有用`assets/share.jpg`です。原寸取得画像の`assets/reference/`、旧ローカル試作画像の`assets/photos/reference/`はGit管理対象外です。写真の著作権は写真家に帰属し、公開リポジトリへの収録は閲覧者への再利用許諾を意味しません。
+
+取得後のトリミング、色調変更、回転、描き足しは行っていません。Web用に縦横比を保って縮小・圧縮し、画像の実寸を`data/works.js`の`width`・`height`と各`variants`に記録します。作品名・撮影場所・撮影日・人物の属性は資料から確認できないため付与していません。以下の見た目の説明は画面確認のための観察であり、本人の作品解説ではありません。
 
 ## 本人作品と判断した根拠
 
@@ -29,11 +31,11 @@
 
 ## 画像取得元
 
-- `hibi-2025-01.jpeg`: https://static.wixstatic.com/media/59f1cd_582cb400d6bc409fa1305cd3c8d646fb~mv2.jpeg
-- `hibi-2025-02.jpeg`: https://static.wixstatic.com/media/59f1cd_7f8805be04014b33ac66f0aedd1f7cc0~mv2.jpeg
-- `hibi-2025-03.jpeg`: https://static.wixstatic.com/media/59f1cd_a2457f393e2e42ac9dcb4e6377424b27~mv2.jpeg
-- `hibi-2024-01.jpeg`: https://static.wixstatic.com/media/59f1cd_fac47f3989fb43fcac045c2c058ea7e5~mv2.jpeg
-- `hibi-2024-02.jpeg`: https://static.wixstatic.com/media/59f1cd_4c6ca8463aca4327b8b3d5850d85858d~mv2.jpeg
+- [hibi-2025-01.jpeg](https://static.wixstatic.com/media/59f1cd_582cb400d6bc409fa1305cd3c8d646fb~mv2.jpeg)
+- [hibi-2025-02.jpeg](https://static.wixstatic.com/media/59f1cd_7f8805be04014b33ac66f0aedd1f7cc0~mv2.jpeg)
+- [hibi-2025-03.jpeg](https://static.wixstatic.com/media/59f1cd_a2457f393e2e42ac9dcb4e6377424b27~mv2.jpeg)
+- [hibi-2024-01.jpeg](https://static.wixstatic.com/media/59f1cd_fac47f3989fb43fcac045c2c058ea7e5~mv2.jpeg)
+- [hibi-2024-02.jpeg](https://static.wixstatic.com/media/59f1cd_4c6ca8463aca4327b8b3d5850d85858d~mv2.jpeg)
 
 ## 原寸ファイルの検証記録
 

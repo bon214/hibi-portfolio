@@ -3,43 +3,62 @@ import { stat, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve, sep } from 'node:path';
 import { artist, works } from '../data/works.js';
-
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ids = new Set();
-function jpegDimensions(bytes) {
-  let offset = 2;
-  while (offset < bytes.length - 9) {
-    if (bytes[offset] !== 0xff) throw new Error('Invalid JPEG marker');
-    while (bytes[offset] === 0xff) offset++;
-    const marker = bytes[offset++];
-    const length = bytes.readUInt16BE(offset);
-    if ([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf].includes(marker)) return { height: bytes.readUInt16BE(offset + 3), width: bytes.readUInt16BE(offset + 5) };
-    if (length < 2) break;
-    offset += length;
+const checked = new Set();
+let totalBytes = 0;
+function dimensions(bytes) {
+  if (bytes.toString('ascii',0,4) === 'RIFF' && bytes.toString('ascii',8,12) === 'WEBP') {
+    assert.equal(bytes.readUInt32LE(4) + 8, bytes.length, 'WebP file is incomplete');
+    for (let offset=12; offset+8<bytes.length;) {
+      const chunk=bytes.toString('ascii',offset,offset+4), length=bytes.readUInt32LE(offset+4), data=offset+8;
+      if(chunk==='VP8X') return {width:1+bytes.readUIntLE(data+4,3),height:1+bytes.readUIntLE(data+7,3)};
+      if(chunk==='VP8 ') return {width:bytes.readUInt16LE(data+6)&0x3fff,height:bytes.readUInt16LE(data+8)&0x3fff};
+      if(chunk==='VP8L') {const bits=bytes.readUInt32LE(data+1);return {width:1+(bits&0x3fff),height:1+((bits>>>14)&0x3fff)};}
+      offset=data+length+(length%2);
+    }
   }
-  throw new Error('JPEG dimensions could not be read');
+  if(bytes[0]===0xff&&bytes[1]===0xd8) {
+    assert(bytes.at(-2)===0xff&&bytes.at(-1)===0xd9,'JPEG file is incomplete');
+    for(let offset=2;offset<bytes.length-9;) {
+      assert(bytes[offset]===0xff,'Invalid JPEG marker');
+      while(bytes[offset]===0xff) offset++;
+      const marker=bytes[offset++],length=bytes.readUInt16BE(offset);
+      if([0xc0,0xc1,0xc2,0xc3,0xc5,0xc6,0xc7,0xc9,0xca,0xcb,0xcd,0xce,0xcf].includes(marker)) return {height:bytes.readUInt16BE(offset+3),width:bytes.readUInt16BE(offset+5)};
+      if(length<2) break;
+      offset+=length;
+    }
+  }
+  throw new Error('Unsupported or incomplete viewing image');
 }
-assert(artist.name && artist.designation, 'Artist name and designation are required');
-assert(works.length > 0, 'At least one work is required');
-for (const file of ['index.html', 'styles.css', 'app.js', 'assets/favicon.svg']) await stat(resolve(root, file));
-for (const work of works) {
-  assert(/^[a-z0-9-]+$/.test(work.id), `Invalid work ID: ${work.id}`);
-  assert(!ids.has(work.id), `Duplicate work ID: ${work.id}`);
+async function checkImage(src, expected) {
+  assert(src.startsWith('assets/photos/'),`Viewing image must be local: ${src}`);
+  const absolute=resolve(root,src);
+  assert(absolute.startsWith(resolve(root,'assets/photos')+sep),'Image path escapes the viewing directory');
+  const bytes=await readFile(absolute);
+  const size=dimensions(bytes);
+  if(expected) assert.deepEqual(size,expected,`${src}: dimensions differ from data`);
+  assert(bytes.length>0&&bytes.length<2_000_000,`${src}: image exceeds viewing budget`);
+  if(!checked.has(src)){checked.add(src);totalBytes+=bytes.length;}
+  return size;
+}
+assert(artist.name&&artist.designation&&artist.description,'Artist identity and factual description required');
+assert(works.length>0,'At least one work required');
+for(const file of ['index.html','styles.css','app.js','assets/favicon.svg','assets/share.jpg','robots.txt','sitemap.xml','404.html','.nojekyll']) await stat(resolve(root,file));
+for(const work of works) {
+  assert(/^[a-z0-9-]+$/.test(work.id)&&!ids.has(work.id),`Invalid or duplicate ID: ${work.id}`);
   ids.add(work.id);
-  assert(Number.isInteger(work.width) && work.width > 0 && Number.isInteger(work.height) && work.height > 0, `${work.id}: dimensions required`);
-  assert(typeof work.alt === 'string' && work.alt.length > 0, `${work.id}: alt text required`);
-  assert(['reference', 'approved'].includes(work.selectionStatus), `${work.id}: selection status required`);
-  for (const file of [work.src, work.thumbnail].filter(Boolean)) {
-    assert(file.startsWith('assets/photos/'), `${work.id}: image must use a local viewing copy`);
-    const absolute = resolve(root, file);
-    assert(absolute.startsWith(resolve(root, 'assets/photos') + sep), `${work.id}: path escapes the image directory`);
-    const info = await stat(absolute).catch(() => { throw new Error(`${file} is missing. Run npm run references, or add the selected viewing copy.`); });
-    assert(info.isFile() && info.size > 0, `${file}: image is empty`);
-    assert(info.size < 4_000_000, `${file}: viewing copy exceeds the 4MB review budget`);
-    const bytes = await readFile(absolute);
-    assert(bytes[0] === 0xff && bytes[1] === 0xd8 && bytes.at(-2) === 0xff && bytes.at(-1) === 0xd9, `${file}: JPEG is incomplete`);
-    if (file === work.src) assert.deepEqual(jpegDimensions(bytes), { width: work.width, height: work.height }, `${work.id}: dimensions do not match the viewing copy`);
-  }
+  assert(Number.isInteger(work.width)&&work.width>0&&Number.isInteger(work.height)&&work.height>0,`${work.id}: dimensions required`);
+  assert(typeof work.alt==='string'&&work.alt.trim(),`${work.id}: alt required`);
+  assert(['v1','approved'].includes(work.selectionStatus),`${work.id}: publication selection required`);
+  await checkImage(work.src,{width:work.width,height:work.height});
+  await checkImage(work.thumbnail);
+  assert(work.variants?.length>=2,`${work.id}: responsive viewing copies required`);
+  for(const variant of work.variants) await checkImage(variant.src,{width:variant.width,height:variant.height});
 }
-console.log(`${works.length} works validated: stable IDs, local image paths, JPEG files, descriptions and selection status.`);
-console.log(`${works.filter((w) => w.selectionStatus === 'reference').length} reference works remain provisional. Hosting and publication have not been configured.`);
+const html=await readFile(resolve(root,'index.html'),'utf8');
+assert(!/noindex/i.test(html),'Publication entry must not contain noindex');
+assert(html.includes('rel="canonical"')&&html.includes('property="og:image"'),'Canonical and sharing information required');
+assert(totalBytes<12_000_000,'Viewing assets exceed the v1 total budget');
+console.log(`${works.length} published works, ${checked.size} viewing images: IDs, formats, exact dimensions and metadata pass.`);
+console.log(`Viewing assets: ${(totalBytes/1_000_000).toFixed(2)} MB in all responsive sizes. Originals excluded.`);
