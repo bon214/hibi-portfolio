@@ -114,3 +114,10 @@ GitHub Pagesを `main` / リポジトリ直下から配信する。公開後に 
 - ローカルブラウザの警告・エラーログなし。初期HTMLの写真、件数、共有画像も現行作品へ変更。CSS・JavaScript・作品データの参照には同じリリース識別子を付与する。
 
 公開時は`npm run verify:public -- https://bon214.github.io/hibi-portfolio/`で209ファイルを照合する。公開結果はローカルの`artifacts/public-verification.json`に記録する。実端末タッチ操作とカメラ原本との測色比較は未実施。
+
+### 40点版の公開結果
+
+- [PR #1](https://github.com/bon214/hibi-portfolio/pull/1)をマージし、コミット`662fb686485e8ee377e697cd305c4e2ea4d5d00c`の[Pagesデプロイ](https://github.com/bon214/hibi-portfolio/actions/runs/40243551148)が成功。
+- 209ファイルすべてHTTP 200、期待するMIME、ローカルと公開バイト列のSHA-256一致。canonical一致、noindexなし、localhost参照なし。
+- 公開画面でColor / Monochromeの各20点、各一覧20点、取得画像の読み込みと配色の切り替えを確認。写真上の下・上ホイール操作で次・前の作品に移動し、写真位置で停止。
+- 公開ブラウザの警告・エラーログなし。公開確認画像とJSONレポートはローカルの`artifacts/`に保存。

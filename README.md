@@ -9,7 +9,7 @@
 - `npm run check`で各20点の枚数、出典アカウント、画像の形式・実寸法・容量を確認します。以前のモノクロ試作用画像は差し替え済みです。
 - 2026年10月25日にv1を公開しました。公開URLのPC・スマートフォン相当の表示と操作を確認済みです。
 - 初回v1は展示主催者の一次資料で確認した5点を掲載していました。現在の選定はInstagram由来の40点に更新し、共有用画像も現行作品から作成しています。
-- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開時は209ファイルのHTTP応答・MIME・SHA-256をローカルと照合します。
+- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。40点版は2026年10月26日に公開し、209ファイルのHTTP応答・MIME・SHA-256の一致を確認しました。
 - 月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
 
 写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'v1'`は今回の公開版への選定を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
