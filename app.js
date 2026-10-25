@@ -1,4 +1,4 @@
-import { artist, works } from './data/works.js';
+import { artist, collections, works as allWorks } from './data/works.js';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -7,6 +7,12 @@ const about = $('about-dialog');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const imageCache = new Map();
 const entries = [];
+const galleryTemplate = $('gallery').querySelector('.work-entry').cloneNode(true);
+const collectionPositions = new Map();
+let galleryObserver;
+let galleryBuilt = false;
+let currentCollection = collections[0].id;
+let works = [];
 let currentIndex = 0;
 let currentView = 'work';
 let indexScroll = 0;
@@ -15,37 +21,137 @@ let detailToken = 0;
 let lightboxWorkId = '';
 let lightboxOriginIndex = 0;
 let lastLightboxOpener = null;
+let ignoredLightboxCloses = 0;
 let suppressClickUntil = 0;
 let routeLocked = false;
 let scrollIdle;
 let scrollFrame;
 history.scrollRestoration = 'manual';
 
+function collectionById(id) {
+  return collections.find((collection) => collection.id === id) || collections[0];
+}
+
+function collectionWorks(id) {
+  return allWorks.filter((work) => work.collection === id);
+}
+
+function rememberCollection() {
+  if (!galleryBuilt) return;
+  if (currentView === 'index') indexScroll = scrollY;
+  collectionPositions.set(currentCollection, { photoId: works[currentIndex]?.id || null, indexScroll });
+}
+
 function readRoute() {
   const params = new URLSearchParams(location.hash.slice(1));
   const anchorId = location.hash.startsWith('#work-') ? location.hash.slice(6) : null;
-  const index = works.findIndex((work) => work.id === (params.get('photo') || anchorId));
-  return { index: Math.max(0, index), view: params.get('view') === 'index' ? 'index' : 'work' };
+  const photo = allWorks.find((work) => work.id === (params.get('photo') || anchorId));
+  // A recognized photograph wins over a conflicting collection, preserving old shared links.
+  const collection = collectionById(photo?.collection || params.get('collection')).id;
+  const index = collectionWorks(collection).findIndex((work) => work.id === photo?.id);
+  return { collection, index: Math.max(0, index), view: params.get('view') === 'index' ? 'index' : 'work' };
 }
 
 function writeRoute(replace = false) {
-  const params = new URLSearchParams({ photo: works[currentIndex].id });
+  const params = new URLSearchParams({ collection: currentCollection });
+  if (works[currentIndex]) params.set('photo', works[currentIndex].id);
   if (currentView === 'index') params.set('view', 'index');
   const hash = `#${params}`;
   if (location.hash !== hash) history[replace ? 'replaceState' : 'pushState'](null, '', hash);
 }
 
+function updateCollectionUI() {
+  const collection = collectionById(currentCollection);
+  document.documentElement.dataset.collection = collection.id;
+  document.querySelector('meta[name="theme-color"]').content = collection.id === 'mono' ? '#191919' : '#f1f0ec';
+  document.title = `${artist.name} — ${collection.name} Photography`;
+  document.querySelector('#work-view h1').textContent = `${artist.name}の${collection.label}写真`;
+  if ($('collection-label')) $('collection-label').textContent = collection.name;
+  for (const button of document.querySelectorAll('#collection-switch button[data-collection]')) {
+    const target = collections.find((item) => item.id === button.dataset.collection);
+    if (!target) { button.disabled = true; continue; }
+    const count = collectionWorks(target.id).length;
+    button.setAttribute('aria-pressed', String(target.id === currentCollection));
+    button.setAttribute('aria-label', `${target.label}、${count}点の作品`);
+    const countLabel = button.querySelector('[data-collection-count]');
+    if (countLabel) countLabel.textContent = pad(count);
+  }
+  const instagram = collection.instagram || artist.instagram;
+  for (const link of document.querySelectorAll('.instagram-link')) link.href = instagram;
+  $('instagram-handle').textContent = `@${new URL(instagram).pathname.split('/').filter(Boolean).at(-1)} ↗`;
+  const first = works[0];
+  $('back-to-start').href = first ? `#collection=${collection.id}&photo=${first.id}` : `#collection=${collection.id}`;
+}
+
+function setCollection(id, index = 0) {
+  const changed = !galleryBuilt || id !== currentCollection;
+  if (changed) {
+    // Removing snap during replacement prevents the browser from selecting an old frame.
+    document.documentElement.classList.remove('is-work-view');
+    routeLocked = true;
+    clearTimeout(scrollIdle);
+    currentCollection = collectionById(id).id;
+    works = collectionWorks(currentCollection);
+    indexScroll = collectionPositions.get(currentCollection)?.indexScroll || 0;
+  }
+  currentIndex = Math.max(0, Math.min(works.length - 1, index));
+  if (changed) {
+    buildGallery();
+    buildIndex();
+    galleryBuilt = true;
+  }
+  updateCollectionUI();
+}
+
+function closeDialogsForNavigation() {
+  ++detailToken;
+  if (lightbox.open) { ++ignoredLightboxCloses; lightbox.close(); }
+  if (about.open) about.close();
+  setZoom(false);
+  lightboxWorkId = '';
+  lastLightboxOpener = null;
+  swipeStart = null;
+}
+
+function positionCurrentView({ focus = false, behavior = 'auto' } = {}) {
+  if (currentView === 'index' || !works.length) {
+    routeLocked = false;
+    clearTimeout(scrollIdle);
+    window.scrollTo(0, currentView === 'index' ? indexScroll : 0);
+    if (focus) {
+      if (works.length && currentView === 'index') focusIndexWork();
+      else $('main').focus({ preventScroll: true });
+    }
+  } else scrollToWork(currentIndex, { focus, behavior });
+}
+
+function switchCollection(id) {
+  if (!collections.some((collection) => collection.id === id) || id === currentCollection) return;
+  syncActiveWork();
+  rememberCollection();
+  closeDialogsForNavigation();
+  const saved = collectionPositions.get(id);
+  const index = collectionWorks(id).findIndex((work) => work.id === saved?.photoId);
+  setCollection(id, Math.max(0, index));
+  renderView();
+  writeRoute();
+  positionCurrentView();
+  rememberCollection();
+  if ($('selection-status')) $('selection-status').textContent = `${collectionById(id).label}、${works.length}点の作品に切り替えました。`;
+}
+
 function updateSelection() {
-  for (const button of $('index-grid').children) button.setAttribute('aria-current', String(button.dataset.id === works[currentIndex].id));
-  const last = currentIndex === works.length - 1;
-  $('lightbox-previous').disabled = currentIndex === 0;
+  for (const button of $('index-grid').children) button.setAttribute('aria-current', String(button.dataset.id === works[currentIndex]?.id));
+  const last = !works.length || currentIndex === works.length - 1;
+  $('lightbox-previous').disabled = !works.length || currentIndex === 0;
+  $('lightbox-next').disabled = !works.length;
   $('lightbox-next').setAttribute('aria-label', last ? '最初の写真へ戻る' : '拡大表示で次の写真');
   $('lightbox-next').querySelector('svg').toggleAttribute('hidden', last);
   $('lightbox-next').querySelector('.restart-label').hidden = !last;
 }
 
 function syncActiveWork() {
-  if (currentView !== 'work' || lightbox.open || about.open || routeLocked) return;
+  if (!entries.length || currentView !== 'work' || lightbox.open || about.open || routeLocked) return;
   let nearest = 0;
   let distance = Infinity;
   entries.forEach(({ figure }, index) => {
@@ -57,6 +163,7 @@ function syncActiveWork() {
     currentIndex = nearest;
     updateSelection();
     writeRoute(true);
+    rememberCollection();
   }
 }
 
@@ -66,6 +173,13 @@ function unlockRoute() {
 }
 
 function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
+  if (!entries[index]) {
+    routeLocked = false;
+    clearTimeout(scrollIdle);
+    window.scrollTo(0, 0);
+    if (focus) $('main').focus({ preventScroll: true });
+    return;
+  }
   routeLocked = true;
   clearTimeout(scrollIdle);
   scrollIdle = setTimeout(unlockRoute, 900);
@@ -79,7 +193,9 @@ function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
 }
 
 function focusIndexWork() {
-  const button = $('index-grid').querySelector(`[data-id="${works[currentIndex].id}"]`);
+  const work = works[currentIndex];
+  if (!work) return;
+  const button = $('index-grid').querySelector(`[data-id="${work.id}"]`);
   button?.focus({ preventScroll: true });
   if (button) {
     const bounds = button.getBoundingClientRect();
@@ -88,7 +204,7 @@ function focusIndexWork() {
 }
 
 function updateSnapMode() {
-  const enabled = currentView === 'work' && !lightbox.open && !about.open;
+  const enabled = works.length > 0 && currentView === 'work' && !lightbox.open && !about.open;
   document.documentElement.classList.toggle('is-work-view', enabled);
 }
 
@@ -98,6 +214,9 @@ function renderView() {
   $('index-view').hidden = !isIndex;
   $('index-toggle').setAttribute('aria-expanded', String(isIndex));
   $('index-toggle-label').textContent = isIndex ? '鑑賞に戻る' : '作品一覧';
+  $('gallery').hidden = !works.length;
+  $('gallery-end').hidden = !works.length;
+  if ($('collection-empty')) $('collection-empty').hidden = works.length > 0;
   updateSnapMode();
   updateSelection();
 }
@@ -109,12 +228,8 @@ function navigate(index, view = currentView, { replace = false, focus = false, b
   writeRoute(replace);
   renderView();
   if (lightbox.open) { renderLightbox(); return; }
-  if (view === 'index') {
-    routeLocked = false;
-    clearTimeout(scrollIdle);
-    window.scrollTo(0, indexScroll);
-    if (focus) focusIndexWork();
-  } else scrollToWork(currentIndex, { focus, behavior });
+  positionCurrentView({ focus, behavior });
+  rememberCollection();
 }
 
 function configureImage(image, work, { first = false, index = false } = {}) {
@@ -126,13 +241,13 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.fetchPriority = first ? 'high' : 'auto';
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-width: 600px) min(calc(100vw - 40px), calc((100svh - ${first ? 212 : 156}px) * ${work.width / work.height})), min(calc(100vw - 144px), calc((100svh - ${first ? 212 : 156}px) * ${work.width / work.height}))`;
+    : `(max-width: 600px) min(calc(100vw - 40px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})), min(calc(100vw - 144px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height}))`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
 
 function revealEntry(entry) {
-  if (entry.entered || currentView !== 'work') return;
+  if (!entry || !entry.article.isConnected || entry.entered || currentView !== 'work') return;
   if (!entry.image.complete || !entry.image.naturalWidth) return;
   const bounds = entry.figure.getBoundingClientRect();
   if (bounds.top >= innerHeight || bounds.bottom <= 0) return;
@@ -146,9 +261,12 @@ function revealEntry(entry) {
 }
 
 function buildGallery() {
-  const firstArticle = $('gallery').querySelector('.work-entry');
+  galleryObserver?.disconnect();
+  entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
+  entries.length = 0;
+  const fragment = document.createDocumentFragment();
   works.forEach((work, index) => {
-    const article = index === 0 ? firstArticle : firstArticle.cloneNode(true);
+    const article = galleryTemplate.cloneNode(true);
     article.id = `work-${work.id}`;
     article.dataset.id = work.id;
     article.classList.toggle('is-first', index === 0);
@@ -198,9 +316,11 @@ function buildGallery() {
       (figure.getAnimations?.() || []).forEach((animation) => animation.cancel());
     });
     configureImage(image, work, { first: index === 0 });
-    if (index > 0) $('gallery').append(article);
+    if (index === currentIndex) { image.loading = 'eager'; image.fetchPriority = 'high'; }
+    fragment.append(article);
     if (image.complete && image.naturalWidth) article.setAttribute('aria-busy', 'false');
   });
+  $('gallery').replaceChildren(fragment);
   if (works.length > 1) {
     const cue = entries[0].article.querySelector('.scroll-cue');
     cue.href = `#work-${works[1].id}`;
@@ -208,17 +328,17 @@ function buildGallery() {
       event.preventDefault();
       navigate(1, 'work', { focus: true, behavior: 'smooth' });
     });
-  } else entries[0].article.querySelector('.scroll-cue')?.remove();
+  } else entries[0]?.article.querySelector('.scroll-cue')?.remove();
   if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((observations) => {
+    galleryObserver = new IntersectionObserver((observations) => {
       for (const observation of observations) if (observation.isIntersecting) revealEntry(entries.find((entry) => entry.figure === observation.target));
     }, { threshold: 0.12 });
-    entries.forEach((entry) => observer.observe(entry.figure));
+    entries.forEach((entry) => galleryObserver.observe(entry.figure));
   }
 }
 
 function buildIndex() {
-  $('index-count').textContent = `${works.length} photographs`;
+  $('index-count').textContent = `${collectionById(currentCollection).name} / ${works.length} photographs`;
   const fragment = document.createDocumentFragment();
   works.forEach((work, index) => {
     const button = document.createElement('button');
@@ -241,16 +361,26 @@ function buildIndex() {
 }
 
 function loadImage(src) {
-  if (imageCache.has(src)) return imageCache.get(src);
+  if (imageCache.has(src)) {
+    const cached = imageCache.get(src);
+    imageCache.delete(src);
+    imageCache.set(src, cached);
+    return cached;
+  }
   const promise = new Promise((resolve, reject) => {
     const image = new Image();
     image.decoding = 'async';
     image.fetchPriority = 'high';
     image.onload = async () => { try { await image.decode(); } catch {} resolve(image); };
-    image.onerror = () => { imageCache.delete(src); reject(new Error(`Image unavailable: ${src}`)); };
+    image.onerror = () => {
+      if (imageCache.get(src) === promise) imageCache.delete(src);
+      reject(new Error(`Image unavailable: ${src}`));
+    };
     image.src = src;
   });
   imageCache.set(src, promise);
+  // A viewing session should not retain decoded detail images for the entire archive.
+  while (imageCache.size > 4) imageCache.delete(imageCache.keys().next().value);
   return promise;
 }
 
@@ -272,6 +402,7 @@ async function renderLightbox() {
   const token = ++detailToken;
   const index = currentIndex;
   const work = works[index];
+  if (!work || !entries[index]) return;
   const retryFocused = document.activeElement === $('lightbox-retry') || (document.activeElement === $('zoom-toggle') && $('zoom-toggle').dataset.retry);
   if (retryFocused) $('lightbox-stage').focus({ preventScroll: true });
   if (lightboxWorkId !== work.id) setZoom(false);
@@ -290,7 +421,7 @@ async function renderLightbox() {
   $('zoom-toggle').textContent = '細部を読み込み中';
   try {
     await loadImage(work.src);
-    if (token !== detailToken || !lightbox.open || work.id !== works[currentIndex].id) return;
+    if (token !== detailToken || !lightbox.open || work.id !== works[currentIndex]?.id) return;
     image.src = work.src;
     image.hidden = false;
     image.alt = work.alt;
@@ -318,10 +449,11 @@ function animateDialog(dialog) {
 }
 
 function openLightbox(index, opener) {
-  if (!entries[index].image.naturalWidth) return;
+  if (!entries[index]?.image.naturalWidth) return;
   currentIndex = index;
   updateSelection();
   writeRoute();
+  rememberCollection();
   lastLightboxOpener = opener;
   lightboxOriginIndex = index;
   const work = works[index];
@@ -366,6 +498,9 @@ $('zoom-toggle').addEventListener('click', () => $('zoom-toggle').dataset.retry 
 $('lightbox-retry').addEventListener('click', renderLightbox);
 $('lightbox-previous').addEventListener('click', () => step(-1));
 $('lightbox-next').addEventListener('click', () => navigate(currentIndex === works.length - 1 ? 0 : currentIndex + 1, 'work'));
+for (const button of document.querySelectorAll('#collection-switch button[data-collection]')) {
+  button.addEventListener('click', () => switchCollection(button.dataset.collection));
+}
 $('index-toggle').addEventListener('click', () => navigate(currentIndex, currentView === 'index' ? 'work' : 'index', { focus: true }));
 $('end-index').addEventListener('click', () => navigate(currentIndex, 'index', { focus: true }));
 $('back-to-start').addEventListener('click', (event) => { event.preventDefault(); navigate(0, 'work', { focus: true, behavior: 'smooth' }); });
@@ -382,10 +517,11 @@ about.addEventListener('click', (event) => {
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) about.close();
 });
 lightbox.addEventListener('close', () => {
+  if (ignoredLightboxCloses) { --ignoredLightboxCloses; return; }
   ++detailToken;
   setZoom(false);
   updateSnapMode();
-  if (currentView !== 'work') return;
+  if (currentView !== 'work' || !works.length) return;
   scrollToWork(currentIndex, { focus: lightboxOriginIndex !== currentIndex });
   if (lightboxOriginIndex === currentIndex) lastLightboxOpener?.focus({ preventScroll: true });
 });
@@ -395,15 +531,16 @@ document.addEventListener('keydown', (event) => {
 });
 function restoreRoute() {
   const route = readRoute();
-  if (route.index === currentIndex && route.view === currentView) return;
-  if (currentView === 'index') indexScroll = scrollY;
-  if (lightbox.open) lightbox.close();
-  if (about.open) about.close();
-  currentIndex = route.index;
+  if (route.collection === currentCollection && route.index === currentIndex && route.view === currentView) return;
+  rememberCollection();
+  closeDialogsForNavigation();
+  setCollection(route.collection, route.index);
   currentView = route.view;
   renderView();
-  if (currentView === 'work') scrollToWork(currentIndex, { focus: true });
-  else { window.scrollTo(0, indexScroll); focusIndexWork(); }
+  writeRoute(true);
+  positionCurrentView({ focus: true });
+  rememberCollection();
+  if ($('selection-status')) $('selection-status').textContent = `${collectionById(currentCollection).label}、${works.length}点の作品を表示しています。`;
 }
 window.addEventListener('popstate', restoreRoute);
 window.addEventListener('hashchange', restoreRoute);
@@ -444,16 +581,10 @@ $('artist-statement').textContent = artist.statement || '';
 $('artist-statement').hidden = !artist.statement;
 $('copyright-name').textContent = artist.name;
 $('lightbox-artist').textContent = artist.name;
-for (const link of document.querySelectorAll('.instagram-link')) link.href = artist.instagram;
-$('instagram-handle').textContent = `@${new URL(artist.instagram).pathname.split('/').filter(Boolean).at(-1)} ↗`;
 $('copyright-year').textContent = String(new Date().getFullYear());
-buildGallery();
-buildIndex();
-$('back-to-start').href = `#work-${works[0].id}`;
 const initial = readRoute();
-currentIndex = initial.index;
 currentView = initial.view;
+setCollection(initial.collection, initial.index);
 renderView();
 writeRoute(true);
-if (currentView === 'index') focusIndexWork();
-else requestAnimationFrame(() => scrollToWork(currentIndex));
+requestAnimationFrame(() => { positionCurrentView(); rememberCollection(); });

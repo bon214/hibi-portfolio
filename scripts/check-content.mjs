@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import { stat, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve, sep } from 'node:path';
-import { artist, works } from '../data/works.js';
+import { artist, collections, works } from '../data/works.js';
+const allowPreview = process.argv.includes('--allow-preview');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ids = new Set();
 const checked = new Set();
@@ -44,13 +45,22 @@ async function checkImage(src, expected) {
 }
 assert(artist.name&&artist.designation&&artist.description,'Artist identity and factual description required');
 assert(works.length>0,'At least one work required');
+assert(collections.length>0,'At least one collection required');
+const collectionIds = new Set();
+for (const collection of collections) {
+  assert(/^[a-z0-9-]+$/.test(collection.id)&&!collectionIds.has(collection.id),'Invalid or duplicate collection');
+  collectionIds.add(collection.id);
+  assert(collection.label&&collection.name,'Collection labels required');
+  assert(new URL(collection.instagram).hostname==='www.instagram.com','Collection source must be Instagram');
+}
 for(const file of ['index.html','styles.css','app.js','assets/favicon.svg','assets/share.jpg','robots.txt','sitemap.xml','404.html','.nojekyll']) await stat(resolve(root,file));
 for(const work of works) {
   assert(/^[a-z0-9-]+$/.test(work.id)&&!ids.has(work.id),`Invalid or duplicate ID: ${work.id}`);
   ids.add(work.id);
+  assert(collectionIds.has(work.collection),`${work.id}: unknown collection`);
   assert(Number.isInteger(work.width)&&work.width>0&&Number.isInteger(work.height)&&work.height>0,`${work.id}: dimensions required`);
   assert(typeof work.alt==='string'&&work.alt.trim(),`${work.id}: alt required`);
-  assert(['v1','approved'].includes(work.selectionStatus),`${work.id}: publication selection required`);
+  assert(['v1','approved',...(allowPreview?['preview']:[])].includes(work.selectionStatus),`${work.id}: preview image must be replaced with a selected original before publication (use check:preview for local review)`);
   await checkImage(work.src,{width:work.width,height:work.height});
   await checkImage(work.thumbnail);
   assert(work.variants?.length>=2,`${work.id}: responsive viewing copies required`);
@@ -59,6 +69,8 @@ for(const work of works) {
 const html=await readFile(resolve(root,'index.html'),'utf8');
 assert(!/noindex/i.test(html),'Publication entry must not contain noindex');
 assert(html.includes('rel="canonical"')&&html.includes('property="og:image"'),'Canonical and sharing information required');
-assert(totalBytes<12_000_000,'Viewing assets exceed the v1 total budget');
-console.log(`${works.length} published works, ${checked.size} viewing images: IDs, formats, exact dimensions and metadata pass.`);
+assert(totalBytes<works.length*2_000_000,'Viewing assets exceed the per-work library budget');
+console.log(`${works.length} ${allowPreview?'review':'published'} works, ${checked.size} viewing images: IDs, collections, formats, exact dimensions and metadata pass.`);
+for (const collection of collections) console.log(`${collection.name}: ${works.filter(w=>w.collection===collection.id).length} works (target approximately ${collection.targetCount||20}).`);
+if (allowPreview) console.log(`Preview-only images: ${works.filter(w=>w.selectionStatus==='preview').length}. Do not deploy these review copies.`);
 console.log(`Viewing assets: ${(totalBytes/1_000_000).toFixed(2)} MB in all responsive sizes. Originals excluded.`);
