@@ -4,12 +4,17 @@
 
 ## 現在の状態
 
+- 指定されたInstagramの2アカウントからカラー20点・モノクロ20点、計40点を選定しています。画面下部の「Color」「Monochrome」で作品群とサイト全体の配色を切り替えます。
+- 2026年10月26日の各20点掲載の指示に基づき、投稿に紐づく幅1440pxのJPEGから閲覧用WebPを生成しました。各作品の4サイズとサムネイル、計200ファイルで約20.61 MBです。元画像より大きくせず、白い余白や署名を含めて維持します。
+- `npm run check`で各20点の枚数、出典アカウント、画像の形式・実寸法・容量を確認します。以前のモノクロ試作用画像は差し替え済みです。
 - 2026年10月25日にv1を公開しました。公開URLのPC・スマートフォン相当の表示と操作を確認済みです。
-- 本人作品であることを展示主催者の一次資料で確認した5点をv1に選定しました。公開用WebPは5点×4サイズの20ファイル、合計約5.91 MBです。共有用の`assets/share.jpg`も公開対象です。
-- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開された29ファイルのHTTP応答・MIME・SHA-256のローカル一致を確認しました。
+- 初回v1は展示主催者の一次資料で確認した5点を掲載していました。現在の選定はInstagram由来の40点に更新し、共有用画像も現行作品から作成しています。
+- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開時は209ファイルのHTTP応答・MIME・SHA-256をローカルと照合します。
 - 月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
 
 写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'v1'`は今回の公開版への選定を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
+
+カラー／モノクロの要件・素材・確認記録は[コレクション切り替え](docs/collections.md)を参照してください。
 
 ## ローカルで見る
 
@@ -32,11 +37,13 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 | `styles.css` | 写真の表示サイズ、余白、画面への適応 |
 | `app.js` | 縦スクロール、入場アニメーション、一覧、拡大、作者紹介、URLと操作の制御 |
 | `data/works.js` | 作品の固定ID、画像参照、寸法、代替テキスト、掲載順 |
-| `assets/photos/v1/` | 公開用WebP。長辺800・1400・2200pxとサムネイル |
+| `assets/photos/instagram/` | カラー20点・モノクロ20点の現行閲覧用WebP |
+| `assets/photos/v1/` | 初回v1の閲覧コピー。現行の作品一覧には使用しない |
 | `assets/share.jpg` | SNSなどでの共有用画像 |
 | `assets/reference/` | 取得元の原寸画像。Git管理対象外 |
 | `assets/photos/reference/` | 旧ローカル試作用画像。Git管理対象外 |
 | `scripts/prepare-v1-assets.py` | 原寸取得画像からv1閲覧コピーを生成。PillowのWebP対応が必要 |
+| `scripts/prepare-instagram-assets.py` | 選定リストと取得済み画像から現行閲覧コピーと寸法・SHA記録を生成 |
 | `scripts/prepare-reference-assets.mjs` | 旧参照画像の再取得。通常の起動には不要 |
 | `scripts/check-content.mjs` | 作品データ、実画像寸法、必須ファイルの整合確認 |
 | `scripts/verify-public.mjs` | 公開URLのHTTP応答、MIME、SHA-256、入口HTMLを検証 |
@@ -46,6 +53,8 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 ## 操作
 
 トップページは一画面につき一枚を鑑賞する構成です。写真・余白・操作部のどこにマウスがあっても、ブラウザ標準の操作で上下にスクロールでき、写真の位置に揃って止まります。一覧からは任意の作品へ直接移動できます。拡大を閉じると該当作品の停止位置へ戻ります。写真のURLには掲載順に依存しない固定IDを使用します。
+
+画面下部の「カラー」「モノクロ」で作品群を切り替えます。背景・文字・罫線・ダイアログの配色とInstagramへのリンクも連動します。それぞれの鑑賞位置を同じページを開いている間は記憶し、一覧表示中は一覧のまま切り替えます。写真そのものにフィルターはかけません。
 
 通常の画面移動は滑らかにつなぎ、最初の写真は初めから表示します。ブラウザ標準の[CSS Scroll Snap](https://drafts.csswg.org/css-scroll-snap/#scroll-snap-stop)を使い、JavaScriptでホイール入力を抑止しません。慣性や連続入力の扱いはブラウザに委ねます。一覧・ダイアログ内はスナップの対象外です。最終作品の次には末尾メニューへ進めます。OSの「動きを減らす」設定では入場アニメーションと滑らかな移動を停止します。
 
