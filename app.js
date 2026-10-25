@@ -72,7 +72,7 @@ function updateCollectionUI() {
     if (!target) { button.disabled = true; continue; }
     const count = collectionWorks(target.id).length;
     button.setAttribute('aria-pressed', String(target.id === currentCollection));
-    button.setAttribute('aria-label', `${target.label}、${count}点の作品`);
+    button.setAttribute('aria-label', `${target.name}, ${count} photographs`);
     const countLabel = button.querySelector('[data-collection-count]');
     if (countLabel) countLabel.textContent = pad(count);
   }
