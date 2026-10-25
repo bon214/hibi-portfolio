@@ -45,4 +45,13 @@
 
 GitHub Pagesを `main` / リポジトリ直下から配信する。公開後に `npm run verify:public -- https://bon214.github.io/hibi-portfolio/` を実行し、HTTP応答、MIME、各ファイルのSHA-256、canonical、noindexの有無を確認する。実行結果はローカルの `artifacts/public-verification.json` に保存する。
 
-公開URLでの検証結果は、初回配信を確認した後に追記する。
+初回公開は2026年10月25日。実装コミット `947bb8471a677293aa307dc17384578f89a110a5` の [Pagesデプロイ #1](https://github.com/bon214/hibi-portfolio/actions/runs/40172428461) が成功。
+
+- `npm run verify:public -- https://bon214.github.io/hibi-portfolio/`：29ファイルすべて合格。HTTP 200、期待するMIME、ローカルと公開バイト列のSHA-256一致を確認。
+- 入口HTML：canonical一致、noindexなし、localhost参照なし。
+- 公開ブラウザ1280 × 720：写真の読み込み・全体表示・拡大・細部表示・拡大中の連続作品移動・閉じた後のフォーカスを確認。
+- 公開ブラウザ390 × 844：一覧からの選択、縦位置写真、直接リンクの再読込、作者紹介、前後操作・履歴復帰を確認。横方向のはみ出しなし。
+- 公開ブラウザの警告・エラーログなし。
+- HTTPSで接続。写真は公開サイト自身から配信され、Instagramへのログインを必要としない。
+
+公開確認のスクリーンショットとJSONレポートはローカルの`artifacts/`に保存し、公開リポジトリには含めない。

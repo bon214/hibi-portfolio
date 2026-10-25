@@ -4,9 +4,9 @@
 
 ## 現在の状態
 
-- v1の実装と公開前検証を完了し、GitHubへの反映・公開を進める段階です。
+- 2026年10月25日にv1を公開しました。公開URLのPC・スマートフォン相当の表示と操作を確認済みです。
 - 本人作品であることを展示主催者の一次資料で確認した5点をv1に選定しました。公開用WebPは5点×4サイズの20ファイル、合計約5.91 MBです。共有用の`assets/share.jpg`も公開対象です。
-- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開先URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開完了は、デプロイ後の公開URLの表示とファイル一致を確認して判断します。
+- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開された29ファイルのHTTP応答・MIME・SHA-256のローカル一致を確認しました。
 - 月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
 
 写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'v1'`は今回の公開版への選定を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
