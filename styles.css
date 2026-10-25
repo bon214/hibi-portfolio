@@ -45,14 +45,12 @@ svg { display: block; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-w
 .nav-button { display: inline-flex; align-items: center; min-height: 44px; gap: 9px; font-size: 12px; letter-spacing: .025em; }
 .nav-button svg { width: 13px; height: 13px; }
 .nav-button:hover, .text-button:hover, a:hover { color: var(--hover); }
-.collection-dock { position: fixed; z-index: 5; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 16px; padding: 0 14px 0 20px; min-height: 48px; border: 1px solid var(--line); background: var(--dock); color: var(--ink); box-shadow: 0 3px 18px rgb(0 0 0 / .035); }
-.collection-dock-label { margin-right: 4px; color: var(--muted); font-size: 10px; letter-spacing: .035em; }
-.collection-button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 76px; min-height: 46px; color: var(--muted); font-size: 11px; letter-spacing: .025em; }
+.collection-dock { position: fixed; z-index: 5; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 20px; padding: 0 6px; min-height: 48px; background: var(--dock); color: var(--ink); }
+.collection-button { position: relative; display: inline-flex; align-items: center; justify-content: center; min-width: 76px; min-height: 48px; color: var(--muted); font-size: 12px; line-height: 1.5; letter-spacing: .08em; transition: color 180ms ease; }
 .collection-button[aria-pressed="true"] { color: var(--ink); }
 .collection-button:hover { color: var(--hover); }
-.collection-dot { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: 0; transition: opacity 180ms ease; }
-.collection-button[aria-pressed="true"] .collection-dot { opacity: 1; }
-.collection-divider { height: 12px; width: 1px; background: var(--line); }
+.collection-button::after { content: ""; position: absolute; left: 50%; bottom: 6px; width: 28px; height: 1px; background: currentColor; opacity: 0; transform: translateX(-50%) scaleX(.5); transition: opacity 180ms ease, transform 240ms ease; }
+.collection-button[aria-pressed="true"]::after { opacity: 1; transform: translateX(-50%) scaleX(1); }
 .collection-empty { min-height: calc(100svh - 128px); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 100px; font-size: 13px; line-height: 1.8; text-align: center; }
 .collection-empty p + p { color: var(--muted); margin-top: 0; }
 main { flex: 1; outline: 0; }
@@ -149,9 +147,7 @@ body:has(dialog[open]) { overflow: hidden; }
   .header-nav { gap: 22px; }
   .nav-button { font-size: 11px; gap: 7px; }
   .nav-button svg { width: 12px; height: 12px; }
-  .collection-dock { bottom: 14px; gap: 12px; padding-left: 16px; }
-  .collection-dock-label { display: none; }
-  .collection-button { min-width: 80px; }
+  .collection-dock { bottom: 14px; }
   .work-view { padding: 8px 20px 0; }
   .work-meta { gap: 0 12px; }
   .work-number { font-size: 10px; }
