@@ -1,12 +1,13 @@
 {
   "name": "hibi-portfolio",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "日々 — Photography portfolio",
   "scripts": {
     "dev": "python3 -m http.server 4186 --bind 127.0.0.1",
     "references": "node scripts/prepare-reference-assets.mjs",
-    "check": "node --check app.js && node scripts/check-content.mjs"
+    "check": "node --check app.js && node scripts/check-content.mjs",
+    "verify:public": "node scripts/verify-public.mjs"
   }
 }

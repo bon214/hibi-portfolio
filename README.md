@@ -1,29 +1,26 @@
 # 写真家「日々」ポートフォリオ
 
-ストリートフォトに写る一瞬を、自分のペースで鑑賞するための静的サイトです。一枚の表示を中心に、作品一覧、写真の拡大、作者紹介を用意します。
+ストリートフォトに写る一瞬を、自分のペースで鑑賞するための静的サイトです。一枚の表示を中心に、作品一覧、写真の拡大、作者紹介を用意しています。
 
 ## 現在の状態
 
-- 初期実装とローカル確認を進める段階です。
-- 掲載中の5点は、本人作品と確認できる公開展示ページから取得したデザイン検証用の参照画像です。正式な掲載作品・掲載順・文章は選定と本人確認を待っています。
-- ソースと変更履歴の管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio) です。リポジトリの作成・アクセス権は確認済みです。
-- サイトの一般公開、公開先の選定、ドメイン・サーバーの構築は未着手です。サイト作成後に検討します。
+- v1の実装と公開前検証を完了し、GitHubへの反映・公開を進める段階です。
+- 本人作品であることを展示主催者の一次資料で確認した5点をv1に選定しました。公開用WebPは5点×4サイズの20ファイル、合計約5.91 MBです。共有用の`assets/share.jpg`も公開対象です。
+- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開先URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。公開完了は、デプロイ後の公開URLの表示とファイル一致を確認して判断します。
+- 月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
 
-参照画像の出典と利用範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。参照画像の正式採用は未確定です。公開前に採用画像への差し替え・確認を行います。制作基準を記した`要件定義.md`は、作業用の個別指示を含むローカル文書としてGit管理対象外にします。
+写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'v1'`は今回の公開版への選定を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
 
 ## ローカルで見る
 
-初めて取得したソースには参照画像を含めていません。Node.jsとnpm、Python 3、macOSの`sips`を利用できる環境で、プロジェクトのディレクトリから次を順に実行します。依存パッケージのインストールは不要です。
+公開用画像をリポジトリに含めています。Node.jsとnpm、Python 3を利用できる環境で、取得したプロジェクトのディレクトリから実行します。通常の表示・検査に依存パッケージのインストールや画像の再取得は不要です。
 
 ```sh
-npm run references
 npm run check
 npm run dev
 ```
 
-`npm run references`は公開元から参照画像を取得し、長辺2200pxの表示用画像と長辺480pxのサムネイルを生成します。クロップ・色調変更は行いません。取得時はネットワーク接続が必要です。すでに画像を準備している場合は、検査と起動から進められます。
-
-ブラウザで <http://127.0.0.1:4186/> を開きます。終了する際は、起動したターミナルで `Ctrl+C` を押します。JavaScriptモジュールを読み込むため、`index.html` の直接オープンではなくHTTPサーバーを使います。サイトの閲覧時はローカルの画像を表示します。
+ブラウザで <http://127.0.0.1:4186/> を開きます。終了時はターミナルで `Ctrl+C` を押します。JavaScriptモジュールを読み込むため、`index.html` の直接オープンではなくHTTPサーバーを使います。画像はサイト内の閲覧コピーを表示し、Instagramなどへの接続を必要としません。
 
 Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 4186 --bind 127.0.0.1`です。
 
@@ -35,11 +32,15 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 | `styles.css` | 写真の表示サイズ、余白、画面への適応 |
 | `app.js` | 一枚表示、一覧、拡大、作者紹介、URLと操作の制御 |
 | `data/works.js` | 作品の固定ID、画像参照、寸法、代替テキスト、掲載順 |
-| `assets/photos/` | サイトで表示する軽量画像の格納先 |
-| `assets/photos/reference/` | 試作用の軽量画像とサムネイル。Git管理対象外 |
-| `assets/reference/` | ローカル検証用の原寸参照画像。Git管理対象外 |
-| `scripts/prepare-reference-assets.mjs` | 参照画像の取得と軽量画像・サムネイルの生成 |
-| `scripts/check-content.mjs` | 作品データと必須ファイルの整合確認 |
+| `assets/photos/v1/` | 公開用WebP。長辺800・1400・2200pxとサムネイル |
+| `assets/share.jpg` | SNSなどでの共有用画像 |
+| `assets/reference/` | 取得元の原寸画像。Git管理対象外 |
+| `assets/photos/reference/` | 旧ローカル試作用画像。Git管理対象外 |
+| `scripts/prepare-v1-assets.py` | 原寸取得画像からv1閲覧コピーを生成。PillowのWebP対応が必要 |
+| `scripts/prepare-reference-assets.mjs` | 旧参照画像の再取得。通常の起動には不要 |
+| `scripts/check-content.mjs` | 作品データ、実画像寸法、必須ファイルの整合確認 |
+| `scripts/verify-public.mjs` | 公開URLのHTTP応答、MIME、SHA-256、入口HTMLを検証 |
+| `.nojekyll` | GitHub PagesのJekyll処理を無効化 |
 | `docs/update-guide.md` | 写真の追加・差し替え・並べ替えと確認手順 |
 
 ## 操作
@@ -50,18 +51,19 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 
 ## 更新・確認
 
-月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
-
-Node.jsが利用できる環境で、変更後に次を実行します。依存パッケージのインストールは不要です。
+更新後はローカル検査とブラウザ確認を行い、公開用画像・作品データ・変更を`main`へpushします。GitHub Pagesのデプロイ後に公開ファイルを照合します。
 
 ```sh
-node scripts/check-content.mjs
+npm run check
+npm run verify:public -- https://bon214.github.io/hibi-portfolio/
 ```
 
-この検査では作品データの固定ID、画像パスと寸法、必須ファイルを確認します。構図・色・暗部・読みやすさ・実際の操作はブラウザで別途確認します。具体的な手順は [更新ガイド](docs/update-guide.md) を参照してください。
+公開検証の結果は`artifacts/public-verification.json`に保存されます。構図・色・暗部・読みやすさ・実際の操作はブラウザで別途確認します。詳細は [更新ガイド](docs/update-guide.md)、検証記録は [検証記録](docs/validation.md) を参照してください。
 
 ## GitHub・公開・費用の境界
 
-現在はソース、固定IDを持つ作品データ、更新手順・出典記録、参照画像の再生成スクリプトを管理対象とします。原寸参照画像、試作用の軽量コピー、QA用のスクリーンショット、ローカルの`要件定義.md`はGit管理対象外です。写真原本、秘密情報、アクセストークン、ローカル検証用ファイルはコミットしません。正式採用画像を外部保存する前に、対象画像と許諾範囲を確認します。
+GitHub Pagesの公開元は`main`の`/(root)`です。公開元のルートに`index.html`と`.nojekyll`を置き、リポジトリ内の静的ファイルをそのまま配信します。branch公開でもGitHub組込みのPages用Actionsが動作します。独自workflowは追加しません。[公開元設定](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
-請求が発生する作業は行いません。GitHub Actions、公開サービスへのデプロイ、ドメイン取得、アカウント連携は初期実装の範囲に含みません。GitHubへのソース反映と一般公開は別の工程です。
+PublicリポジトリのGitHub Pagesと標準runnerは無料対象です。有料runner、独自ドメインの購入、有料サービスの契約は行いません。[GitHub公式料金説明](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
+
+原寸取得画像、旧試作コピー、QA用スクリーンショット、秘密情報、アクセストークンはコミットしません。v1画像を再生成する場合だけ、原寸取得画像を用意し、PillowのWebP対応があるPythonで`python3 scripts/prepare-v1-assets.py`を実行します。`npm run references`は公開元から旧参照素材を再取得する別工程で、ネットワークとmacOSの`sips`を使用します。
