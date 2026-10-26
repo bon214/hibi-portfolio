@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261026-profile';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261026-profile-calm';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -576,8 +576,6 @@ $('about-title').firstChild.nodeValue = artist.name;
 $('about-title').querySelector('span').textContent = artist.designation;
 $('artist-description').textContent = artist.description || '';
 $('artist-description').hidden = !artist.description;
-$('artist-philosophy').textContent = artist.philosophy;
-$('philosophy-source').href = artist.philosophySource;
 $('artist-viewing-note').textContent = artist.viewingNote;
 $('artist-portrait').src = artist.portrait.src;
 $('artist-portrait').alt = artist.portrait.alt;

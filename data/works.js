@@ -6,8 +6,6 @@ export const artist = {
   "instagram": "https://www.instagram.com/hibigraph116/",
   "statement": null,
   "description": "街を歩き、光や人の動きに目を向けながら、ストリート／スナップ写真を撮影。見過ごしてしまいそうな日常の風景や、思いがけず出会った場面を写真に残している。",
-  "philosophy": "写真は、人間の完璧では無い目を通して生み出されるものであり続けてほしい。",
-  "philosophySource": "https://lit.link/hibi1162",
   "viewingNote": "光の向き、通り過ぎる人、街に残る気配。写真に写る一瞬に目を凝らし、そこに重なった出来事をゆっくりたどってみてください。",
   "portrait": {
     "src": "assets/profile/hibi.webp",
