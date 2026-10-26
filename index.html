@@ -16,8 +16,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>日々 — Photography</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20261026-wordmark">
-  <script type="module" src="app.js?v=20261026-40works"></script>
+  <link rel="stylesheet" href="styles.css?v=20261026-profile">
+  <script type="module" src="app.js?v=20261026-profile"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">作品へ移動</a>
@@ -60,12 +60,15 @@
     <footer class="site-footer"><span>© <span id="copyright-year">2026</span> <span id="copyright-name">日々</span></span><a class="instagram-link" href="https://www.instagram.com/hibigraph116/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span><span class="visually-hidden">（新しいタブで開く）</span></a></footer>
   </div>
   <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title">
+    <div class="dialog-heading"><p>日々について</p><button class="close-button" data-close="about-dialog" aria-label="作家紹介を閉じる" autofocus>閉じる <span aria-hidden="true">×</span></button></div>
     <div class="about-inner">
-      <div class="dialog-heading"><p>写真家について</p><button class="close-button" data-close="about-dialog" aria-label="作家紹介を閉じる">閉じる <span aria-hidden="true">×</span></button></div>
-      <h2 id="about-title">日々<span>Street Photographer</span></h2>
-      <p id="artist-description" class="about-description">ストリートフォトを中心に、街の光、人々の日常、そこに残る痕跡を撮影。</p>
-      <p id="artist-statement" class="about-statement" hidden></p>
-      <a class="about-instagram instagram-link" href="https://www.instagram.com/hibigraph116/" target="_blank" rel="noopener noreferrer"><span>Instagram</span><span id="instagram-handle">@hibigraph116 ↗</span><span class="visually-hidden">（新しいタブで開く）</span></a>
+      <div class="about-profile"><img id="artist-portrait" class="about-portrait" src="assets/profile/hibi.webp" width="240" height="240" alt="日々のプロフィール画像。空を背景に横を向く人物。" decoding="async"><h2 id="about-title">日々<span>Street Photographer</span></h2></div>
+      <blockquote class="about-philosophy"><p id="artist-philosophy">写真は、人間の完璧では無い目を通して生み出されるものであり続けてほしい。</p><cite><a id="philosophy-source" href="https://lit.link/hibi1162" target="_blank" rel="noopener noreferrer">プロフィールに記した言葉 <span aria-hidden="true">↗</span><span class="visually-hidden">（新しいタブで開く）</span></a></cite></blockquote>
+      <p id="artist-description" class="about-description">街を歩き、光や人の動きに目を向けながら、ストリート／スナップ写真を撮影。見過ごしてしまいそうな日常の風景や、思いがけず出会った場面を写真に残している。</p>
+      <p id="artist-viewing-note" class="about-viewing-note">光の向き、通り過ぎる人、街に残る気配。写真に写る一瞬に目を凝らし、そこに重なった出来事をゆっくりたどってみてください。</p>
+      <a id="artist-essay" class="about-essay" href="https://note.com/___hibi___/n/n8b3c0d8e5913" target="_blank" rel="noopener noreferrer">写真を撮る理由を読む <span aria-hidden="true">↗</span><span class="visually-hidden">（新しいタブで開く）</span></a>
+      <section class="about-activities" aria-labelledby="activities-title"><h3 id="activities-title">展示・写真集</h3><ul id="artist-activities"></ul></section>
+      <nav id="artist-links" class="about-links" aria-label="日々の外部サイト"></nav>
     </div>
   </dialog>
   <dialog id="lightbox" class="lightbox" aria-label="写真の拡大表示">

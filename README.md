@@ -36,7 +36,8 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 | `index.html` | 画面の構造と基本情報 |
 | `styles.css` | 写真の表示サイズ、余白、画面への適応 |
 | `app.js` | 縦スクロール、入場アニメーション、一覧、拡大、作者紹介、URLと操作の制御 |
-| `data/works.js` | 作品の固定ID、画像参照、寸法、代替テキスト、掲載順 |
+| `data/works.js` | 作家紹介・活動歴・外部リンク、作品の固定ID、画像参照、寸法、代替テキスト、掲載順 |
+| `assets/profile/hibi.webp` | 本人のlit.linkで使用されているプロフィール画像 |
 | `assets/photos/instagram/` | カラー20点・モノクロ20点の現行閲覧用WebP |
 | `assets/photos/v1/` | 初回v1の閲覧コピー。現行の作品一覧には使用しない |
 | `assets/share.jpg` | SNSなどでの共有用画像 |

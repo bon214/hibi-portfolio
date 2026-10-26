@@ -44,6 +44,14 @@ async function checkImage(src, expected) {
   return size;
 }
 assert(artist.name&&artist.designation&&artist.description,'Artist identity and factual description required');
+assert(artist.philosophy&&artist.viewingNote&&artist.essay?.label,'Artist profile content required');
+assert(artist.portrait.src.startsWith('assets/profile/'),'Profile image must be a local profile asset');
+const portraitPath=resolve(root,artist.portrait.src);
+assert(portraitPath.startsWith(resolve(root,'assets/profile')+sep),'Profile image path escapes its directory');
+const portrait=await readFile(portraitPath);
+assert.deepEqual(dimensions(portrait),{width:artist.portrait.width,height:artist.portrait.height},'Profile image dimensions differ from data');
+assert(portrait.length<100_000&&artist.portrait.alt,'Profile image budget and description required');
+for(const href of [artist.philosophySource,artist.portrait.source,artist.essay.href,...artist.activities.map(item=>item.href),...artist.links.map(item=>item.href)]) assert(new URL(href).protocol==='https:','Artist source and external links must use HTTPS');
 assert(works.length>0,'At least one work required');
 assert(collections.length>0,'At least one collection required');
 const collectionIds = new Set();

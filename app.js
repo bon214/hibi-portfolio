@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261026-40works';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261026-profile';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -78,7 +78,6 @@ function updateCollectionUI() {
   }
   const instagram = collection.instagram || artist.instagram;
   for (const link of document.querySelectorAll('.instagram-link')) link.href = instagram;
-  $('instagram-handle').textContent = `@${new URL(instagram).pathname.split('/').filter(Boolean).at(-1)} ↗`;
   const first = works[0];
   $('back-to-start').href = first ? `#collection=${collection.id}&photo=${first.id}` : `#collection=${collection.id}`;
 }
@@ -508,7 +507,7 @@ document.querySelector('.wordmark').addEventListener('click', (event) => {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault(); navigate(0, 'work', { focus: true, behavior: 'smooth' });
 });
-$('about-open').addEventListener('click', () => { about.showModal(); updateSnapMode(); animateDialog(about); });
+$('about-open').addEventListener('click', () => { about.showModal(); about.scrollTop = 0; updateSnapMode(); animateDialog(about); });
 about.addEventListener('close', updateSnapMode);
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
 about.addEventListener('click', (event) => {
@@ -577,8 +576,42 @@ $('about-title').firstChild.nodeValue = artist.name;
 $('about-title').querySelector('span').textContent = artist.designation;
 $('artist-description').textContent = artist.description || '';
 $('artist-description').hidden = !artist.description;
-$('artist-statement').textContent = artist.statement || '';
-$('artist-statement').hidden = !artist.statement;
+$('artist-philosophy').textContent = artist.philosophy;
+$('philosophy-source').href = artist.philosophySource;
+$('artist-viewing-note').textContent = artist.viewingNote;
+$('artist-portrait').src = artist.portrait.src;
+$('artist-portrait').alt = artist.portrait.alt;
+$('artist-portrait').width = artist.portrait.width;
+$('artist-portrait').height = artist.portrait.height;
+$('artist-essay').href = artist.essay.href;
+$('artist-essay').firstChild.nodeValue = `${artist.essay.label} `;
+function artistLink(label, href, className = '') {
+  const link = document.createElement('a');
+  link.href = href;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  link.className = className;
+  link.setAttribute('aria-label', `${label}（新しいタブで開く）`);
+  const arrow = document.createElement('span');
+  arrow.textContent = '↗';
+  arrow.setAttribute('aria-hidden', 'true');
+  link.append(label, arrow);
+  return link;
+}
+$('artist-activities').replaceChildren(...artist.activities.map((activity) => {
+  const item = document.createElement('li');
+  const label = document.createElement('p');
+  label.className = 'about-activity-label';
+  label.textContent = activity.label;
+  const details = document.createElement('div');
+  const description = document.createElement('p');
+  description.className = 'about-activity-description';
+  description.textContent = activity.description;
+  details.append(artistLink(activity.title, activity.href, 'about-activity-title'), description);
+  item.append(label, details);
+  return item;
+}));
+$('artist-links').replaceChildren(...artist.links.map((link) => artistLink(link.label, link.href)));
 $('copyright-name').textContent = artist.name;
 $('lightbox-artist').textContent = artist.name;
 $('copyright-year').textContent = String(new Date().getFullYear());

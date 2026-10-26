@@ -98,16 +98,33 @@ main { flex: 1; outline: 0; }
 .index-item[aria-current="true"] .index-item-label::after { content: "鑑賞中"; }
 dialog { color: var(--ink); border: 0; padding: 0; background: var(--paper); }
 dialog::backdrop { background: var(--backdrop); }
-.about-dialog { width: min(620px,calc(100% - 40px)); max-height: calc(100svh - 40px); margin: auto; }
-.about-inner { padding: 26px 42px 36px; }
-.dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.about-dialog { width: min(720px,calc(100% - 40px)); max-height: calc(100svh - 40px); margin: auto; overflow-y: auto; overscroll-behavior: contain; }
+.about-inner { padding: 14px 48px 38px; }
+.dialog-heading { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 32px 8px; background: var(--paper); }
 .dialog-heading p { font-size: 11px; color: var(--muted); }
 .close-button { min-height: 44px; display: inline-flex; align-items: center; gap: 14px; font-size: 12px; }
 .close-button span { font-size: 28px; font-weight: 200; }
-.about-inner h2 { margin: 46px 0 32px; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; font-weight: 400; font-size: 48px; line-height: 1.2; letter-spacing: .08em; }
+.about-profile { display: flex; align-items: center; gap: 30px; margin-bottom: 34px; }
+.about-portrait { flex: 0 0 auto; display: block; width: 112px; height: 112px; object-fit: contain; }
+.about-inner h2 { margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; font-weight: 400; font-size: 48px; line-height: 1.2; letter-spacing: .08em; }
 .about-inner h2 span { display: block; margin-top: 16px; font-family: "Helvetica Neue",sans-serif; font-size: 12px; letter-spacing: .025em; }
-.about-description, .about-statement { max-width: 30em; font-size: 14px; line-height: 2.1; margin: 0 0 30px; white-space: pre-line; }
-.about-instagram { border-top: 1px solid var(--line); padding-top: 24px; display: flex; justify-content: space-between; gap: 16px; font-size: 12px; }
+.about-philosophy { margin: 0 0 28px; }
+.about-philosophy > p { margin: 0 0 12px; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; font-size: 23px; line-height: 1.85; letter-spacing: .015em; }
+.about-philosophy cite { font-size: 10px; font-style: normal; color: var(--muted); }
+.about-philosophy a { display: inline-flex; align-items: center; gap: 10px; min-height: 32px; }
+.about-description, .about-viewing-note { font-size: 13px; line-height: 2; margin: 0 0 16px; white-space: pre-line; }
+.about-viewing-note { color: var(--muted); }
+.about-essay { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; font-size: 11px; text-decoration: underline; text-underline-offset: 5px; }
+.about-activities { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
+.about-activities h3 { margin: 0 0 20px; color: var(--muted); font-size: 11px; font-weight: 400; letter-spacing: .06em; }
+.about-activities ul { list-style: none; margin: 0; padding: 0; }
+.about-activities li { display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 16px; margin-bottom: 22px; }
+.about-activity-label { margin: 5px 0 0; font-size: 10px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.about-activity-title { display: inline-flex; align-items: center; gap: 12px; min-height: 28px; font-size: 13px; }
+.about-activity-description { margin: 4px 0 0; color: var(--muted); font-size: 11px; line-height: 1.9; }
+.about-links { display: flex; flex-wrap: wrap; gap: 0 24px; padding-top: 14px; border-top: 1px solid var(--line); }
+.about-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 11px; }
+.about-activity-title:hover, .about-links a:hover, .about-philosophy a:hover { text-decoration: underline; text-underline-offset: 5px; }
 .lightbox { position: fixed; inset: 0; width: 100%; max-width: 100%; height: 100dvh; max-height: 100%; margin: 0; }
 .lightbox[open] { display: grid; grid-template-rows: 60px minmax(0,1fr) 60px; }
 .lightbox-header, .lightbox-footer { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 28px; font-size: 13px; }
@@ -164,10 +181,16 @@ body:has(dialog[open]) { overflow: hidden; }
   .index-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 26px 24px; }
   .index-image-wrap { height: clamp(180px,55vw,260px); }
   .index-item-label { padding: 13px 0; font-size: 10px; }
-  .about-inner { padding: 20px 26px 30px; }
-  .about-inner h2 { margin: 36px 0 28px; font-size: 42px; }
-  .about-description { font-size: 13px; }
-  .about-instagram { font-size: 11px; }
+  .about-dialog { width: calc(100% - 24px); max-height: calc(100svh - 24px); }
+  .dialog-heading { padding: 10px 22px 8px; }
+  .about-inner { padding: 14px 26px 26px; }
+  .about-profile { gap: 22px; margin-bottom: 28px; }
+  .about-portrait { width: 88px; height: 88px; }
+  .about-inner h2 { font-size: 38px; }
+  .about-inner h2 span { font-size: 10px; margin-top: 12px; }
+  .about-philosophy > p { font-size: 20px; }
+  .about-activities li { grid-template-columns: 56px minmax(0,1fr); gap: 12px; }
+  .about-links { gap: 0 18px; }
   .lightbox-header, .lightbox-footer { padding: 0 18px; }
   .lightbox-stage { padding: 6px 12px; }
   .lightbox-footer { grid-template-columns: 1fr auto; }

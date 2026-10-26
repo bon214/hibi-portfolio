@@ -5,7 +5,42 @@ export const artist = {
   "designation": "Street Photographer",
   "instagram": "https://www.instagram.com/hibigraph116/",
   "statement": null,
-  "description": "ストリートフォトを中心に、街の光、人々の日常、そこに残る痕跡を撮影。"
+  "description": "街を歩き、光や人の動きに目を向けながら、ストリート／スナップ写真を撮影。見過ごしてしまいそうな日常の風景や、思いがけず出会った場面を写真に残している。",
+  "philosophy": "写真は、人間の完璧では無い目を通して生み出されるものであり続けてほしい。",
+  "philosophySource": "https://lit.link/hibi1162",
+  "viewingNote": "光の向き、通り過ぎる人、街に残る気配。写真に写る一瞬に目を凝らし、そこに重なった出来事をゆっくりたどってみてください。",
+  "portrait": {
+    "src": "assets/profile/hibi.webp",
+    "width": 240,
+    "height": 240,
+    "alt": "日々のプロフィール画像。空を背景に横を向く人物。",
+    "source": "https://lit.link/hibi1162"
+  },
+  "essay": {
+    "label": "写真を撮る理由を読む",
+    "href": "https://note.com/___hibi___/n/n8b3c0d8e5913"
+  },
+  "activities": [
+    {
+      "label": "2024.10",
+      "title": "THE SNAP 2024",
+      "description": "グループ展を主催。10月8日〜20日、名古屋・セントラルギャラリー。",
+      "href": "https://note.com/___hibi___/n/n58da171c86a3"
+    },
+    {
+      "label": "写真集",
+      "title": "DAYS",
+      "description": "初の写真集。愛知・京都で撮影した写真を収録。B5判・28ページ。",
+      "href": "https://hibi-11.stores.jp/items/65aa948bba8c3d0c07577375"
+    }
+  ],
+  "links": [
+    { "label": "Instagram / Color", "href": "https://www.instagram.com/hibigraph116/" },
+    { "label": "Instagram / Monochrome", "href": "https://www.instagram.com/hibi_mono/" },
+    { "label": "X", "href": "https://x.com/hibigraph116" },
+    { "label": "note", "href": "https://note.com/___hibi___" },
+    { "label": "Store", "href": "https://hibi-11.stores.jp/" }
+  ]
 };
 
 export const collections = [
