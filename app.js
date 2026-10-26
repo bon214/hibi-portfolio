@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261026-profile-calm';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261026-viewer-simple';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -16,13 +16,10 @@ let works = [];
 let currentIndex = 0;
 let currentView = 'work';
 let indexScroll = 0;
-let zoomed = false;
-let detailToken = 0;
-let lightboxWorkId = '';
+let lightboxLoadToken = 0;
 let lightboxOriginIndex = 0;
 let lastLightboxOpener = null;
 let ignoredLightboxCloses = 0;
-let suppressClickUntil = 0;
 let routeLocked = false;
 let scrollIdle;
 let scrollFrame;
@@ -103,11 +100,9 @@ function setCollection(id, index = 0) {
 }
 
 function closeDialogsForNavigation() {
-  ++detailToken;
+  ++lightboxLoadToken;
   if (lightbox.open) { ++ignoredLightboxCloses; lightbox.close(); }
   if (about.open) about.close();
-  setZoom(false);
-  lightboxWorkId = '';
   lastLightboxOpener = null;
   swipeStart = null;
 }
@@ -378,68 +373,43 @@ function loadImage(src) {
     image.src = src;
   });
   imageCache.set(src, promise);
-  // A viewing session should not retain decoded detail images for the entire archive.
+  // A viewing session should not retain decoded full-size images for the entire archive.
   while (imageCache.size > 4) imageCache.delete(imageCache.keys().next().value);
   return promise;
 }
 
-function setZoom(value) {
-  zoomed = value;
-  $('lightbox-stage').classList.toggle('is-zoomed', value);
-  $('lightbox-stage').tabIndex = value ? 0 : -1;
-  $('zoom-toggle').setAttribute('aria-pressed', String(value));
-  $('zoom-toggle').textContent = value ? '全体を見る −' : '細部を見る ＋';
-  $('zoom-note').textContent = value ? 'スクロールで細部を見る' : '写真全体を表示';
-  if (value && lightbox.open) $('lightbox-stage').focus({ preventScroll: true });
-  else {
-    $('lightbox-stage').scrollTo(0, 0);
-    if (lightbox.open && document.activeElement === $('lightbox-stage')) $('zoom-toggle').focus({ preventScroll: true });
-  }
-}
-
 async function renderLightbox() {
-  const token = ++detailToken;
+  const token = ++lightboxLoadToken;
   const index = currentIndex;
   const work = works[index];
   if (!work || !entries[index]) return;
-  const retryFocused = document.activeElement === $('lightbox-retry') || (document.activeElement === $('zoom-toggle') && $('zoom-toggle').dataset.retry);
+  const retryFocused = document.activeElement === $('lightbox-retry');
   if (retryFocused) $('lightbox-stage').focus({ preventScroll: true });
-  if (lightboxWorkId !== work.id) setZoom(false);
   const image = $('lightbox-photo');
   const fallback = entries[index].image;
   const hasFallback = fallback.complete && fallback.naturalWidth > 0;
   image.hidden = !hasFallback;
   if (hasFallback) image.src = fallback.currentSrc || fallback.src;
   image.alt = work.alt;
-  image.style.setProperty('--image-width', `${work.width}px`);
   $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
   $('lightbox-error').hidden = true;
-  delete $('zoom-toggle').dataset.retry;
   $('lightbox-stage').setAttribute('aria-busy', 'true');
-  $('zoom-toggle').disabled = true;
-  $('zoom-toggle').textContent = '細部を読み込み中';
   try {
     await loadImage(work.src);
-    if (token !== detailToken || !lightbox.open || work.id !== works[currentIndex]?.id) return;
+    if (token !== lightboxLoadToken || !lightbox.open || work.id !== works[currentIndex]?.id) return;
     image.src = work.src;
     image.hidden = false;
     image.alt = work.alt;
-    image.style.setProperty('--image-width', `${work.width}px`);
     $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
-    lightboxWorkId = work.id;
-    $('zoom-toggle').disabled = false;
-    setZoom(zoomed);
   } catch {
-    if (token === detailToken) {
-      $('lightbox-error').hidden = hasFallback;
-      $('zoom-note').textContent = '細部の画像を読み込めませんでした';
-      $('zoom-toggle').textContent = '細部を再読み込み';
-      $('zoom-toggle').dataset.retry = 'true';
-      $('zoom-toggle').disabled = false;
-      if (retryFocused && document.activeElement === $('lightbox-stage')) (hasFallback ? $('zoom-toggle') : $('lightbox-retry')).focus({ preventScroll: true });
-    }
+    if (token === lightboxLoadToken && lightbox.open) $('lightbox-error').hidden = false;
   } finally {
-    if (token === detailToken) $('lightbox-stage').setAttribute('aria-busy', 'false');
+    if (token === lightboxLoadToken) {
+      $('lightbox-stage').setAttribute('aria-busy', 'false');
+      if (retryFocused && lightbox.open && document.activeElement === $('lightbox-stage')) {
+        ($('lightbox-error').hidden ? lightbox.querySelector('[data-close]') : $('lightbox-retry')).focus({ preventScroll: true });
+      }
+    }
   }
 }
 
@@ -458,10 +428,7 @@ function openLightbox(index, opener) {
   const work = works[index];
   $('lightbox-photo').src = entries[index].image.currentSrc || work.src;
   $('lightbox-photo').alt = work.alt;
-  $('lightbox-photo').style.setProperty('--image-width', `${work.width}px`);
   $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
-  lightboxWorkId = work.id;
-  setZoom(false);
   lightbox.showModal();
   updateSnapMode();
   animateDialog(lightbox);
@@ -476,7 +443,7 @@ function step(direction) {
 
 let swipeStart;
 $('lightbox-stage').addEventListener('pointerdown', (event) => {
-  if (event.pointerType !== 'touch' || !event.isPrimary || zoomed) { swipeStart = null; return; }
+  if (event.pointerType !== 'touch' || !event.isPrimary) { swipeStart = null; return; }
   swipeStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
   event.currentTarget.setPointerCapture?.(event.pointerId);
 });
@@ -485,15 +452,9 @@ $('lightbox-stage').addEventListener('pointerup', (event) => {
   const dx = event.clientX - swipeStart.x;
   const dy = event.clientY - swipeStart.y;
   swipeStart = null;
-  if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) { suppressClickUntil = performance.now() + 400; step(dx < 0 ? 1 : -1); }
+  if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
 });
 $('lightbox-stage').addEventListener('pointercancel', () => { swipeStart = null; });
-$('lightbox-stage').addEventListener('click', (event) => {
-  if (performance.now() < suppressClickUntil || $('zoom-toggle').disabled || $('zoom-toggle').dataset.retry) return;
-  const bounds = $('lightbox-photo').getBoundingClientRect();
-  if (event.clientX >= bounds.left && event.clientX <= bounds.right && event.clientY >= bounds.top && event.clientY <= bounds.bottom) setZoom(!zoomed);
-});
-$('zoom-toggle').addEventListener('click', () => $('zoom-toggle').dataset.retry ? renderLightbox() : setZoom(!zoomed));
 $('lightbox-retry').addEventListener('click', renderLightbox);
 $('lightbox-previous').addEventListener('click', () => step(-1));
 $('lightbox-next').addEventListener('click', () => navigate(currentIndex === works.length - 1 ? 0 : currentIndex + 1, 'work'));
@@ -517,15 +478,14 @@ about.addEventListener('click', (event) => {
 });
 lightbox.addEventListener('close', () => {
   if (ignoredLightboxCloses) { --ignoredLightboxCloses; return; }
-  ++detailToken;
-  setZoom(false);
+  ++lightboxLoadToken;
   updateSnapMode();
   if (currentView !== 'work' || !works.length) return;
   scrollToWork(currentIndex, { focus: lightboxOriginIndex !== currentIndex });
   if (lightboxOriginIndex === currentIndex) lastLightboxOpener?.focus({ preventScroll: true });
 });
 document.addEventListener('keydown', (event) => {
-  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || about.open || zoomed || currentView !== 'work') return;
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || about.open || currentView !== 'work') return;
   if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); step(event.key === 'ArrowRight' ? 1 : -1); }
 });
 function restoreRoute() {
