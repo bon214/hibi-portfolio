@@ -16,8 +16,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>日々 — Photography</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20261028-photo-guard">
-  <script type="module" src="app.js?v=20261028-photo-guard"></script>
+  <link rel="stylesheet" href="styles.css?v=20261028-photo-position-r2">
+  <script type="module" src="app.js?v=20261028-photo-position-r2"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">作品へ移動</a>
@@ -33,6 +33,10 @@
       <button class="collection-button" data-collection="color" aria-pressed="true" aria-controls="main" lang="en"><span>Color</span></button>
       <button class="collection-button" data-collection="mono" aria-pressed="false" aria-controls="main" lang="en"><span>Monochrome</span></button>
     </div>
+    <nav id="photo-position-nav" class="photo-position-nav" aria-label="写真の閲覧位置" hidden>
+      <div id="photo-position-buttons" class="photo-position-buttons"></div>
+      <p id="photo-position-count" class="photo-position-count" aria-hidden="true">01/20</p>
+    </nav>
     <main id="main" tabindex="-1">
       <div id="collection-empty" class="collection-empty" hidden><p>作品を準備しています。</p><p>公開まで、Instagramでご覧いただけます。</p><a class="instagram-link underlined-button" href="https://www.instagram.com/hibi_mono/" target="_blank" rel="noopener noreferrer">Instagramで見る ↗</a></div>
       <section id="work-view" class="work-view" aria-label="作品の鑑賞">
@@ -41,7 +45,7 @@
           <article class="work-entry is-first" id="work-hibi-color-c3ka-2gvly8" data-id="hibi-color-c3ka-2gvly8" style="--work-ratio: 1.25">
             <figure class="work-figure">
               <div class="work-image-wrap">
-                <button class="gallery-photo" aria-label="写真 1 を大きく見る" aria-haspopup="dialog"><img class="work-image" src="assets/photos/instagram/hibi-color-c3ka-2gvly8-800.webp" srcset="assets/photos/instagram/hibi-color-c3ka-2gvly8-400.webp 400w, assets/photos/instagram/hibi-color-c3ka-2gvly8-800.webp 800w, assets/photos/instagram/hibi-color-c3ka-2gvly8-1400.webp 1400w, assets/photos/instagram/hibi-color-c3ka-2gvly8-1440.webp 1440w" sizes="(max-width: 600px) min(calc(100vw - 40px), calc((100svh - 288px) * 1.25)), min(calc(100vw - 144px), calc((100svh - 288px) * 1.25))" width="1440" height="1152" alt="自転車の並ぶ夜の路地で、奥の店の明かりを背に猫が道を横切っている。" fetchpriority="high" decoding="async" draggable="false"></button>
+                <button class="gallery-photo" aria-label="写真 1 を大きく見る" aria-haspopup="dialog"><img class="work-image" src="assets/photos/instagram/hibi-color-c3ka-2gvly8-800.webp" srcset="assets/photos/instagram/hibi-color-c3ka-2gvly8-400.webp 400w, assets/photos/instagram/hibi-color-c3ka-2gvly8-800.webp 800w, assets/photos/instagram/hibi-color-c3ka-2gvly8-1400.webp 1400w, assets/photos/instagram/hibi-color-c3ka-2gvly8-1440.webp 1440w" sizes="(max-width: 600px) min(calc(100vw - 72px), calc((100svh - 288px) * 1.25)), min(calc(100vw - 144px), calc((100svh - 288px) * 1.25))" width="1440" height="1152" alt="自転車の並ぶ夜の路地で、奥の店の明かりを背に猫が道を横切っている。" fetchpriority="high" decoding="async" draggable="false"></button>
                 <div class="work-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button class="underlined-button">もう一度読み込む</button></div>
               </div>
               <figcaption class="work-meta"><span class="work-number">01 / 20</span><button class="work-expand text-button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg>大きく見る</button><p class="work-caption" hidden></p></figcaption>

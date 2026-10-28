@@ -1,9 +1,10 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-guard';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-position-r2';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
 const lightbox = $('lightbox');
 const about = $('about-dialog');
+const photoPositionNav = $('photo-position-nav');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const imageCache = new Map();
 const entries = [];
@@ -102,6 +103,7 @@ function setCollection(id, index = 0) {
   if (changed) {
     buildGallery();
     buildIndex();
+    buildPhotoPositionNavigation();
     galleryBuilt = true;
   }
   updateCollectionUI();
@@ -144,6 +146,7 @@ function switchCollection(id) {
 
 function updateSelection() {
   for (const button of $('index-grid').children) button.setAttribute('aria-current', String(button.dataset.id === works[currentIndex]?.id));
+  updatePhotoPositionNavigation();
   const last = !works.length || currentIndex === works.length - 1;
   $('lightbox-previous').disabled = !works.length || currentIndex === 0;
   $('lightbox-next').disabled = !works.length;
@@ -208,7 +211,60 @@ function focusIndexWork() {
 function updateSnapMode() {
   const enabled = works.length > 0 && currentView === 'work' && !lightbox.open && !about.open;
   document.documentElement.classList.toggle('is-work-view', enabled);
+  photoPositionNav.hidden = !enabled;
 }
+
+function buildPhotoPositionNavigation() {
+  photoPositionNav.setAttribute('aria-label', `${collectionById(currentCollection).label}写真の閲覧位置`);
+  const fragment = document.createDocumentFragment();
+  works.forEach((work, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'photo-position-button';
+    button.dataset.id = work.id;
+    button.setAttribute('aria-label', `${index + 1}枚目の写真へ移動（全${works.length}枚）`);
+    button.title = `${pad(index + 1)} / ${pad(works.length)}`;
+    const marker = document.createElement('span');
+    marker.className = 'photo-position-marker';
+    marker.setAttribute('aria-hidden', 'true');
+    button.append(marker);
+    button.addEventListener('click', () => selectPhotoPosition(index));
+    fragment.append(button);
+  });
+  $('photo-position-buttons').replaceChildren(fragment);
+}
+
+function updatePhotoPositionNavigation() {
+  const buttons = [...$('photo-position-buttons').children];
+  const focusedWithin = photoPositionNav.contains(document.activeElement);
+  buttons.forEach((button, index) => {
+    const selected = index === currentIndex;
+    button.setAttribute('aria-current', String(selected));
+    button.dataset.distance = String(Math.min(2, Math.abs(index - currentIndex)));
+    button.tabIndex = selected ? 0 : -1;
+  });
+  $('photo-position-count').textContent = `${pad(works.length ? currentIndex + 1 : 0)}/${pad(works.length)}`;
+  const selected = buttons[currentIndex];
+  if (focusedWithin && !photoPositionNav.hidden && selected !== document.activeElement) selected?.focus({ preventScroll: true });
+}
+
+function selectPhotoPosition(index) {
+  navigate(index, 'work', { behavior: 'smooth' });
+  $('photo-position-buttons').children[currentIndex]?.focus({ preventScroll: true });
+}
+
+photoPositionNav.addEventListener('keydown', (event) => {
+  if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+  let index;
+  if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') index = Math.max(0, currentIndex - 1);
+  else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') index = Math.min(works.length - 1, currentIndex + 1);
+  else if (event.key === 'Home') index = 0;
+  else if (event.key === 'End') index = works.length - 1;
+  else return;
+  event.preventDefault();
+  event.stopPropagation();
+  selectPhotoPosition(index);
+});
 
 function renderView() {
   const isIndex = currentView === 'index';
@@ -244,7 +300,7 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.fetchPriority = first ? 'high' : 'auto';
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-width: 600px) min(calc(100vw - 40px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})), min(calc(100vw - 144px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height}))`;
+    : `(max-width: 600px) min(calc(100vw - 72px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})), min(calc(100vw - 144px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height}))`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
