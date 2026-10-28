@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-position-r2';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-spacing';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -298,9 +298,10 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.loading = first ? 'eager' : 'lazy';
   image.decoding = 'async';
   image.fetchPriority = first ? 'high' : 'auto';
+  const heightBound = `calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})`;
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-width: 600px) min(calc(100vw - 72px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})), min(calc(100vw - 144px), calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height}))`;
+    : `(max-width: 600px) min(calc(100vw - 84px), ${heightBound}), (max-width: 900px) min(calc(100vw - 107px), ${heightBound}), (min-width: 1600px) min(1180px, calc(100vw - 135px), ${heightBound}), min(1180px, calc(100vw - 119px), ${heightBound})`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
