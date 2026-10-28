@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261026-viewer-simple';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-guard';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -24,6 +24,14 @@ let routeLocked = false;
 let scrollIdle;
 let scrollFrame;
 history.scrollRestoration = 'manual';
+
+const photoSurfaceSelector = 'img, .gallery-photo, .index-image-wrap, #lightbox-stage';
+function preventPhotoSaving(event) {
+  if (event.target instanceof Element && event.target.closest(photoSurfaceSelector)) event.preventDefault();
+}
+// Delegate so collection switches and newly rendered thumbnails remain covered.
+document.addEventListener('contextmenu', preventPhotoSaving);
+document.addEventListener('dragstart', preventPhotoSaving);
 
 function collectionById(id) {
   return collections.find((collection) => collection.id === id) || collections[0];
@@ -227,6 +235,7 @@ function navigate(index, view = currentView, { replace = false, focus = false, b
 }
 
 function configureImage(image, work, { first = false, index = false } = {}) {
+  image.draggable = false;
   image.alt = index ? '' : work.alt;
   image.width = work.width;
   image.height = work.height;
