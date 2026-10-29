@@ -35,7 +35,7 @@ html.is-work-view.is-page-moving { scroll-snap-type: none; }
 html.is-work-view.is-paged-input .site-shell { touch-action: pan-x pinch-zoom; }
 html.is-work-view .gallery-photo { touch-action: auto; }
 body { margin: 0; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
-body, dialog, .collection-dock, .site-header { transition: background-color 360ms ease, color 360ms ease, border-color 360ms ease; }
+body, dialog, .collection-dock, .site-header { transition: background-color 500ms ease, color 500ms ease, border-color 500ms ease; }
 button, a { -webkit-tap-highlight-color: transparent; }
 img, .gallery-photo, .index-image-wrap { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 button { border: 0; padding: 0; color: inherit; font: inherit; background: none; cursor: pointer; }

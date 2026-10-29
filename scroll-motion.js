@@ -1,3 +1,10 @@
+export const settleFrequency = 17;
+
+export function releaseVelocity(velocity, distance, viewportHeight) {
+  const direction = Math.sign(distance);
+  return direction * Math.min(Math.max(0, velocity * direction), settleFrequency * Math.abs(distance), viewportHeight * 3);
+}
+
 // Closed-form critically damped motion: targets may change without restarting a timed animation.
 export function advanceSpring(position, velocity, target, seconds, frequency = 26) {
   const dt = Math.min(Math.max(seconds, 0), 0.05);

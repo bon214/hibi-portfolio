@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-about-short';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-about-short';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-about-short';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-calm-motion';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-calm-motion';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-calm-motion';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -214,7 +214,7 @@ function tickMotion(now) {
   const state = motionState;
   if (!state) return;
   if (state.kind !== 'direct') {
-    const next = advanceSpring(state.position, state.velocity, state.target, (now - state.time) / 1000, state.kind === 'follow' ? 42 : 22);
+    const next = advanceSpring(state.position, state.velocity, state.target, (now - state.time) / 1000, state.kind === 'follow' ? 42 : settleFrequency);
     state.position = next.position;
     state.velocity = next.velocity;
   } else state.position = state.target;
@@ -252,9 +252,8 @@ function moveToPosition(top, stop, behavior) {
   clearTimeout(wheelRelease);
   inputSession = null;
   const distance = destination - scrollY;
-  const direction = Math.sign(distance);
   // Carry release velocity toward the stop, capped to keep critically damped settling monotonic.
-  const velocity = direction * Math.min(Math.max(0, (motionState?.velocity || 0) * direction), 22 * Math.abs(distance));
+  const velocity = releaseVelocity(motionState?.velocity || 0, distance, innerHeight);
   motionTarget = stop;
   motionState = { kind: 'settle', position: scrollY, velocity, target: destination, time: performance.now() };
   wakeMotion();
@@ -562,9 +561,9 @@ function revealEntry(entry) {
   if (entry.index === 0 || reducedMotion.matches || typeof entry.figure.animate !== 'function') return;
   // No hidden CSS state: unsupported or interrupted animation always leaves the photograph visible.
   entry.figure.animate([
-    { opacity: 0, transform: 'translateY(16px)' },
-    { opacity: 1, transform: 'translateY(0)' },
-  ], { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' });
+    { opacity: 0.85 },
+    { opacity: 1 },
+  ], { duration: 420, easing: 'ease-out' });
 }
 
 function buildGallery() {
@@ -655,7 +654,7 @@ function buildIndex() {
 }
 
 function animateDialog(dialog) {
-  if (!reducedMotion.matches && typeof dialog.animate === 'function') dialog.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 200, easing: 'ease-out' });
+  if (!reducedMotion.matches && typeof dialog.animate === 'function') dialog.animate([{ opacity: 0.9, transform: 'translateY(2px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 240, easing: 'ease-out' });
 }
 
 function step(direction) {

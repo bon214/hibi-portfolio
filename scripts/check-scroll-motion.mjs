@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from '../scroll-motion.js';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from '../scroll-motion.js';
 import { createWheelGesture, createTouchGesture } from '../page-gestures.js';
 
 const cases = [];
@@ -19,6 +19,23 @@ function simulate({ position = 0, velocity = 0, target = 900, seconds = 1, hz = 
   }
   return state;
 }
+
+test('release: fast gestures remain bounded and settle without overshooting in either direction', () => {
+  for (const direction of [-1, 1]) {
+    const target = direction * 900;
+    let state = { position: 0, velocity: releaseVelocity(direction * 10000, target, 900) };
+    assert.ok(Math.abs(state.velocity) <= 2700);
+    for (let frame = 0; frame < 120; frame++) {
+      const next = advanceSpring(state.position, state.velocity, target, 1 / 60, settleFrequency);
+      assert.ok((next.position - state.position) * direction >= -1e-9);
+      assert.ok((target - next.position) * direction >= -1e-9);
+      state = next;
+    }
+    near(state.position, target, 1e-5);
+  }
+  assert.equal(releaseVelocity(-1000, 500, 900), 0, 'reverse velocity must not pull away from the target');
+  assert.equal(releaseVelocity(5000, 2, 900), settleFrequency * 2, 'nearby targets use a tighter cap');
+});
 
 test('spring: a stationary target is approached monotonically from rest', () => {
   let state = { position: 0, velocity: 0 };
