@@ -28,6 +28,9 @@ html[data-collection="mono"] {
   --dock: rgb(25 25 25 / .94);
 }
 html.is-work-view { scroll-snap-type: y mandatory; }
+html.is-work-view.is-page-moving { scroll-snap-type: none; }
+html.is-work-view.is-paged-input .site-shell { touch-action: pan-x pinch-zoom; }
+html.is-work-view .gallery-photo { touch-action: auto; }
 body { margin: 0; color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
 body, dialog, .collection-dock { transition: background-color 360ms ease, color 360ms ease, border-color 360ms ease; }
 button, a { -webkit-tap-highlight-color: transparent; }

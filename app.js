@@ -1,4 +1,5 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-provided-photos';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-unified-paging';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-unified-paging';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -8,6 +9,8 @@ const photoPositionNav = $('photo-position-nav');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const imageCache = new Map();
 const entries = [];
+let entryTops = [];
+let measuredHeight = 0;
 const galleryTemplate = $('gallery').querySelector('.work-entry').cloneNode(true);
 const collectionPositions = new Map();
 let galleryObserver;
@@ -24,6 +27,10 @@ let ignoredLightboxCloses = 0;
 let routeLocked = false;
 let scrollIdle;
 let scrollFrame;
+let motionFrame;
+let motionTarget = null;
+const wheelGesture = createWheelGesture();
+const touchGesture = createTouchGesture();
 history.scrollRestoration = 'manual';
 
 const photoSurfaceSelector = 'img, .gallery-photo, .index-image-wrap, #lightbox-stage';
@@ -91,6 +98,9 @@ function updateCollectionUI() {
 function setCollection(id, index = 0) {
   const changed = !galleryBuilt || id !== currentCollection;
   if (changed) {
+    cancelWorkMotion();
+    wheelGesture.reset();
+    touchGesture.reset();
     // Removing snap during replacement prevents the browser from selecting an old frame.
     document.documentElement.classList.remove('is-work-view');
     routeLocked = true;
@@ -119,6 +129,7 @@ function closeDialogsForNavigation() {
 
 function positionCurrentView({ focus = false, behavior = 'auto' } = {}) {
   if (currentView === 'index' || !works.length) {
+    cancelWorkMotion();
     routeLocked = false;
     clearTimeout(scrollIdle);
     window.scrollTo(0, currentView === 'index' ? indexScroll : 0);
@@ -157,11 +168,12 @@ function updateSelection() {
 
 function syncActiveWork() {
   if (!entries.length || currentView !== 'work' || lightbox.open || about.open || routeLocked) return;
+  if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
   let nearest = 0;
   let distance = Infinity;
-  entries.forEach(({ figure }, index) => {
-    const bounds = figure.getBoundingClientRect();
-    const nextDistance = Math.abs(bounds.top + bounds.height / 2 - innerHeight / 2);
+  const position = scrollY;
+  entryTops.forEach((top, index) => {
+    const nextDistance = Math.abs(top - position);
     if (nextDistance < distance) { distance = nextDistance; nearest = index; }
   });
   if (nearest !== currentIndex) {
@@ -172,28 +184,74 @@ function syncActiveWork() {
   }
 }
 
+function measureWorkPositions() {
+  // Measure stationary frames only when layout changes, never the animated figures per scroll frame.
+  const position = scrollY;
+  entryTops = entries.map(({ article }, index) => index === 0 ? 0 : article.getBoundingClientRect().top + position);
+  measuredHeight = innerHeight;
+}
+
 function unlockRoute() {
+  if (motionFrame) return;
   routeLocked = false;
   syncActiveWork();
 }
 
+function cancelWorkMotion() {
+  if (motionFrame) cancelAnimationFrame(motionFrame);
+  motionFrame = null;
+  motionTarget = null;
+  clearTimeout(scrollIdle);
+  routeLocked = false;
+  document.documentElement.classList.remove('is-page-moving');
+}
+
+function moveToPosition(top, stop, behavior) {
+  cancelWorkMotion();
+  const destination = Math.max(0, Math.min(top, document.documentElement.scrollHeight - innerHeight));
+  const start = scrollY;
+  routeLocked = true;
+  motionTarget = stop;
+  if (reducedMotion.matches || behavior !== 'smooth' || Math.abs(destination - start) < 1) {
+    window.scrollTo({ top: destination, behavior: 'instant' });
+    routeLocked = false;
+    motionTarget = null;
+    syncActiveWork();
+    return;
+  }
+  document.documentElement.classList.add('is-page-moving');
+  const started = performance.now();
+  const tick = (now) => {
+    const progress = Math.min(1, (now - started) / 440);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    window.scrollTo({ top: start + (destination - start) * eased, behavior: 'instant' });
+    if (progress < 1) motionFrame = requestAnimationFrame(tick);
+    else {
+      motionFrame = null;
+      motionTarget = null;
+      window.scrollTo({ top: destination, behavior: 'instant' });
+      document.documentElement.classList.remove('is-page-moving');
+      routeLocked = false;
+      syncActiveWork();
+    }
+  };
+  motionFrame = requestAnimationFrame(tick);
+}
+
 function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
   if (!entries[index]) {
-    routeLocked = false;
-    clearTimeout(scrollIdle);
+    cancelWorkMotion();
     window.scrollTo(0, 0);
     if (focus) $('main').focus({ preventScroll: true });
     return;
   }
-  routeLocked = true;
-  clearTimeout(scrollIdle);
-  scrollIdle = setTimeout(unlockRoute, 900);
   const entry = entries[index];
-  const top = index === 0 ? 0 : entry.article.getBoundingClientRect().top + scrollY;
+  if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
+  const top = entryTops[index];
   // A destination selected from the index is immediately visible, even before reveal callbacks run.
   entry.entered = true;
   (entry.figure.getAnimations?.() || []).forEach((animation) => animation.cancel());
-  window.scrollTo({ top: Math.max(0, top), behavior: reducedMotion.matches ? 'auto' : behavior });
+  moveToPosition(top, index, behavior);
   if (focus) entry.button.focus({ preventScroll: true });
 }
 
@@ -211,8 +269,84 @@ function focusIndexWork() {
 function updateSnapMode() {
   const enabled = works.length > 0 && currentView === 'work' && !lightbox.open && !about.open;
   document.documentElement.classList.toggle('is-work-view', enabled);
+  const paging = enabled && (window.visualViewport?.scale || 1) <= 1.01;
+  document.documentElement.classList.toggle('is-paged-input', paging);
+  if (!paging) { wheelGesture.reset(); touchGesture.reset(); cancelWorkMotion(); syncActiveWork(); }
   photoPositionNav.hidden = !enabled;
 }
+
+function pageInputEnabled() {
+  return document.documentElement.classList.contains('is-paged-input');
+}
+
+function moveOnePage(direction) {
+  if (!pageInputEnabled() || !entries.length) return false;
+  if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
+  const end = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+  const stops = [...entryTops, end];
+  let current = motionTarget;
+  if (current === null) {
+    current = stops.reduce((best, top, index) => Math.abs(top - scrollY) < Math.abs(stops[best] - scrollY) ? index : best, 0);
+  }
+  const next = Math.max(0, Math.min(stops.length - 1, current + direction));
+  if (next === current) return false;
+  if (next === entries.length) {
+    currentIndex = works.length - 1;
+    updateSelection();
+    writeRoute(true);
+    rememberCollection();
+    moveToPosition(end, next, 'smooth');
+  } else navigate(next, 'work', { behavior: 'smooth' });
+  return true;
+}
+
+window.addEventListener('wheel', (event) => {
+  if (!pageInputEnabled() || event.defaultPrevented) { wheelGesture.reset(); return; }
+  if (!event.cancelable) return;
+  const intent = wheelGesture.read(event, performance.now(), innerHeight);
+  if (intent.consume) { event.preventDefault(); return; }
+  if (intent.direction && moveOnePage(intent.direction)) {
+    wheelGesture.claim();
+    event.preventDefault();
+  }
+}, { passive: false });
+
+const touchPoint = (touch) => ({ id: touch.identifier, x: touch.clientX, y: touch.clientY });
+const shell = document.querySelector('.site-shell');
+shell.addEventListener('touchstart', (event) => {
+  if (!pageInputEnabled() || event.touches.length !== 1) { touchGesture.reset(); return; }
+  wheelGesture.reset();
+  touchGesture.start(touchPoint(event.touches[0]));
+}, { passive: true });
+shell.addEventListener('touchmove', (event) => {
+  if (!pageInputEnabled() || event.touches.length !== 1) { touchGesture.reset(); return; }
+  touchGesture.move(touchPoint(event.touches[0]));
+}, { passive: true });
+shell.addEventListener('touchend', (event) => {
+  if (!pageInputEnabled() || event.touches.length || !event.changedTouches.length) { touchGesture.reset(); return; }
+  const direction = touchGesture.end(touchPoint(event.changedTouches[0]));
+  if (direction) {
+    // Suppress only the recognized swipe's compatibility click, keeping taps and pinches native.
+    if (event.cancelable) event.preventDefault();
+    moveOnePage(direction);
+  }
+}, { passive: false });
+shell.addEventListener('touchcancel', () => touchGesture.reset(), { passive: true });
+window.addEventListener('blur', () => { wheelGesture.reset(); touchGesture.reset(); cancelWorkMotion(); syncActiveWork(); });
+window.visualViewport?.addEventListener('resize', updateSnapMode);
+window.addEventListener('pointerdown', (event) => {
+  if (event.pointerType === 'mouse') {
+    wheelGesture.reset();
+    if (motionFrame) { cancelWorkMotion(); syncActiveWork(); }
+  }
+}, { passive: true });
+window.addEventListener('keydown', (event) => {
+  if (!pageInputEnabled() || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' ', 'Home', 'End'].includes(event.key)) {
+    wheelGesture.reset();
+    if (motionFrame) { cancelWorkMotion(); syncActiveWork(); }
+  }
+});
 
 function buildPhotoPositionNavigation() {
   photoPositionNav.setAttribute('aria-label', `${collectionById(currentCollection).label}写真の閲覧位置`);
@@ -268,6 +402,7 @@ photoPositionNav.addEventListener('keydown', (event) => {
 
 function renderView() {
   const isIndex = currentView === 'index';
+  if (!isIndex && $('work-view').hidden) entryTops = [];
   $('work-view').hidden = isIndex;
   $('index-view').hidden = !isIndex;
   $('index-toggle').setAttribute('aria-expanded', String(isIndex));
@@ -324,6 +459,7 @@ function buildGallery() {
   galleryObserver?.disconnect();
   entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
   entries.length = 0;
+  entryTops = [];
   const fragment = document.createDocumentFragment();
   works.forEach((work, index) => {
     const article = galleryTemplate.cloneNode(true);
@@ -485,6 +621,7 @@ function animateDialog(dialog) {
 
 function openLightbox(index, opener) {
   if (!entries[index]?.image.naturalWidth) return;
+  cancelWorkMotion();
   currentIndex = index;
   updateSelection();
   writeRoute();
@@ -534,7 +671,12 @@ document.querySelector('.wordmark').addEventListener('click', (event) => {
   if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
   event.preventDefault(); navigate(0, 'work', { focus: true, behavior: 'smooth' });
 });
-$('about-open').addEventListener('click', () => { about.showModal(); about.scrollTop = 0; updateSnapMode(); animateDialog(about); });
+$('about-open').addEventListener('click', () => {
+  cancelWorkMotion();
+  syncActiveWork();
+  if (currentView === 'work') scrollToWork(currentIndex);
+  about.showModal(); about.scrollTop = 0; updateSnapMode(); animateDialog(about);
+});
 about.addEventListener('close', updateSnapMode);
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
 about.addEventListener('click', (event) => {
@@ -569,10 +711,9 @@ function restoreRoute() {
 }
 window.addEventListener('popstate', restoreRoute);
 window.addEventListener('hashchange', restoreRoute);
-// Keep scrolling native across the entire page, including photo buttons.
-// CSS Scroll Snap aligns photographs after wheel, touch, and keyboard scrolling.
+// Native keyboard and scrollbar movement still update the active photograph.
 window.addEventListener('scroll', () => {
-  if (routeLocked) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
+  if (routeLocked && !motionFrame) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
   if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = null; syncActiveWork(); });
 }, { passive: true });
 let resizeFrame;
@@ -580,13 +721,29 @@ window.addEventListener('resize', () => {
   if (resizeFrame) return;
   resizeFrame = requestAnimationFrame(() => {
     resizeFrame = null;
+    if (currentView === 'work') measureWorkPositions();
+    if (motionFrame) {
+      const stop = motionTarget;
+      if (stop === entries.length) moveToPosition(Math.max(0, document.documentElement.scrollHeight - innerHeight), stop, 'auto');
+      else scrollToWork(currentIndex);
+      return;
+    }
     if (currentView === 'work' && !lightbox.open && !about.open && routeLocked) {
       scrollToWork(currentIndex);
       unlockRoute();
     } else syncActiveWork();
   });
 });
-reducedMotion.addEventListener?.('change', () => { if (reducedMotion.matches) entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel())); });
+reducedMotion.addEventListener?.('change', () => {
+  if (reducedMotion.matches) {
+    entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
+    if (motionFrame) {
+      const stop = motionTarget;
+      if (stop === entries.length) moveToPosition(document.documentElement.scrollHeight - innerHeight, stop, 'auto');
+      else scrollToWork(currentIndex);
+    }
+  }
+});
 document.querySelector('.skip-link').addEventListener('click', (event) => {
   event.preventDefault();
   if (currentView === 'index') focusIndexWork();
