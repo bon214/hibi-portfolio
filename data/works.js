@@ -32,6 +32,11 @@ export const artist = {
       "href": "https://www.instagram.com/hibigraph116/p/DOwxLJTEyY6/"
     },
     {
+      "label": "2025.01",
+      "title": "UNBOUND",
+      "description": "グループ展｜MIL GALLERY JINGUMAE、東京"
+    },
+    {
       "label": "2024.12",
       "title": "MIX UP！— culmination of 2024 —",
       "description": "グループ展｜cafe DODO、名古屋",
@@ -42,6 +47,47 @@ export const artist = {
       "title": "THE SNAP 2024",
       "description": "グループ展・主催｜セントラルギャラリー、名古屋",
       "href": "https://note.com/___hibi___/n/n58da171c86a3"
+    },
+    {
+      "label": "2024.09",
+      "title": "FILM LEICA展",
+      "description": "グループ展｜HuBase、東京"
+    },
+    {
+      "label": "2024.07",
+      "title": "Leve me展 vol.4",
+      "description": "グループ展｜名古屋市民ギャラリー矢田、名古屋",
+      "href": "https://hyougen-sha.com/leve-me-vol-4/"
+    },
+    {
+      "label": "2024.05",
+      "title": "My Leica Photo",
+      "description": "グループ展｜F16、大阪",
+      "href": "https://www.instagram.com/p/C6tHqZJvLcx/"
+    },
+    {
+      "label": "2024.02",
+      "title": "My Point of view",
+      "description": "グループ展｜gallery re:tail、東京",
+      "href": "https://note.com/kikumarupics/n/n9db5537ce175"
+    },
+    {
+      "label": "2024.01",
+      "title": "[#] vol.8 —「 」—",
+      "description": "グループ展｜cafe DODO、名古屋",
+      "href": "https://www.instagram.com/stories/highlights/17873416622904533/"
+    },
+    {
+      "label": "2023.10",
+      "title": "the pupil 4.0mm",
+      "description": "グループ展｜pif & meture、名古屋",
+      "href": "https://www.instagram.com/p/CyNxgyDB8Kz/"
+    },
+    {
+      "label": "2023.05",
+      "title": "四重奏",
+      "description": "グループ展｜cafe DODO、名古屋",
+      "href": "https://www.instagram.com/stories/highlights/17873416622904533/"
     },
     {
       "label": "写真集",

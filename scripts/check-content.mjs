@@ -80,7 +80,7 @@ assert(portraitPath.startsWith(resolve(root,'assets/profile')+sep),'Profile imag
 const portrait=await readFile(portraitPath);
 assert.deepEqual(dimensions(portrait),{width:artist.portrait.width,height:artist.portrait.height},'Profile image dimensions differ from data');
 assert(portrait.length<100_000&&artist.portrait.alt,'Profile image budget and description required');
-for(const href of [artist.portrait.source,artist.essay.href,...artist.activities.map(item=>item.href),...artist.links.map(item=>item.href)]) assert(new URL(href).protocol==='https:','Artist source and external links must use HTTPS');
+for(const href of [artist.portrait.source,artist.essay.href,...artist.activities.map(item=>item.href).filter(Boolean),...artist.links.map(item=>item.href)]) assert(new URL(href).protocol==='https:','Artist source and external links must use HTTPS');
 assert(works.length>0,'At least one work required');
 assert(collections.length>0,'At least one collection required');
 const collectionIds = new Set();

@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-exhibitions-v2';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-exhibitions-v2';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-exhibitions-v2';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-exhibitions-full-v2';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-exhibitions-full-v2';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-exhibitions-full-v2';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -794,7 +794,9 @@ $('artist-activities').replaceChildren(...artist.activities.map((activity) => {
   const description = document.createElement('p');
   description.className = 'about-activity-description';
   description.textContent = activity.description;
-  details.append(artistLink(activity.title, activity.href, 'about-activity-title'), description);
+  const title = activity.href ? artistLink(activity.title, activity.href, 'about-activity-title') : document.createElement('span');
+  if (!activity.href) { title.className = 'about-activity-title'; title.textContent = activity.title; }
+  details.append(title, description);
   item.append(label, details);
   return item;
 }));
