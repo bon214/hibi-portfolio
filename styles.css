@@ -75,7 +75,7 @@ svg { display: block; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-w
 main { flex: 1; outline: 0; }
 .work-view { padding: 12px max(var(--gallery-inset),calc(var(--photo-nav-right) + var(--photo-nav-width) + var(--photo-nav-gap))) 0; }
 .gallery { width: 100%; margin: 0 auto; }
-.work-entry { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100svh; margin: 0; padding: var(--header-height) 0 56px; scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: 0; }
+.work-entry { --work-ratio: 1.4986376021798364; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100svh; margin: 0; padding: var(--header-height) 0 56px; scroll-snap-align: start; scroll-snap-stop: always; scroll-margin-top: 0; }
 .work-entry.is-first { min-height: calc(100svh - var(--first-offset)); padding-top: 0; scroll-margin-top: var(--first-offset); }
 .work-entry:focus-visible .work-figure { outline: 1px solid var(--ink); outline-offset: 5px; }
 .work-figure { width: min(100%,calc(max(1px,100svh - var(--header-height) - 96px) * var(--work-ratio))); margin: 0; }

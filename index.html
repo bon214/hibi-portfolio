@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://google-analytics.com; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://google-analytics.com https://*.google.com; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="街を歩きながら日常の瞬間を写真に残しています。">
   <meta name="theme-color" content="#f1f0ec">
@@ -16,7 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>日々 — Photography</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20261029-gallery-retry">
+  <link rel="stylesheet" href="styles.css?v=20261029-security">
   <script src="analytics.js?v=20261029-about-focus"></script>
   <script type="module" src="app.js?v=20261029-gallery-retry"></script>
 </head>
@@ -42,7 +43,7 @@
       <section id="work-view" class="work-view" aria-label="作品の鑑賞">
         <h1 class="visually-hidden">日々の写真</h1>
         <div id="gallery" class="gallery">
-          <article class="work-entry is-first" id="work-hibi-color-a98db0f242d2" data-id="hibi-color-a98db0f242d2" tabindex="-1" aria-label="写真 1" style="--work-ratio: 1.4986376021798364">
+          <article class="work-entry is-first" id="work-hibi-color-a98db0f242d2" data-id="hibi-color-a98db0f242d2" tabindex="-1" aria-label="写真 1">
             <figure class="work-figure">
               <div class="work-image-wrap">
                 <div class="gallery-photo"><img class="work-image" src="assets/photos/provided/hibi-color-a98db0f242d2-800.webp" srcset="assets/photos/provided/hibi-color-a98db0f242d2-400.webp 400w, assets/photos/provided/hibi-color-a98db0f242d2-800.webp 800w, assets/photos/provided/hibi-color-a98db0f242d2-1400.webp 1400w, assets/photos/provided/hibi-color-a98db0f242d2-2200.webp 2200w" sizes="(max-width: 600px) min(calc(100vw - 40px), calc(max(1px, 100svh - 200px) * 1.4986376021798364)), (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 500px) min(calc(100vw - 40px), calc(max(1px, 100svh - 200px) * 1.4986376021798364)), min(calc(100vw - 158px), calc(max(1px, 100svh - 200px) * 1.4986376021798364))" width="2200" height="1468" alt="高架下の光が差す歩道を二人が歩き、奥に自動販売機、上方に電車が見える。" fetchpriority="high" decoding="async" draggable="false"></div>
@@ -72,19 +73,7 @@
       <nav id="artist-links" class="about-links" aria-label="日々の外部サイト"></nav>
     </div>
   </dialog>
-  <script>
-    // Keep the server-rendered first photograph usable even if the main module fails.
-    (() => {
-      const entry = document.querySelector('#gallery .work-entry');
-      const image = entry.querySelector('.work-image');
-      if (image.complete) return;
-      entry.setAttribute('aria-busy', 'true');
-      const timer = setTimeout(() => { if (entry.isConnected && entry.getAttribute('aria-busy') === 'true') entry.classList.add('is-loading'); }, 180);
-      const finish = () => { clearTimeout(timer); entry.classList.remove('is-loading'); entry.setAttribute('aria-busy', 'false'); };
-      image.addEventListener('load', finish, { once: true });
-      image.addEventListener('error', finish, { once: true });
-    })();
-  </script>
+  <script src="initial-image.js?v=20261029-security"></script>
   <noscript><p class="noscript-notice">最初の写真を表示しています。他の作品を鑑賞するにはJavaScriptを有効にしてください。</p></noscript>
 </body>
 </html>

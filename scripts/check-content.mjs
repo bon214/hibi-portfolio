@@ -3,6 +3,7 @@ import { stat, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve, sep } from 'node:path';
 import { artist, collections, works } from '../data/works.js';
+import { checkAssetImageMetadata } from './image-metadata.mjs';
 const allowPreview = process.argv.includes('--allow-preview');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ids = new Set();
@@ -116,3 +117,6 @@ console.log(`${works.length} ${allowPreview?'review':'published'} works, ${check
 for (const collection of collections) console.log(`${collection.name}: ${works.filter(w=>w.collection===collection.id).length} works (target approximately ${collection.targetCount||20}).`);
 if (allowPreview) console.log(`Preview-only images: ${works.filter(w=>w.selectionStatus==='preview').length}. Do not deploy these review copies.`);
 console.log(`Viewing assets: ${(totalBytes/1_000_000).toFixed(2)} MB in all responsive sizes. Originals excluded.`);
+
+const metadataCount = await checkAssetImageMetadata(root);
+console.log(`${metadataCount} public asset images checked for EXIF/XMP metadata.`);

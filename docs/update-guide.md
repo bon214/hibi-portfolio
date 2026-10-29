@@ -89,7 +89,7 @@ python3 scripts/prepare-provided-assets.py --source-dir /path/to/originals
 npm run check
 ```
 
-固定IDの重複、画像パス、実寸、容量、必須ファイルに加え、各コレクションの実数と`targetCount`の一致を検査します。提供画像は`source`の所属フォルダ・相対名・SHA-256・重複を確認します。従来のInstagram URLではアカウント所属を確認します。各作品の閲覧サイズとサムネイルは同じ参照先を重複計上せず、合計2MB未満であることも検査します。`npm run check:preview`は試作用で、公開検査の代用にはしません。自動検査の成功だけでは見た目や操作の確認は完了しません。
+固定IDの重複、画像パス、実寸、容量、必須ファイルに加え、各コレクションの実数と`targetCount`の一致を検査します。提供画像は`source`の所属フォルダ・相対名・SHA-256・重複を確認します。従来のInstagram URLではアカウント所属を確認します。各作品の閲覧サイズとサムネイルは同じ参照先を重複計上せず、合計2MB未満であることも検査します。公開対象の `assets` 内の WebP・JPEG・PNG について、EXIF・XMP の混入も検査します。ICC は色の再現に使うため保持します。検査はファイル構造に基づくもので、画像の写り込みやすべての個人情報を判断するものではありません。`npm run check:preview`は試作用で、公開検査の代用にはしません。自動検査の成功だけでは見た目や操作の確認は完了しません。
 
 ## 5. ブラウザで確認する
 
@@ -150,3 +150,7 @@ npm run verify:public -- https://bon214.github.io/hibi-portfolio/
 変更前の画像と作品データを、Gitの変更履歴から同じ時点に戻します。共有した履歴を強制的に書き換えず、取り消す変更を新しい履歴として残す方法を基本にします。
 
 戻した後も自動検査とブラウザ確認を行います。写真の削除やID変更を含む場合は、その作品への直接リンクを確認します。`main`へpushし、Pagesのデプロイ後に`npm run verify:public -- https://bon214.github.io/hibi-portfolio/`と公開画面を確認します。
+
+## セキュリティ設定
+
+各 HTML の CSP は同一サイトと Google Analytics に必要な通信先を許可します。初期表示用のスクリプトは `initial-image.js` に置き、HTML 内でのスクリプト実行を許可しません。`404.html` のスタイル変更時は CSP のハッシュも更新し、`npm run check` で整合性を確認します。GitHub Pages の HTML 内 CSP では、他サイトからの埋め込みを禁止する応答ヘッダーを設定できません。
