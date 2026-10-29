@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-spaced-navigation';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-spaced-navigation';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-spaced-navigation';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-sticky-header';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-sticky-header';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-sticky-header';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -284,7 +284,8 @@ function focusIndexWork() {
   button?.focus({ preventScroll: true });
   if (button) {
     const bounds = button.getBoundingClientRect();
-    if (bounds.top < 0 || bounds.bottom > innerHeight) button.scrollIntoView({ block: 'nearest' });
+    const headerBottom = document.querySelector('.site-header').getBoundingClientRect().bottom;
+    if (bounds.top < headerBottom || bounds.bottom > innerHeight) button.scrollIntoView({ block: bounds.top < headerBottom ? 'center' : 'nearest' });
   }
 }
 
@@ -543,10 +544,13 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.loading = first ? 'eager' : 'lazy';
   image.decoding = 'async';
   image.fetchPriority = first ? 'high' : 'auto';
-  const heightBound = `calc(max(1px, 100svh - ${first ? 200 : 130}px) * ${work.width / work.height})`;
+  const ratio = work.width / work.height;
+  const heightBound = `calc(max(1px, 100svh - ${first ? 200 : 180}px) * ${ratio})`;
+  const mobileHeightBound = `calc(max(1px, 100svh - ${first ? 200 : 176}px) * ${ratio})`;
+  const shortHeightBound = `calc(max(1px, 100svh - ${first ? 200 : 158}px) * ${ratio})`;
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-width: 600px) min(calc(100vw - 112px), ${heightBound}), min(calc(100vw - 158px), ${heightBound})`;
+    : `(max-height: 500px) and (max-width: 600px) min(calc(100vw - 112px), ${shortHeightBound}), (max-height: 500px) min(calc(100vw - 158px), ${shortHeightBound}), (max-width: 600px) min(calc(100vw - 112px), ${mobileHeightBound}), min(calc(100vw - 158px), ${heightBound})`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
