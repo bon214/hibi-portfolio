@@ -81,6 +81,12 @@ main { flex: 1; outline: 0; }
 .work-figure { width: min(100%,calc(max(1px,100svh - var(--header-height) - 96px) * var(--work-ratio))); margin: 0; }
 .work-entry.is-first .work-figure { width: min(100%,calc(max(1px,100svh - 200px) * var(--work-ratio))); }
 .work-image-wrap { position: relative; width: 100%; aspect-ratio: var(--work-ratio); }
+.image-loader { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; gap: 6px; color: var(--muted); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 240ms ease, visibility 240ms; }
+.is-loading > .image-loader, .is-loading .work-image-wrap > .image-loader { opacity: .75; visibility: visible; }
+.image-loader span { width: 4px; height: 4px; border-radius: 50%; background: currentColor; animation: loading-breathe 1.4s ease-in-out infinite; }
+.image-loader span:nth-child(2) { animation-delay: .16s; }
+.image-loader span:nth-child(3) { animation-delay: .32s; }
+@keyframes loading-breathe { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
 .gallery-photo { display: block; width: 100%; line-height: 0; }
 .work-image { display: block; width: 100%; height: auto; aspect-ratio: var(--work-ratio); object-fit: contain; }
 .work-meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 20px; min-height: 24px; }
@@ -108,7 +114,7 @@ main { flex: 1; outline: 0; }
 .index-heading p { margin: 0; color: var(--muted); font-size: 11px; }
 .index-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 40px 6vw; align-items: start; }
 .index-item { display: block; width: 100%; text-align: left; }
-.index-image-wrap { height: clamp(230px,25vw,340px); display: flex; justify-content: center; align-items: center; }
+.index-image-wrap { position: relative; height: clamp(230px,25vw,340px); display: flex; justify-content: center; align-items: center; }
 .index-image-wrap img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
 .index-item[aria-current="true"] .index-image-wrap img { outline: 1px solid var(--ink); outline-offset: 6px; }
 .index-item-label { display: flex; justify-content: space-between; padding: 16px 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }

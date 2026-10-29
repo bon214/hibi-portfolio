@@ -570,6 +570,35 @@ function revealEntry(entry) {
   ], { duration: 420, easing: 'ease-out' });
 }
 
+// Delay the indicator slightly so cached photographs do not flash a loader.
+function imageLoadingState(container, image) {
+  let timer;
+  const start = () => {
+    clearTimeout(timer);
+    container.classList.remove('is-loading');
+    container.setAttribute('aria-busy', 'true');
+    timer = setTimeout(() => {
+      if (container.isConnected && container.getAttribute('aria-busy') === 'true') container.classList.add('is-loading');
+    }, 180);
+  };
+  const finish = () => {
+    clearTimeout(timer);
+    container.classList.remove('is-loading');
+    container.setAttribute('aria-busy', 'false');
+  };
+  image.addEventListener('load', finish);
+  image.addEventListener('error', finish);
+  return { start, finish };
+}
+
+function createImageLoader() {
+  const loader = document.createElement('span');
+  loader.className = 'image-loader';
+  loader.setAttribute('aria-hidden', 'true');
+  for (let index = 0; index < 3; index += 1) loader.append(document.createElement('span'));
+  return loader;
+}
+
 function buildGallery() {
   galleryObserver?.disconnect();
   entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
@@ -588,6 +617,9 @@ function buildGallery() {
     const image = article.querySelector('.work-image');
     const error = article.querySelector('.work-error');
     const retry = error.querySelector('button');
+    const loading = imageLoadingState(article, image);
+    let retryFocusPending = false;
+    loading.start();
     const entry = { article, figure, button, image, index, entered: index === 0 };
     entries.push(entry);
     button.setAttribute('aria-label', `写真 ${index + 1}`);
@@ -595,7 +627,8 @@ function buildGallery() {
     article.querySelector('.work-caption').textContent = caption;
     article.querySelector('.work-caption').hidden = !caption;
     image.addEventListener('load', () => {
-      const restoreFocus = document.activeElement === retry;
+      const restoreFocus = document.activeElement === retry || (retryFocusPending && document.activeElement === document.body);
+      retryFocusPending = false;
       article.classList.remove('has-error');
       error.hidden = true;
       article.setAttribute('aria-busy', 'false');
@@ -606,14 +639,20 @@ function buildGallery() {
       article.classList.add('has-error');
       error.hidden = false;
       article.setAttribute('aria-busy', 'false');
-      if (document.activeElement === button) retry.focus({ preventScroll: true });
+      if (document.activeElement === button || (retryFocusPending && document.activeElement === document.body)) retry.focus({ preventScroll: true });
+      retryFocusPending = false;
     });
     retry.addEventListener('click', () => {
-      article.setAttribute('aria-busy', 'true');
+      retryFocusPending = document.activeElement === retry;
+      error.hidden = true;
+      article.classList.remove('has-error');
+      loading.start();
       image.srcset = '';
       image.src = work.src;
       if (image.complete && image.naturalWidth) image.decode().then(() => {
-        article.classList.remove('has-error'); error.hidden = true; article.setAttribute('aria-busy', 'false'); button.focus({ preventScroll: true });
+        article.classList.remove('has-error'); error.hidden = true; loading.finish();
+        if (retryFocusPending && document.activeElement === document.body) button.focus({ preventScroll: true });
+        retryFocusPending = false;
       }).catch(() => {});
     });
     article.addEventListener('focusin', () => {
@@ -623,7 +662,7 @@ function buildGallery() {
     configureImage(image, work, { first: index === 0 });
     if (index === currentIndex) { image.loading = 'eager'; image.fetchPriority = 'high'; }
     fragment.append(article);
-    if (image.complete && image.naturalWidth) article.setAttribute('aria-busy', 'false');
+    if (image.complete && image.naturalWidth) loading.finish();
   });
   $('gallery').replaceChildren(fragment);
   if ('IntersectionObserver' in window) {
@@ -645,8 +684,11 @@ function buildIndex() {
     const wrap = document.createElement('span');
     wrap.className = 'index-image-wrap';
     const image = document.createElement('img');
+    wrap.append(image, createImageLoader());
+    const loading = imageLoadingState(wrap, image);
+    loading.start();
     configureImage(image, work, { index: true });
-    wrap.append(image);
+    if (image.complete && image.naturalWidth) loading.finish();
     const label = document.createElement('span');
     label.className = 'index-item-label';
     label.textContent = pad(index + 1);
