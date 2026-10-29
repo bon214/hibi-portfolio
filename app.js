@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-release-fixes';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-release-fixes';
-import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-release-fixes';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-mobile-view';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-mobile-view';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-mobile-view';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -547,7 +547,7 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   const shortHeightBound = `calc(max(1px, 100svh - ${first ? 200 : 158}px) * ${ratio})`;
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-height: 500px) and (max-width: 600px) min(calc(100vw - 112px), ${shortHeightBound}), (max-height: 500px) min(calc(100vw - 158px), ${shortHeightBound}), (max-width: 600px) min(calc(100vw - 112px), ${mobileHeightBound}), min(calc(100vw - 158px), ${heightBound})`;
+    : `(max-height: 500px) and (max-width: 600px) min(calc(100vw - 40px), ${shortHeightBound}), (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 500px) min(calc(100vw - 40px), ${shortHeightBound}), (max-height: 500px) min(calc(100vw - 158px), ${shortHeightBound}), (max-width: 600px) min(calc(100vw - 40px), ${mobileHeightBound}), min(calc(100vw - 158px), ${heightBound})`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
