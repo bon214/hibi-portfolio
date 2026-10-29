@@ -17,6 +17,7 @@ let galleryBuilt = false;
 let currentCollection = collections[0].id;
 let works = [];
 let currentIndex = 0;
+let gallerySelectionGeneration = 0;
 let currentView = 'work';
 let indexScroll = 0;
 let routeLocked = false;
@@ -136,6 +137,7 @@ function positionCurrentView({ focus = false, behavior = 'auto', motionProfile =
 
 function switchCollection(id) {
   if (!collections.some((collection) => collection.id === id) || id === currentCollection) return;
+  gallerySelectionGeneration += 1;
   syncActiveWork();
   rememberCollection();
   closeDialogsForNavigation();
@@ -165,6 +167,7 @@ function syncActiveWork({ duringMotion = false, route = true } = {}) {
     if (nextDistance < distance) { distance = nextDistance; nearest = index; }
   });
   if (nearest !== currentIndex) {
+    gallerySelectionGeneration += 1;
     currentIndex = nearest;
     updateSelection();
   }
@@ -528,6 +531,7 @@ function renderView() {
 }
 
 function navigate(index, view = currentView, { replace = false, focus = false, behavior = 'auto', motionProfile = 'default' } = {}) {
+  gallerySelectionGeneration += 1;
   if (currentView === 'index') indexScroll = scrollY;
   currentIndex = Math.max(0, Math.min(works.length - 1, index));
   currentView = view;
@@ -535,6 +539,15 @@ function navigate(index, view = currentView, { replace = false, focus = false, b
   renderView();
   positionCurrentView({ focus, behavior, motionProfile });
   rememberCollection();
+}
+
+function animateGallerySelection(entry) {
+  if (!entry || reducedMotion.matches || typeof entry.figure.animate !== 'function') return;
+  entry.figure.animate([
+    { opacity: 0.82, transform: 'translateY(7px)' },
+    { opacity: 1, transform: 'translateY(0)' },
+  ], { duration: 480, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+  if (!entry.image.complete || !entry.image.naturalWidth) entry.selectionGeneration = gallerySelectionGeneration;
 }
 
 function configureImage(image, work, { first = false, index = false } = {}) {
@@ -633,6 +646,10 @@ function buildGallery() {
       error.hidden = true;
       article.setAttribute('aria-busy', 'false');
       revealEntry(entry);
+      if (entry.selectionGeneration === gallerySelectionGeneration && currentView === 'work' && entries[currentIndex] === entry && entry.article.isConnected && !about.open && !reducedMotion.matches && typeof image.animate === 'function') {
+        image.animate([{ opacity: 0.7 }, { opacity: 1 }], { duration: 420, easing: 'ease-out' });
+      }
+      entry.selectionGeneration = null;
       if (restoreFocus) button.focus({ preventScroll: true });
     });
     image.addEventListener('error', () => {
@@ -693,7 +710,10 @@ function buildIndex() {
     label.className = 'index-item-label';
     label.textContent = pad(index + 1);
     button.append(wrap, label);
-    button.addEventListener('click', () => navigate(index, 'work', { focus: true }));
+    button.addEventListener('click', () => {
+      navigate(index, 'work', { focus: true });
+      animateGallerySelection(entries[index]);
+    });
     fragment.append(button);
   });
   $('index-grid').replaceChildren(fragment);
@@ -744,6 +764,7 @@ function restoreRoute() {
   const route = readRoute();
   const interrupted = Boolean(motionState || inputSession);
   if (route.collection === currentCollection && route.index === currentIndex && route.view === currentView && !interrupted) return;
+  gallerySelectionGeneration += 1;
   if (interrupted) cancelWorkMotion();
   rememberCollection();
   closeDialogsForNavigation();
@@ -793,7 +814,7 @@ window.addEventListener('resize', () => {
 });
 reducedMotion.addEventListener?.('change', () => {
   if (reducedMotion.matches) {
-    entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
+    entries.forEach(({ figure, image }) => [figure, image].forEach((element) => (element.getAnimations?.() || []).forEach((animation) => animation.cancel())));
     if (motionState && !inputSession) {
       const stop = motionTarget;
       if (stop === entries.length) moveToPosition(document.documentElement.scrollHeight - innerHeight, stop, 'auto');
