@@ -67,7 +67,7 @@ python3 scripts/prepare-provided-assets.py --source-dir /path/to/originals
 | `description` | 出典から確認できる撮影活動の紹介文。編集上の要約として扱い、本人の直接発言に見せません |
 | `viewingNote` | サイトから鑑賞者への案内。作者による正式な作品解説や引用文とは区別します |
 | `portrait` | `src`・実寸の`width`／`height`・見た目を伝える`alt`・公開元の`source`をセットで更新します。現在はlit.linkで配信されているWebPをそのまま保存した`assets/profile/hibi.webp`です |
-| `essay` | 本人の文章へのリンクと案内文。記事の存在とリンク先を確認します |
+| `essay` | 紹介文の出典として保持する情報。作者紹介にボタンは表示しません |
 | `activities` | 展示・写真集の名称、日付、会場、仕様を本人または主催者の一次資料で確認し、`href`を残します。価格や在庫など、掲載していない情報を推測で加えません |
 | `links` | 作者紹介に表示する固定リンク。カラー／モノクロのInstagram、X、note、Storeをそれぞれ確認します |
 | `statement` | 正式なステートメントが未提供のため`null`を維持します。紹介文や鑑賞案内から公式文を合成しません。削除済みの引用メッセージは再掲載の依頼があるまで戻しません |
