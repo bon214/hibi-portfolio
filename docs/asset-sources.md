@@ -36,7 +36,7 @@
 | `artist.activities` / MIX UP！ | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2024-11-28-thu-12-29-sun-group-show-mix-up%EF%BC%81-culmination-of-2024)の後半欄に日々とアカウントを明記。参加期間は2024年12月13〜29日。 |
 | `artist.activities` / THE SNAP 2024 | 本人の[開催概要](https://note.com/___hibi___/n/n58da171c86a3)と[主催の想い](https://note.com/___hibi___/n/ndb3fc53e8e1b)から、主催、2024-10-08〜20、名古屋・セントラルギャラリーを確認。人数や終了時刻は資料間で差があるため記載しません。 |
 | `artist.activities` / DAYS | [本人の販売ページ](https://hibi-11.stores.jp/items/65aa948bba8c3d0c07577375)をブラウザで確認。初の写真集、愛知・京都で撮影、B5判・28ページという情報を掲載。価格・在庫・使用機材は掲載しません。 |
-| `artist.links` | カラー／モノクロのInstagram、X、note、Storeへの固定リンク。フッターのInstagramは引き続き表示中のコレクションに連動します。 |
+| `artist.links` | カラー／モノクロのInstagram、X、note、Storeへの固定リンク。 |
 
 プロフィール画像は[本人のlit.link](https://lit.link/hibi1162)で表示されている画像です。ブラウザで確認した配信URLから取得し、配信されたWebPをそのまま保存しました。公開用は`assets/profile/hibi.webp`、240 × 240px、3,424 bytesです。切り取り、色調変更、描き足し、再圧縮は行っていません。配信URLの署名などは公開資料に保存しません。
 
