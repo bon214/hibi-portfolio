@@ -131,7 +131,7 @@ async function main() {
     try { await readFile(resolve(root, candidate)); sharePath = candidate; break; }
     catch { /* The missing default is recorded in the normal file check. */ }
   }
-  for (const path of ['index.html', 'styles.css', 'app.js', 'data/works.js', 'assets/favicon.svg', sharePath, 'robots.txt', 'sitemap.xml', '404.html']) addFile(path);
+  for (const path of ['index.html', 'privacy.html', 'styles.css', 'analytics.js', 'app.js', 'data/works.js', 'assets/favicon.svg', sharePath, 'robots.txt', 'sitemap.xml', '404.html']) addFile(path);
 
   try {
     const { works } = await import(pathToFileURL(resolve(root, 'data/works.js')).href);

@@ -91,7 +91,7 @@ for (const collection of collections) {
   assert(new URL(collection.instagram).hostname==='www.instagram.com','Collection source must be Instagram');
   if(!allowPreview) assert.equal(works.filter(work=>work.collection===collection.id).length,collection.targetCount,`${collection.id}: published collection count must match its target`);
 }
-for(const file of ['index.html','styles.css','app.js','assets/favicon.svg','assets/share.jpg','robots.txt','sitemap.xml','404.html','.nojekyll']) await stat(resolve(root,file));
+for(const file of ['index.html','privacy.html','styles.css','analytics.js','app.js','assets/favicon.svg','assets/share.jpg','robots.txt','sitemap.xml','404.html','.nojekyll']) await stat(resolve(root,file));
 for(const work of works) {
   assert(/^[a-z0-9-]+$/.test(work.id)&&!ids.has(work.id),`Invalid or duplicate ID: ${work.id}`);
   ids.add(work.id);

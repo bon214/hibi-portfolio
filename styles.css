@@ -93,8 +93,15 @@ main { flex: 1; outline: 0; }
 .underlined-button { min-height: 44px; text-decoration: underline; text-underline-offset: 5px; }
 .text-button { min-height: 44px; display: inline-flex; align-items: center; gap: 9px; font-size: 12px; }
 .site-footer { height: 120px; flex: 0 0 120px; padding-bottom: 76px; margin: 0 40px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 10px; letter-spacing: .02em; }
+.footer-links { display: flex; align-items: center; gap: 24px; }
 .site-footer a { display: flex; align-items: center; gap: 16px; min-height: 44px; font-size: 11px; }
 .site-footer { scroll-snap-align: end; scroll-snap-stop: always; }
+.privacy-main { width: min(640px, calc(100% - 80px)); margin: 0 auto; padding: 100px 0 120px; }
+.privacy-main h1 { margin: 0 0 36px; font-size: 20px; font-weight: 400; letter-spacing: .04em; }
+.privacy-main h2 { margin: 42px 0 14px; font-size: 13px; font-weight: 500; }
+.privacy-main p { margin: 0 0 18px; font-size: 13px; line-height: 2; }
+.privacy-main a { text-decoration: underline; text-underline-offset: 4px; }
+.privacy-back { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; }
 .index-view { padding: 36px max(40px,8vw) 60px; }
 .index-heading { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 42px; }
 .index-heading h1 { margin: 0; font-size: 16px; font-weight: 400; letter-spacing: .06em; }
@@ -159,6 +166,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .gallery-end { gap: 8px 28px; padding-bottom: 44px; font-size: 11px; }
   .text-button { font-size: 11px; }
   .site-footer { margin: 0 20px; }
+  .footer-links { gap: 16px; }
+  .privacy-main { width: calc(100% - 40px); padding: 64px 0 80px; }
   .index-view { padding: 28px 20px 32px; }
   .index-heading { margin-bottom: 30px; }
   .index-heading h1 { font-size: 15px; }
