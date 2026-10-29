@@ -154,3 +154,5 @@ npm run verify:public -- https://bon214.github.io/hibi-portfolio/
 ## セキュリティ設定
 
 各 HTML の CSP は同一サイトと Google Analytics に必要な通信先を許可します。初期表示用のスクリプトは `initial-image.js` に置き、HTML 内でのスクリプト実行を許可しません。`404.html` のスタイル変更時は CSP のハッシュも更新し、`npm run check` で整合性を確認します。GitHub Pages の HTML 内 CSP では、他サイトからの埋め込みを禁止する応答ヘッダーを設定できません。
+
+過去の作品画像を Git 履歴から除外したため、整理前の作業コピーやブランチを統合・push すると旧画像の履歴が復活するおそれがあります。更新作業は履歴整理後に取得した新しいコピーで行ってください。`.gitignore` は旧フォルダへの新規追加を抑止しますが、古い履歴の再送を防ぐものではありません。
