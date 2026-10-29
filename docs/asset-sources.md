@@ -29,8 +29,8 @@
 
 | データ | 出典・扱い |
 | --- | --- |
-| `artist.description` | [本人note「二度と同じ瞬間には出会えないから」](https://note.com/___hibi___/n/n8b3c0d8e5913)（2024-04-13）と[「『THE SNAP 2024』主催の想い」](https://note.com/___hibi___/n/ndb3fc53e8e1b)（2024-08-13）に基づく事実の要約。街、光、人の動き、日常の場面を撮ることを紹介する編集文で、本人の直接発言として引用しません。 |
-| `artist.viewingNote` | ユーザーの「写っている一瞬を丁寧に紐解いて鑑賞してほしい」という要望を基にした、鑑賞者への案内。本人が公表した作品解説や引用文ではありません。 |
+| `artist.description` | [本人note「二度と同じ瞬間には出会えないから」](https://note.com/___hibi___/n/n8b3c0d8e5913)（2024-04-13）とユーザーが伝えた撮影スタイルをもとに作成した紹介文。本人の直接発言の引用ではありません。 |
+| `artist.viewingNote` | ユーザーの「作品をじっくり鑑賞してもらう」という要望に基づく鑑賞者への案内。本人の直接発言の引用ではありません。 |
 | `artist.essay` | 上記の本人note「二度と同じ瞬間には出会えないから」の出典情報。作者紹介には記事への個別ボタンを表示しません。 |
 | `artist.activities` / 交 | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2025-11-20-thu-12-10-wed-group-photo-exhibition-vol-15-%E4%BA%A4)が日々とアカウントを明記。2025年11月20日〜12月10日。 |
 | `artist.activities` / 々 | [本人Instagramの2025年9月18日投稿](https://www.instagram.com/hibigraph116/p/DOwxLJTEyY6/)のプロフィール一覧上の告知画像に、個展・9月20〜21日・HuBaseと記載。本人X投稿の転載も開催を裏付ける。 |

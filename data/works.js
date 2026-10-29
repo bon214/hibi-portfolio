@@ -5,8 +5,8 @@ export const artist = {
   "designation": "Street Photographer",
   "instagram": "https://www.instagram.com/hibigraph116/",
   "statement": null,
-  "description": "街を歩き、光や人の動きに目を向けながら、ストリート／スナップ写真を撮影。見過ごしてしまいそうな日常の風景や、思いがけず出会った場面を写真に残している。",
-  "viewingNote": "光の向き、通り過ぎる人、街に残る気配。写真に写る一瞬に目を凝らし、そこに重なった出来事をゆっくりたどってみてください。",
+  "description": "街を歩きながら、人の姿や街の風景を撮っています。日常の中で「いいな」と思った瞬間を、写真に残しています。",
+  "viewingNote": "一枚ずつ、ゆっくり見てもらえたら嬉しいです。",
   "portrait": {
     "src": "assets/profile/hibi.webp",
     "width": 240,
