@@ -190,6 +190,10 @@ body:has(dialog[open]) { overflow: hidden; }
   .work-view { padding-top: 8px; }
   .site-footer { height: 116px; flex-basis: 116px; }
 }
+@media (orientation:landscape) and (max-height:500px) {
+  /* Keep the switch in its own band above the photographs on short screens. */
+  html:has(#index-view:not([hidden])) .collection-dock { position: sticky; z-index: 9; top: var(--header-height); bottom: auto; left: auto; transform: none; width: 100%; flex: 0 0 48px; justify-content: center; background: var(--paper); }
+}
 @media (hover:none) and (pointer:coarse) {
   .photo-position-button { height: calc(var(--marker-size) + 2px); min-height: clamp(6px,calc(5svh - var(--rail-header-reserve) - 5px),24px); }
 }
