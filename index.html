@@ -16,8 +16,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>日々 — Photography</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=20261029-input-follow">
-  <script type="module" src="app.js?v=20261029-input-follow"></script>
+  <link rel="stylesheet" href="styles.css?v=20261029-full-frame">
+  <script type="module" src="app.js?v=20261029-full-frame"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">作品へ移動</a>
@@ -42,15 +42,14 @@
       <section id="work-view" class="work-view" aria-label="作品の鑑賞">
         <h1 class="visually-hidden">日々の写真</h1>
         <div id="gallery" class="gallery">
-          <article class="work-entry is-first" id="work-hibi-color-a98db0f242d2" data-id="hibi-color-a98db0f242d2" style="--work-ratio: 1.4986376021798364">
+          <article class="work-entry is-first" id="work-hibi-color-a98db0f242d2" data-id="hibi-color-a98db0f242d2" tabindex="-1" aria-label="写真 1" style="--work-ratio: 1.4986376021798364">
             <figure class="work-figure">
               <div class="work-image-wrap">
-                <button class="gallery-photo" aria-label="写真 1 を大きく見る" aria-haspopup="dialog"><img class="work-image" src="assets/photos/provided/hibi-color-a98db0f242d2-800.webp" srcset="assets/photos/provided/hibi-color-a98db0f242d2-400.webp 400w, assets/photos/provided/hibi-color-a98db0f242d2-800.webp 800w, assets/photos/provided/hibi-color-a98db0f242d2-1400.webp 1400w, assets/photos/provided/hibi-color-a98db0f242d2-2200.webp 2200w" sizes="(max-width: 600px) min(calc(100vw - 84px), calc((100svh - 288px) * 1.4986376021798364)), (max-width: 900px) min(calc(100vw - 107px), calc((100svh - 288px) * 1.4986376021798364)), (min-width: 1600px) min(1180px, calc(100vw - 135px), calc((100svh - 288px) * 1.4986376021798364)), min(1180px, calc(100vw - 119px), calc((100svh - 288px) * 1.4986376021798364))" width="2200" height="1468" alt="高架下の光が差す歩道を二人が歩き、奥に自動販売機、上方に電車が見える。" fetchpriority="high" decoding="async" draggable="false"></button>
+                <div class="gallery-photo"><img class="work-image" src="assets/photos/provided/hibi-color-a98db0f242d2-800.webp" srcset="assets/photos/provided/hibi-color-a98db0f242d2-400.webp 400w, assets/photos/provided/hibi-color-a98db0f242d2-800.webp 800w, assets/photos/provided/hibi-color-a98db0f242d2-1400.webp 1400w, assets/photos/provided/hibi-color-a98db0f242d2-2200.webp 2200w" sizes="(max-width: 600px) min(calc(100vw - 112px), calc(max(1px, 100svh - 200px) * 1.4986376021798364)), min(calc(100vw - 158px), calc(max(1px, 100svh - 200px) * 1.4986376021798364))" width="2200" height="1468" alt="高架下の光が差す歩道を二人が歩き、奥に自動販売機、上方に電車が見える。" fetchpriority="high" decoding="async" draggable="false"></div>
                 <div class="work-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button class="underlined-button">もう一度読み込む</button></div>
               </div>
-              <figcaption class="work-meta"><span class="work-number">01 / 20</span><button class="work-expand text-button" aria-haspopup="dialog"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3H3v4m10-4h4v4M3 13v4h4m10-4v4h-4"/></svg>大きく見る</button><p class="work-caption" hidden></p></figcaption>
+              <figcaption class="work-meta"><span class="work-number">01 / 20</span><p class="work-caption" hidden></p></figcaption>
             </figure>
-            <a class="scroll-cue" href="#work-hibi-color-5dec5045a532">スクロールで次の作品へ<span class="scroll-cue-arrow" aria-hidden="true">↓</span></a>
           </article>
         </div>
         <div id="gallery-end" class="gallery-end"><button id="end-index" class="text-button">作品一覧を見る</button><a id="back-to-start" href="#work-hibi-color-a98db0f242d2">最初の作品へ <span aria-hidden="true">↑</span></a></div>
@@ -74,11 +73,6 @@
       <nav id="artist-links" class="about-links" aria-label="日々の外部サイト"></nav>
     </div>
   </dialog>
-  <dialog id="lightbox" class="lightbox" aria-label="写真の拡大表示">
-    <div class="lightbox-header"><span id="lightbox-artist" class="wordmark-name">日々</span><p id="lightbox-count">01 / 20</p><button class="close-button" data-close="lightbox" aria-label="拡大表示を閉じる">閉じる <span aria-hidden="true">×</span></button></div>
-    <div id="lightbox-stage" class="lightbox-stage" role="region" aria-label="写真の拡大表示" tabindex="-1"><img id="lightbox-photo" alt="" draggable="false"></div>
-    <div class="lightbox-footer"><div id="lightbox-error" class="lightbox-error" role="alert" hidden><p>写真を読み込めませんでした。</p><button id="lightbox-retry" class="underlined-button">もう一度読み込む</button></div><div class="lightbox-sequence"><button id="lightbox-previous" class="arrow-button" aria-label="拡大表示で前の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M31 8H2m6-6L2 8l6 6"/></svg></button><button id="lightbox-next" class="arrow-button" aria-label="拡大表示で次の写真"><svg viewBox="0 0 32 16" aria-hidden="true"><path d="M1 8h29m-6-6 6 6-6 6"/></svg><span class="restart-label" hidden>最初へ</span></button></div></div>
-  </dialog>
-  <noscript><p class="noscript-notice">最初の写真を表示しています。他の作品と拡大表示を鑑賞するにはJavaScriptを有効にしてください。</p></noscript>
+  <noscript><p class="noscript-notice">最初の写真を表示しています。他の作品を鑑賞するにはJavaScriptを有効にしてください。</p></noscript>
 </body>
 </html>

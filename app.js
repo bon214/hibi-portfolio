@@ -1,14 +1,12 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-input-follow';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-input-follow';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-input-follow';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-full-frame';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-full-frame';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-full-frame';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
-const lightbox = $('lightbox');
 const about = $('about-dialog');
 const photoPositionNav = $('photo-position-nav');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const imageCache = new Map();
 const entries = [];
 let entryTops = [];
 let measuredHeight = 0;
@@ -21,10 +19,6 @@ let works = [];
 let currentIndex = 0;
 let currentView = 'work';
 let indexScroll = 0;
-let lightboxLoadToken = 0;
-let lightboxOriginIndex = 0;
-let lastLightboxOpener = null;
-let ignoredLightboxCloses = 0;
 let routeLocked = false;
 let scrollIdle;
 let scrollFrame;
@@ -37,7 +31,7 @@ const wheelGesture = createWheelGesture();
 const touchGesture = createTouchGesture();
 history.scrollRestoration = 'manual';
 
-const photoSurfaceSelector = 'img, .gallery-photo, .index-image-wrap, #lightbox-stage';
+const photoSurfaceSelector = 'img, .gallery-photo, .index-image-wrap';
 function preventPhotoSaving(event) {
   if (event.target instanceof Element && event.target.closest(photoSurfaceSelector)) event.preventDefault();
 }
@@ -124,11 +118,7 @@ function setCollection(id, index = 0) {
 }
 
 function closeDialogsForNavigation() {
-  ++lightboxLoadToken;
-  if (lightbox.open) { ++ignoredLightboxCloses; lightbox.close(); }
   if (about.open) about.close();
-  lastLightboxOpener = null;
-  swipeStart = null;
 }
 
 function positionCurrentView({ focus = false, behavior = 'auto' } = {}) {
@@ -162,16 +152,10 @@ function switchCollection(id) {
 function updateSelection() {
   for (const button of $('index-grid').children) button.setAttribute('aria-current', String(button.dataset.id === works[currentIndex]?.id));
   updatePhotoPositionNavigation();
-  const last = !works.length || currentIndex === works.length - 1;
-  $('lightbox-previous').disabled = !works.length || currentIndex === 0;
-  $('lightbox-next').disabled = !works.length;
-  $('lightbox-next').setAttribute('aria-label', last ? '最初の写真へ戻る' : '拡大表示で次の写真');
-  $('lightbox-next').querySelector('svg').toggleAttribute('hidden', last);
-  $('lightbox-next').querySelector('.restart-label').hidden = !last;
 }
 
 function syncActiveWork({ duringMotion = false, route = true } = {}) {
-  if (!entries.length || currentView !== 'work' || lightbox.open || about.open || (routeLocked && !duringMotion)) return;
+  if (!entries.length || currentView !== 'work' || about.open || (routeLocked && !duringMotion)) return;
   if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
   let nearest = 0;
   let distance = Infinity;
@@ -305,7 +289,7 @@ function focusIndexWork() {
 }
 
 function updateSnapMode() {
-  const enabled = works.length > 0 && currentView === 'work' && !lightbox.open && !about.open;
+  const enabled = works.length > 0 && currentView === 'work' && !about.open;
   document.documentElement.classList.toggle('is-work-view', enabled);
   const paging = enabled && (window.visualViewport?.scale || 1) <= 1.01;
   document.documentElement.classList.toggle('is-paged-input', paging);
@@ -547,7 +531,6 @@ function navigate(index, view = currentView, { replace = false, focus = false, b
   currentView = view;
   writeRoute(replace);
   renderView();
-  if (lightbox.open) { renderLightbox(); return; }
   positionCurrentView({ focus, behavior });
   rememberCollection();
 }
@@ -560,10 +543,10 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.loading = first ? 'eager' : 'lazy';
   image.decoding = 'async';
   image.fetchPriority = first ? 'high' : 'auto';
-  const heightBound = `calc((100svh - ${first ? 288 : 232}px) * ${work.width / work.height})`;
+  const heightBound = `calc(max(1px, 100svh - ${first ? 200 : 130}px) * ${work.width / work.height})`;
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
-    : `(max-width: 600px) min(calc(100vw - 84px), ${heightBound}), (max-width: 900px) min(calc(100vw - 107px), ${heightBound}), (min-width: 1600px) min(1180px, calc(100vw - 135px), ${heightBound}), min(1180px, calc(100vw - 119px), ${heightBound})`;
+    : `(max-width: 600px) min(calc(100vw - 112px), ${heightBound}), min(calc(100vw - 158px), ${heightBound})`;
   image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
   image.src = index ? work.thumbnail : work.variants[1].src;
 }
@@ -595,17 +578,14 @@ function buildGallery() {
     article.classList.toggle('is-first', index === 0);
     article.classList.toggle('is-portrait', work.height > work.width);
     article.style.setProperty('--work-ratio', String(work.width / work.height));
-    if (index > 0) article.querySelector('.scroll-cue')?.remove();
     const figure = article.querySelector('.work-figure');
-    const button = article.querySelector('.gallery-photo');
+    const button = article;
     const image = article.querySelector('.work-image');
-    const expand = article.querySelector('.work-expand');
     const error = article.querySelector('.work-error');
     const retry = error.querySelector('button');
     const entry = { article, figure, button, image, index, entered: index === 0 };
     entries.push(entry);
-    button.setAttribute('aria-label', `写真 ${index + 1} を大きく見る。${work.alt}`);
-    expand.setAttribute('aria-label', `写真 ${index + 1} を大きく見る`);
+    button.setAttribute('aria-label', `写真 ${index + 1}`);
     article.querySelector('.work-number').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
     const caption = [work.title, work.caption].filter(Boolean).join(' — ');
     article.querySelector('.work-caption').textContent = caption;
@@ -632,8 +612,6 @@ function buildGallery() {
         article.classList.remove('has-error'); error.hidden = true; article.setAttribute('aria-busy', 'false'); button.focus({ preventScroll: true });
       }).catch(() => {});
     });
-    button.addEventListener('click', (event) => openLightbox(index, event.currentTarget));
-    expand.addEventListener('click', (event) => openLightbox(index, event.currentTarget));
     article.addEventListener('focusin', () => {
       entry.entered = true;
       (figure.getAnimations?.() || []).forEach((animation) => animation.cancel());
@@ -644,14 +622,6 @@ function buildGallery() {
     if (image.complete && image.naturalWidth) article.setAttribute('aria-busy', 'false');
   });
   $('gallery').replaceChildren(fragment);
-  if (works.length > 1) {
-    const cue = entries[0].article.querySelector('.scroll-cue');
-    cue.href = `#work-${works[1].id}`;
-    cue.addEventListener('click', (event) => {
-      event.preventDefault();
-      navigate(1, 'work', { focus: true, behavior: 'smooth' });
-    });
-  } else entries[0]?.article.querySelector('.scroll-cue')?.remove();
   if ('IntersectionObserver' in window) {
     galleryObserver = new IntersectionObserver((observations) => {
       for (const observation of observations) if (observation.isIntersecting) revealEntry(entries.find((entry) => entry.figure === observation.target));
@@ -683,111 +653,16 @@ function buildIndex() {
   $('index-grid').replaceChildren(fragment);
 }
 
-function loadImage(src) {
-  if (imageCache.has(src)) {
-    const cached = imageCache.get(src);
-    imageCache.delete(src);
-    imageCache.set(src, cached);
-    return cached;
-  }
-  const promise = new Promise((resolve, reject) => {
-    const image = new Image();
-    image.decoding = 'async';
-    image.fetchPriority = 'high';
-    image.onload = async () => { try { await image.decode(); } catch {} resolve(image); };
-    image.onerror = () => {
-      if (imageCache.get(src) === promise) imageCache.delete(src);
-      reject(new Error(`Image unavailable: ${src}`));
-    };
-    image.src = src;
-  });
-  imageCache.set(src, promise);
-  // A viewing session should not retain decoded full-size images for the entire archive.
-  while (imageCache.size > 4) imageCache.delete(imageCache.keys().next().value);
-  return promise;
-}
-
-async function renderLightbox() {
-  const token = ++lightboxLoadToken;
-  const index = currentIndex;
-  const work = works[index];
-  if (!work || !entries[index]) return;
-  const retryFocused = document.activeElement === $('lightbox-retry');
-  if (retryFocused) $('lightbox-stage').focus({ preventScroll: true });
-  const image = $('lightbox-photo');
-  const fallback = entries[index].image;
-  const hasFallback = fallback.complete && fallback.naturalWidth > 0;
-  image.hidden = !hasFallback;
-  if (hasFallback) image.src = fallback.currentSrc || fallback.src;
-  image.alt = work.alt;
-  $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
-  $('lightbox-error').hidden = true;
-  $('lightbox-stage').setAttribute('aria-busy', 'true');
-  try {
-    await loadImage(work.src);
-    if (token !== lightboxLoadToken || !lightbox.open || work.id !== works[currentIndex]?.id) return;
-    image.src = work.src;
-    image.hidden = false;
-    image.alt = work.alt;
-    $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
-  } catch {
-    if (token === lightboxLoadToken && lightbox.open) $('lightbox-error').hidden = false;
-  } finally {
-    if (token === lightboxLoadToken) {
-      $('lightbox-stage').setAttribute('aria-busy', 'false');
-      if (retryFocused && lightbox.open && document.activeElement === $('lightbox-stage')) {
-        ($('lightbox-error').hidden ? lightbox.querySelector('[data-close]') : $('lightbox-retry')).focus({ preventScroll: true });
-      }
-    }
-  }
-}
-
 function animateDialog(dialog) {
   if (!reducedMotion.matches && typeof dialog.animate === 'function') dialog.animate([{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 200, easing: 'ease-out' });
-}
-
-function openLightbox(index, opener) {
-  if (!entries[index]?.image.naturalWidth) return;
-  cancelWorkMotion();
-  currentIndex = index;
-  updateSelection();
-  writeRoute();
-  rememberCollection();
-  lastLightboxOpener = opener;
-  lightboxOriginIndex = index;
-  const work = works[index];
-  $('lightbox-photo').src = entries[index].image.currentSrc || work.src;
-  $('lightbox-photo').alt = work.alt;
-  $('lightbox-count').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
-  lightbox.showModal();
-  updateSnapMode();
-  animateDialog(lightbox);
-  renderLightbox();
 }
 
 function step(direction) {
   const index = currentIndex + direction;
   if (index < 0 || index >= works.length) return;
-  navigate(index, 'work', { behavior: 'smooth', focus: !lightbox.open });
+  navigate(index, 'work', { behavior: 'smooth', focus: true });
 }
 
-let swipeStart;
-$('lightbox-stage').addEventListener('pointerdown', (event) => {
-  if (event.pointerType !== 'touch' || !event.isPrimary) { swipeStart = null; return; }
-  swipeStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
-  event.currentTarget.setPointerCapture?.(event.pointerId);
-});
-$('lightbox-stage').addEventListener('pointerup', (event) => {
-  if (!swipeStart || swipeStart.id !== event.pointerId) return;
-  const dx = event.clientX - swipeStart.x;
-  const dy = event.clientY - swipeStart.y;
-  swipeStart = null;
-  if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) step(dx < 0 ? 1 : -1);
-});
-$('lightbox-stage').addEventListener('pointercancel', () => { swipeStart = null; });
-$('lightbox-retry').addEventListener('click', renderLightbox);
-$('lightbox-previous').addEventListener('click', () => step(-1));
-$('lightbox-next').addEventListener('click', () => navigate(currentIndex === works.length - 1 ? 0 : currentIndex + 1, 'work'));
 for (const button of document.querySelectorAll('#collection-switch button[data-collection]')) {
   button.addEventListener('click', () => switchCollection(button.dataset.collection));
 }
@@ -810,14 +685,6 @@ about.addEventListener('click', (event) => {
   if (event.target !== about) return;
   const bounds = about.getBoundingClientRect();
   if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) about.close();
-});
-lightbox.addEventListener('close', () => {
-  if (ignoredLightboxCloses) { --ignoredLightboxCloses; return; }
-  ++lightboxLoadToken;
-  updateSnapMode();
-  if (currentView !== 'work' || !works.length) return;
-  scrollToWork(currentIndex, { focus: lightboxOriginIndex !== currentIndex });
-  if (lightboxOriginIndex === currentIndex) lastLightboxOpener?.focus({ preventScroll: true });
 });
 document.addEventListener('keydown', (event) => {
   if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || about.open || currentView !== 'work') return;
@@ -868,7 +735,7 @@ window.addEventListener('resize', () => {
       moveToPosition(pageStops()[stop], stop, 'smooth');
       return;
     }
-    if (currentView === 'work' && !lightbox.open && !about.open && routeLocked) {
+    if (currentView === 'work' && !about.open && routeLocked) {
       scrollToWork(currentIndex);
       unlockRoute();
     } else syncActiveWork();
@@ -934,7 +801,6 @@ $('artist-activities').replaceChildren(...artist.activities.map((activity) => {
 }));
 $('artist-links').replaceChildren(...artist.links.map((link) => artistLink(link.label, link.href)));
 $('copyright-name').textContent = artist.name;
-$('lightbox-artist').textContent = artist.name;
 $('copyright-year').textContent = String(new Date().getFullYear());
 const initial = readRoute();
 currentView = initial.view;
