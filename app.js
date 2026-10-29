@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-touch-settle';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-touch-settle';
-import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, touchSettleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-touch-settle';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-about-focus';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-about-focus';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, touchSettleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-about-focus';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -681,7 +681,11 @@ $('about-open').addEventListener('click', () => {
   cancelWorkMotion();
   syncActiveWork();
   if (currentView === 'work') scrollToWork(currentIndex);
-  about.showModal(); about.scrollTop = 0; updateSnapMode(); animateDialog(about);
+  about.showModal();
+  if (matchMedia('(max-width: 600px), (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 500px)').matches) {
+    about.querySelector('.dialog-heading p').focus({ preventScroll: true });
+  }
+  about.scrollTop = 0; updateSnapMode(); animateDialog(about);
 });
 about.addEventListener('close', updateSnapMode);
 for (const button of document.querySelectorAll('[data-close]')) button.addEventListener('click', () => $(button.dataset.close).close());
