@@ -29,9 +29,8 @@
 
 | データ | 出典・扱い |
 | --- | --- |
-| `artist.description` | [本人note「二度と同じ瞬間には出会えないから」](https://note.com/___hibi___/n/n8b3c0d8e5913)（2024-04-13）とユーザーが伝えた撮影スタイルをもとに作成した紹介文。本人の直接発言の引用ではありません。 |
-| `artist.viewingNote` | ユーザーの「作品をじっくり鑑賞してもらう」という要望に基づく鑑賞者への案内。本人の直接発言の引用ではありません。 |
-| `artist.essay` | 上記の本人note「二度と同じ瞬間には出会えないから」の出典情報。作者紹介には記事への個別ボタンを表示しません。 |
+| `artist.description` | ユーザーが指定した紹介文。 |
+| `artist.essay` | [本人note「二度と同じ瞬間には出会えないから」](https://note.com/___hibi___/n/n8b3c0d8e5913)の出典情報。作者紹介には記事への個別ボタンを表示しません。 |
 | `artist.activities` / 交 | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2025-11-20-thu-12-10-wed-group-photo-exhibition-vol-15-%E4%BA%A4)が日々とアカウントを明記。2025年11月20日〜12月10日。 |
 | `artist.activities` / 々 | [本人Instagramの2025年9月18日投稿](https://www.instagram.com/hibigraph116/p/DOwxLJTEyY6/)のプロフィール一覧上の告知画像に、個展・9月20〜21日・HuBaseと記載。本人X投稿の転載も開催を裏付ける。 |
 | `artist.activities` / MIX UP！ | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2024-11-28-thu-12-29-sun-group-show-mix-up%EF%BC%81-culmination-of-2024)の後半欄に日々とアカウントを明記。参加期間は2024年12月13〜29日。 |

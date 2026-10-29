@@ -73,7 +73,7 @@ function checkSource(work) {
   providedHashes.add(source.sha256);
 }
 assert(artist.name&&artist.designation&&artist.description,'Artist identity and factual description required');
-assert(artist.viewingNote&&artist.essay?.label,'Artist profile content required');
+assert(artist.essay?.label,'Artist source content required');
 assert(artist.portrait.src.startsWith('assets/profile/'),'Profile image must be a local profile asset');
 const portraitPath=resolve(root,artist.portrait.src);
 assert(portraitPath.startsWith(resolve(root,'assets/profile')+sep),'Profile image path escapes its directory');

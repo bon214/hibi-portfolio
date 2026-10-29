@@ -5,8 +5,7 @@ export const artist = {
   "designation": "Street Photographer",
   "instagram": "https://www.instagram.com/hibigraph116/",
   "statement": null,
-  "description": "街を歩きながら、人の姿や街の風景を撮っています。日常の中で「いいな」と思った瞬間を、写真に残しています。",
-  "viewingNote": "一枚ずつ、ゆっくり見てもらえたら嬉しいです。",
+  "description": "街を歩きながら日常の瞬間を写真に残しています。",
   "portrait": {
     "src": "assets/profile/hibi.webp",
     "width": 240,

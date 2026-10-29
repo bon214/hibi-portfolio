@@ -119,8 +119,7 @@ dialog::backdrop { background: var(--backdrop); }
 .about-portrait { flex: 0 0 auto; display: block; width: 112px; height: 112px; object-fit: contain; }
 .about-inner h2 { margin: 0; font-family: "Yu Mincho", "Hiragino Mincho ProN", serif; font-weight: 400; font-size: 48px; line-height: 1.2; letter-spacing: .08em; }
 .about-inner h2 span { display: block; margin-top: 16px; font-family: "Helvetica Neue",sans-serif; font-size: 12px; letter-spacing: .025em; }
-.about-description, .about-viewing-note { font-size: 13px; line-height: 2; margin: 0 0 16px; white-space: pre-line; }
-.about-viewing-note { color: var(--muted); }
+.about-description { font-size: 13px; line-height: 2; margin: 0 0 16px; white-space: pre-line; }
 .about-activities { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--line); }
 .about-activities h3 { margin: 0 0 20px; color: var(--muted); font-size: 11px; font-weight: 400; letter-spacing: .06em; }
 .about-activities ul { list-style: none; margin: 0; padding: 0; }

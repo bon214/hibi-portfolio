@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-about-copy';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-about-copy';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-about-copy';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-about-short';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-about-short';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-about-short';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -767,7 +767,6 @@ $('about-title').firstChild.nodeValue = artist.name;
 $('about-title').querySelector('span').textContent = artist.designation;
 $('artist-description').textContent = artist.description || '';
 $('artist-description').hidden = !artist.description;
-$('artist-viewing-note').textContent = artist.viewingNote;
 $('artist-portrait').src = artist.portrait.src;
 $('artist-portrait').alt = artist.portrait.alt;
 $('artist-portrait').width = artist.portrait.width;
