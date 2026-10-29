@@ -16,7 +16,8 @@
   font-family: "Helvetica Neue", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
 }
 * { box-sizing: border-box; }
-html { scrollbar-gutter: stable; }
+html { scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 html[data-collection="mono"] {
   color-scheme: dark;
   --paper: #191919;
@@ -60,7 +61,7 @@ svg { display: block; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-w
 .collection-button::after { content: ""; position: absolute; left: 50%; bottom: 6px; width: 28px; height: 1px; background: currentColor; opacity: 0; transform: translateX(-50%) scaleX(.5); transition: opacity 180ms ease, transform 240ms ease; }
 .collection-button[aria-pressed="true"]::after { opacity: 1; transform: translateX(-50%) scaleX(1); }
 .photo-position-nav { position: fixed; z-index: 4; top: 50%; right: var(--photo-nav-right); width: var(--photo-nav-width); transform: translateY(-50%); color: var(--muted); }
-.photo-position-buttons { display: flex; flex-direction: column; align-items: stretch; padding: 4px 0; }
+.photo-position-buttons { display: flex; flex-direction: column; align-items: stretch; gap: clamp(0px, calc(1svh - 2.4px), 3px); padding: 4px 0; }
 .photo-position-button { --marker-size: 4px; display: flex; align-items: center; justify-content: center; width: 100%; height: calc(var(--marker-size) + 4px); padding: 2px 0; color: var(--muted); }
 .photo-position-button[data-distance="1"] { --marker-size: 6px; }
 .photo-position-button[aria-current="true"] { --marker-size: 8px; color: var(--ink); }
