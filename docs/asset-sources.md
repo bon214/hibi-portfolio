@@ -32,6 +32,9 @@
 | `artist.description` | [本人note「二度と同じ瞬間には出会えないから」](https://note.com/___hibi___/n/n8b3c0d8e5913)（2024-04-13）と[「『THE SNAP 2024』主催の想い」](https://note.com/___hibi___/n/ndb3fc53e8e1b)（2024-08-13）に基づく事実の要約。街、光、人の動き、日常の場面を撮ることを紹介する編集文で、本人の直接発言として引用しません。 |
 | `artist.viewingNote` | ユーザーの「写っている一瞬を丁寧に紐解いて鑑賞してほしい」という要望を基にした、鑑賞者への案内。本人が公表した作品解説や引用文ではありません。 |
 | `artist.essay` | 上記の本人note「二度と同じ瞬間には出会えないから」の出典情報。作者紹介には記事への個別ボタンを表示しません。 |
+| `artist.activities` / 交 | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2025-11-20-thu-12-10-wed-group-photo-exhibition-vol-15-%E4%BA%A4)が日々とアカウントを明記。2025年11月20日〜12月10日。 |
+| `artist.activities` / 々 | [本人Instagramの2025年9月18日投稿](https://www.instagram.com/hibigraph116/p/DOwxLJTEyY6/)のプロフィール一覧上の告知画像に、個展・9月20〜21日・HuBaseと記載。本人X投稿の転載も開催を裏付ける。 |
+| `artist.activities` / MIX UP！ | [cafe DODOの開催告知](https://www.dodo-sakae.com/post/2024-11-28-thu-12-29-sun-group-show-mix-up%EF%BC%81-culmination-of-2024)の後半欄に日々とアカウントを明記。参加期間は2024年12月13〜29日。 |
 | `artist.activities` / THE SNAP 2024 | 本人の[開催概要](https://note.com/___hibi___/n/n58da171c86a3)と[主催の想い](https://note.com/___hibi___/n/ndb3fc53e8e1b)から、主催、2024-10-08〜20、名古屋・セントラルギャラリーを確認。人数や終了時刻は資料間で差があるため記載しません。 |
 | `artist.activities` / DAYS | [本人の販売ページ](https://hibi-11.stores.jp/items/65aa948bba8c3d0c07577375)をブラウザで確認。初の写真集、愛知・京都で撮影、B5判・28ページという情報を掲載。価格・在庫・使用機材は掲載しません。 |
 | `artist.links` | カラー／モノクロのInstagram、X、note、Storeへの固定リンク。フッターのInstagramは引き続き表示中のコレクションに連動します。 |
@@ -167,3 +170,7 @@
 | `hibi-2025-03.jpeg` | 2068859 | `ffc85321cbd09d5f546f62d7828da8650019f5fdf1c0bf68fb13ee4bdb0fceef` |
 | `hibi-2024-01.jpeg` | 498690 | `bb1b15555052cfad5efb3105225810f986145939ca61b698d9ea0491fceaabe2` |
 | `hibi-2024-02.jpeg` | 1755978 | `977e8977b7e0a06751175bf046b4d3b44015ccd81b361bd9110edb78e449d71d` |
+
+### 展示履歴の確認状況（2026-10-29）
+
+ユーザー提供のAIによるX投稿要約は調査の手掛かりとして扱い、参加を本人・主催者・会場の情報で確認できた展示を掲載。My Point of view（主催者記録に同名の参加者あり、当時のアカウントと現在のアカウントの同一性は未確認）、Leve me、FILM LEICA、UNBOUND、2023年・2024年初めのcafe DODOの展示は、本人参加や正式名称を独立に確認できず未掲載。Instagramの展示ハイライトはログインを要求され、内容の網羅確認は未了。プロフィール一覧に表示された個展の告知画像は確認した。

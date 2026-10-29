@@ -20,9 +20,27 @@ export const artist = {
   },
   "activities": [
     {
+      "label": "2025.11",
+      "title": "[#] vol.15 — 交",
+      "description": "グループ展｜cafe DODO、名古屋",
+      "href": "https://www.dodo-sakae.com/post/2025-11-20-thu-12-10-wed-group-photo-exhibition-vol-15-%E4%BA%A4"
+    },
+    {
+      "label": "2025.09",
+      "title": "々",
+      "description": "個展｜HuBase、東京",
+      "href": "https://www.instagram.com/hibigraph116/p/DOwxLJTEyY6/"
+    },
+    {
+      "label": "2024.12",
+      "title": "MIX UP！— culmination of 2024 —",
+      "description": "グループ展｜cafe DODO、名古屋",
+      "href": "https://www.dodo-sakae.com/post/2024-11-28-thu-12-29-sun-group-show-mix-up%EF%BC%81-culmination-of-2024"
+    },
+    {
       "label": "2024.10",
       "title": "THE SNAP 2024",
-      "description": "グループ展を主催。10月8日〜20日、名古屋・セントラルギャラリー。",
+      "description": "グループ展・主催｜セントラルギャラリー、名古屋",
       "href": "https://note.com/___hibi___/n/n58da171c86a3"
     },
     {

@@ -108,7 +108,8 @@ main { flex: 1; outline: 0; }
 .index-item[aria-current="true"] .index-item-label::after { content: "鑑賞中"; }
 dialog { color: var(--ink); border: 0; padding: 0; background: var(--paper); }
 dialog::backdrop { background: var(--backdrop); }
-.about-dialog { width: min(720px,calc(100% - 40px)); max-height: calc(100svh - 40px); margin: auto; overflow-y: auto; overscroll-behavior: contain; }
+.about-dialog { width: min(720px,calc(100% - 40px)); max-height: calc(100svh - 40px); margin: auto; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }
+.about-dialog::-webkit-scrollbar { display: none; }
 .about-inner { padding: 14px 48px 38px; }
 .dialog-heading { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 32px 8px; background: var(--paper); }
 .dialog-heading p { font-size: 11px; color: var(--muted); }
@@ -167,7 +168,8 @@ body:has(dialog[open]) { overflow: hidden; }
   .index-item-label { padding: 13px 0; font-size: 10px; }
   .about-dialog { width: calc(100% - 24px); max-height: calc(100svh - 24px); }
   .dialog-heading { padding: 10px 22px 8px; }
-  .about-inner { padding: 14px 26px 26px; }
+  .about-dialog::-webkit-scrollbar { display: none; }
+.about-inner { padding: 14px 26px 26px; }
   .about-profile { gap: 22px; margin-bottom: 28px; }
   .about-portrait { width: 88px; height: 88px; }
   .about-inner h2 { font-size: 38px; }
