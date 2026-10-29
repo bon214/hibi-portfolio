@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from '../scroll-motion.js';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, touchSettleFrequency, releaseVelocity } from '../scroll-motion.js';
 import { createWheelGesture, createTouchGesture } from '../page-gestures.js';
 
 const cases = [];
@@ -11,13 +11,56 @@ const point = (x, y, id = 3) => ({ x, y, id });
 // Twenty photographs plus a footer: its shorter gap must remain a real stop.
 const stops = [...Array.from({ length: 20 }, (_, index) => index * 900), 17400];
 
-function simulate({ position = 0, velocity = 0, target = 900, seconds = 1, hz = 60 }) {
+function simulate({ position = 0, velocity = 0, target = 900, seconds = 1, hz = 60, frequency = 26 }) {
   let state = { position, velocity };
   const frames = Math.round(seconds * hz);
   for (let index = 0; index < frames; index++) {
-    state = advanceSpring(state.position, state.velocity, target, seconds / frames);
+    state = advanceSpring(state.position, state.velocity, target, seconds / frames, frequency);
   }
   return state;
+}
+
+test('touch release: a short swipe followed by a pause starts moving gently', () => {
+  const start = 36, target = 844;
+  const options = { position: start, velocity: releaseVelocity(0, target - start, 844, touchSettleFrequency, 1.25), target, frequency: touchSettleFrequency };
+  const early = simulate({ ...options, seconds: 0.1 });
+  assert.ok(early.position > start, 'release must continue towards the next photo');
+  assert.ok(early.position - start < (target - start) * 0.25, 'a held short swipe must not jump most of a photo immediately');
+  const finished = simulate({ ...options, seconds: 2 });
+  near(finished.position, target, 0.01);
+  near(finished.velocity, 0, 0.1);
+});
+
+test('touch release: speed is capped and remains monotonic for both directions and distances', () => {
+  const viewport = 844;
+  for (const direction of [-1, 1]) {
+    for (const distance of [20, 200, 808]) {
+      const target = direction * distance;
+      const velocity = releaseVelocity(direction * 10000, target, viewport, touchSettleFrequency, 1.25);
+      assert.ok(Math.abs(velocity) <= viewport * 1.25);
+      assert.ok(Math.abs(velocity) <= touchSettleFrequency * distance);
+      let state = { position: 0, velocity };
+      for (let frame = 0; frame < 180; frame++) {
+        const next = advanceSpring(state.position, state.velocity, target, 1 / 60, touchSettleFrequency);
+        assert.ok((next.position - state.position) * direction >= -1e-9, 'must not move away from the target');
+        assert.ok((target - next.position) * direction >= -1e-9, 'must not overshoot the target');
+        state = next;
+      }
+      near(state.position, target, 0.01);
+      near(state.velocity, 0, 0.1);
+    }
+  }
+  assert.equal(releaseVelocity(-1200, 800, viewport, touchSettleFrequency, 1.25), 0);
+});
+
+for (const seconds of [0.1, 0.5, 1.5]) {
+  test(`touch release: 60Hz and 120Hz agree after ${seconds}s`, () => {
+    const options = { position: 36, velocity: releaseVelocity(4000, 808, 844, touchSettleFrequency, 1.25), target: 844, seconds, frequency: touchSettleFrequency };
+    const at60 = simulate({ ...options, hz: 60 });
+    const at120 = simulate({ ...options, hz: 120 });
+    near(at60.position, at120.position);
+    near(at60.velocity, at120.velocity);
+  });
 }
 
 test('release: fast gestures remain bounded and settle without overshooting in either direction', () => {

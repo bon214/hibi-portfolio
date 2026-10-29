@@ -1,8 +1,9 @@
 export const settleFrequency = 17;
+export const touchSettleFrequency = 8;
 
-export function releaseVelocity(velocity, distance, viewportHeight) {
+export function releaseVelocity(velocity, distance, viewportHeight, frequency = settleFrequency, viewportMultiplier = 3) {
   const direction = Math.sign(distance);
-  return direction * Math.min(Math.max(0, velocity * direction), settleFrequency * Math.abs(distance), viewportHeight * 3);
+  return direction * Math.min(Math.max(0, velocity * direction), frequency * Math.abs(distance), viewportHeight * viewportMultiplier);
 }
 
 // Closed-form critically damped motion: targets may change without restarting a timed animation.

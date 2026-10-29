@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-mobile-view';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-mobile-view';
-import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-mobile-view';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-touch-settle';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-touch-settle';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, touchSettleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-touch-settle';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -121,7 +121,7 @@ function closeDialogsForNavigation() {
   if (about.open) about.close();
 }
 
-function positionCurrentView({ focus = false, behavior = 'auto' } = {}) {
+function positionCurrentView({ focus = false, behavior = 'auto', motionProfile = 'default' } = {}) {
   if (currentView === 'index' || !works.length) {
     cancelWorkMotion();
     routeLocked = false;
@@ -131,7 +131,7 @@ function positionCurrentView({ focus = false, behavior = 'auto' } = {}) {
       if (works.length && currentView === 'index') focusIndexWork();
       else $('main').focus({ preventScroll: true });
     }
-  } else scrollToWork(currentIndex, { focus, behavior });
+  } else scrollToWork(currentIndex, { focus, behavior, motionProfile });
 }
 
 function switchCollection(id) {
@@ -214,7 +214,8 @@ function tickMotion(now) {
   const state = motionState;
   if (!state) return;
   if (state.kind !== 'direct') {
-    const next = advanceSpring(state.position, state.velocity, state.target, (now - state.time) / 1000, state.kind === 'follow' ? 42 : settleFrequency);
+    const frequency = state.kind === 'follow' ? 42 : state.motionProfile === 'touch' ? touchSettleFrequency : settleFrequency;
+    const next = advanceSpring(state.position, state.velocity, state.target, (now - state.time) / 1000, frequency);
     state.position = next.position;
     state.velocity = next.velocity;
   } else state.position = state.target;
@@ -241,7 +242,7 @@ function tickMotion(now) {
   motionFrame = requestAnimationFrame(tickMotion);
 }
 
-function moveToPosition(top, stop, behavior) {
+function moveToPosition(top, stop, behavior, motionProfile = 'default') {
   const destination = Math.max(0, Math.min(top, document.documentElement.scrollHeight - innerHeight));
   if (reducedMotion.matches || behavior !== 'smooth' || Math.abs(destination - scrollY) < 0.5) {
     cancelWorkMotion();
@@ -253,13 +254,15 @@ function moveToPosition(top, stop, behavior) {
   inputSession = null;
   const distance = destination - scrollY;
   // Carry release velocity toward the stop, capped to keep critically damped settling monotonic.
-  const velocity = releaseVelocity(motionState?.velocity || 0, distance, innerHeight);
+  const velocity = motionProfile === 'touch'
+    ? releaseVelocity(motionState?.velocity || 0, distance, innerHeight, touchSettleFrequency, 1.25)
+    : releaseVelocity(motionState?.velocity || 0, distance, innerHeight);
   motionTarget = stop;
-  motionState = { kind: 'settle', position: scrollY, velocity, target: destination, time: performance.now() };
+  motionState = { kind: 'settle', motionProfile, position: scrollY, velocity, target: destination, time: performance.now() };
   wakeMotion();
 }
 
-function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
+function scrollToWork(index, { behavior = 'auto', focus = false, motionProfile = 'default' } = {}) {
   if (!entries[index]) {
     cancelWorkMotion();
     window.scrollTo(0, 0);
@@ -272,7 +275,7 @@ function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
   // A destination selected from the index is immediately visible, even before reveal callbacks run.
   entry.entered = true;
   (entry.figure.getAnimations?.() || []).forEach((animation) => animation.cancel());
-  moveToPosition(top, index, behavior);
+  moveToPosition(top, index, behavior, motionProfile);
   if (focus) entry.button.focus({ preventScroll: true });
 }
 
@@ -301,14 +304,14 @@ function pageInputEnabled() {
   return document.documentElement.classList.contains('is-paged-input');
 }
 
-function commitStop(stop, behavior = 'smooth') {
+function commitStop(stop, behavior = 'smooth', motionProfile = 'default') {
   if (stop === entries.length) {
     currentIndex = works.length - 1;
     updateSelection();
     writeRoute(true);
     rememberCollection();
-    moveToPosition(pageStops()[stop], stop, behavior);
-  } else navigate(stop, 'work', { behavior });
+    moveToPosition(pageStops()[stop], stop, behavior, motionProfile);
+  } else navigate(stop, 'work', { behavior, motionProfile });
 }
 
 function beginFollow(kind, direction = 0) {
@@ -360,7 +363,7 @@ function finishFollow(session, direction) {
     if (performance.now() - session.sampleTime > 80) motionState.velocity = 0;
   }
   inputSession = null;
-  commitStop(adjacentStop(session.stops, session.anchor, direction));
+  commitStop(adjacentStop(session.stops, session.anchor, direction), 'smooth', session.kind === 'touch' ? 'touch' : 'default');
 }
 
 function armWheelRelease(session) {
@@ -432,7 +435,8 @@ shell.addEventListener('touchend', (event) => {
     if (event.cancelable) event.preventDefault();
     finishFollow(session, direction);
   } else if (session?.kind === 'touch') {
-    cancelWorkMotion(); syncActiveWork();
+    // A tap can interrupt an in-flight settle; resume it without suppressing the click.
+    finishFollow(session, 0);
   }
 }, { passive: false });
 shell.addEventListener('touchcancel', () => {
@@ -523,13 +527,13 @@ function renderView() {
   updateSelection();
 }
 
-function navigate(index, view = currentView, { replace = false, focus = false, behavior = 'auto' } = {}) {
+function navigate(index, view = currentView, { replace = false, focus = false, behavior = 'auto', motionProfile = 'default' } = {}) {
   if (currentView === 'index') indexScroll = scrollY;
   currentIndex = Math.max(0, Math.min(works.length - 1, index));
   currentView = view;
   writeRoute(replace);
   renderView();
-  positionCurrentView({ focus, behavior });
+  positionCurrentView({ focus, behavior, motionProfile });
   rememberCollection();
 }
 
@@ -732,7 +736,7 @@ window.addEventListener('resize', () => {
     }
     if (motionState) {
       const stop = motionTarget;
-      moveToPosition(pageStops()[stop], stop, 'smooth');
+      moveToPosition(pageStops()[stop], stop, 'smooth', motionState.motionProfile);
       return;
     }
     if (currentView === 'work' && !about.open && routeLocked) {
