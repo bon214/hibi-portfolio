@@ -103,9 +103,9 @@ main { flex: 1; outline: 0; }
 .index-item { display: block; width: 100%; text-align: left; }
 .index-image-wrap { height: clamp(230px,25vw,340px); display: flex; justify-content: center; align-items: center; }
 .index-image-wrap img { max-width: 100%; max-height: 100%; width: auto; height: auto; display: block; }
+.index-item[aria-current="true"] .index-image-wrap img { outline: 1px solid var(--ink); outline-offset: 6px; }
 .index-item-label { display: flex; justify-content: space-between; padding: 16px 0; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
 .index-item[aria-current="true"] .index-item-label { color: var(--ink); }
-.index-item[aria-current="true"] .index-item-label::after { content: "鑑賞中"; }
 dialog { color: var(--ink); border: 0; padding: 0; background: var(--paper); }
 dialog::backdrop { background: var(--backdrop); }
 .about-dialog { width: min(720px,calc(100% - 40px)); max-height: calc(100svh - 40px); margin: auto; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none; }

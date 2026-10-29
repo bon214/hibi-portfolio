@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-calm-motion';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-calm-motion';
-import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-calm-motion';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-gallery-selection';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-gallery-selection';
+import { advanceSpring, nearestStop, adjacentStop, followPosition, settleFrequency, releaseVelocity } from './scroll-motion.js?v=20261029-gallery-selection';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
