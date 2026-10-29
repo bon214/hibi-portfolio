@@ -550,7 +550,7 @@ function animateGallerySelection(entry) {
   if (!entry.image.complete || !entry.image.naturalWidth) entry.selectionGeneration = gallerySelectionGeneration;
 }
 
-function configureImage(image, work, { first = false, index = false } = {}) {
+function configureImage(image, work, { first = false, index = false, retryVersion = '' } = {}) {
   image.draggable = false;
   image.alt = index ? '' : work.alt;
   image.width = work.width;
@@ -565,8 +565,9 @@ function configureImage(image, work, { first = false, index = false } = {}) {
   image.sizes = index
     ? '(max-width: 600px) calc((100vw - 64px) / 2), (max-width: 900px) calc((100vw - 140px) / 3), 24vw'
     : `(max-height: 500px) and (max-width: 600px) min(calc(100vw - 40px), ${shortHeightBound}), (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 500px) min(calc(100vw - 40px), ${shortHeightBound}), (max-height: 500px) min(calc(100vw - 158px), ${shortHeightBound}), (max-width: 600px) min(calc(100vw - 40px), ${mobileHeightBound}), min(calc(100vw - 158px), ${heightBound})`;
-  image.srcset = work.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ');
-  image.src = index ? work.thumbnail : work.variants[1].src;
+  const imageUrl = (src) => retryVersion ? `${src}?retry=${retryVersion}` : src;
+  image.srcset = work.variants.map((variant) => `${imageUrl(variant.src)} ${variant.width}w`).join(', ');
+  image.src = imageUrl(index ? work.thumbnail : work.variants[1].src);
 }
 
 function revealEntry(entry) {
@@ -697,12 +698,36 @@ function buildIndex() {
     const button = document.createElement('button');
     button.className = 'index-item';
     button.dataset.id = work.id;
-    button.setAttribute('aria-label', `写真 ${index + 1} を見る。${work.alt}`);
+    const viewLabel = `写真 ${index + 1} を見る。${work.alt}`;
+    button.setAttribute('aria-label', viewLabel);
     const wrap = document.createElement('span');
     wrap.className = 'index-image-wrap';
     const image = document.createElement('img');
-    wrap.append(image, createImageLoader());
+    const error = document.createElement('span');
+    error.className = 'index-error';
+    error.hidden = true;
+    error.setAttribute('aria-hidden', 'true');
+    error.append('写真を読み込めませんでした', document.createElement('br'), '再読み込み');
+    wrap.append(image, createImageLoader(), error);
     const loading = imageLoadingState(wrap, image);
+    let retrying = false;
+    let retryCount = 0;
+    const showImage = () => {
+      retrying = false;
+      button.classList.remove('has-error', 'is-retrying');
+      image.hidden = false;
+      error.hidden = true;
+      button.setAttribute('aria-label', viewLabel);
+    };
+    image.addEventListener('load', showImage);
+    image.addEventListener('error', () => {
+      retrying = false;
+      button.classList.remove('is-retrying');
+      button.classList.add('has-error');
+      image.hidden = true;
+      error.hidden = false;
+      button.setAttribute('aria-label', `写真 ${index + 1} をもう一度読み込む`);
+    });
     loading.start();
     configureImage(image, work, { index: true });
     if (image.complete && image.naturalWidth) loading.finish();
@@ -711,6 +736,21 @@ function buildIndex() {
     label.textContent = pad(index + 1);
     button.append(wrap, label);
     button.addEventListener('click', () => {
+      if (retrying) return;
+      if (button.classList.contains('has-error')) {
+        retrying = true;
+        button.classList.remove('has-error');
+        button.classList.add('is-retrying');
+        button.setAttribute('aria-label', `写真 ${index + 1} を読み込み中`);
+        error.hidden = true;
+        image.hidden = false;
+        loading.start();
+        image.removeAttribute('srcset');
+        image.removeAttribute('src');
+        configureImage(image, work, { index: true, retryVersion: `${Date.now()}-${++retryCount}` });
+        if (image.complete && image.naturalWidth) { loading.finish(); showImage(); }
+        return;
+      }
       navigate(index, 'work', { focus: true });
       animateGallerySelection(entries[index]);
     });
