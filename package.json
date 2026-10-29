@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "python3 -m http.server 4186 --bind 127.0.0.1",
     "references": "node scripts/prepare-reference-assets.mjs",
-    "check": "node --check app.js && node scripts/check-page-gestures.mjs && node scripts/check-content.mjs",
-    "check:preview": "node --check app.js && node scripts/check-page-gestures.mjs && node scripts/check-content.mjs --allow-preview",
+    "check": "node --check app.js && node scripts/check-page-gestures.mjs && node scripts/check-scroll-motion.mjs && node scripts/check-content.mjs",
+    "check:preview": "node --check app.js && node scripts/check-page-gestures.mjs && node scripts/check-scroll-motion.mjs && node scripts/check-content.mjs --allow-preview",
     "verify:public": "node scripts/verify-public.mjs"
   }
 }

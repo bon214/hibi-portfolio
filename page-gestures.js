@@ -55,6 +55,10 @@ export function createTouchGesture({ threshold = 36, axisThreshold = 8 } = {}) {
     reset,
     start(point) { start = { ...point }; axis = null; },
     move,
+    preview(point) {
+      move(point);
+      return start && point.id === start.id ? { vertical: axis === 'vertical', offset: start.y - point.y } : null;
+    },
     end(point) {
       if (!start || point.id !== start.id) { reset(); return 0; }
       move(point);

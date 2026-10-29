@@ -1,5 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-unified-paging';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-unified-paging';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-input-follow';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-input-follow';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-input-follow';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -29,6 +30,9 @@ let scrollIdle;
 let scrollFrame;
 let motionFrame;
 let motionTarget = null;
+let motionState = null;
+let inputSession = null;
+let wheelRelease;
 const wheelGesture = createWheelGesture();
 const touchGesture = createTouchGesture();
 history.scrollRestoration = 'manual';
@@ -166,8 +170,8 @@ function updateSelection() {
   $('lightbox-next').querySelector('.restart-label').hidden = !last;
 }
 
-function syncActiveWork() {
-  if (!entries.length || currentView !== 'work' || lightbox.open || about.open || routeLocked) return;
+function syncActiveWork({ duringMotion = false, route = true } = {}) {
+  if (!entries.length || currentView !== 'work' || lightbox.open || about.open || (routeLocked && !duringMotion)) return;
   if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
   let nearest = 0;
   let distance = Infinity;
@@ -179,9 +183,8 @@ function syncActiveWork() {
   if (nearest !== currentIndex) {
     currentIndex = nearest;
     updateSelection();
-    writeRoute(true);
-    rememberCollection();
   }
+  if (route) { writeRoute(true); rememberCollection(); }
 }
 
 function measureWorkPositions() {
@@ -192,7 +195,7 @@ function measureWorkPositions() {
 }
 
 function unlockRoute() {
-  if (motionFrame) return;
+  if (motionState || inputSession) return;
   routeLocked = false;
   syncActiveWork();
 }
@@ -201,41 +204,76 @@ function cancelWorkMotion() {
   if (motionFrame) cancelAnimationFrame(motionFrame);
   motionFrame = null;
   motionTarget = null;
+  motionState = null;
+  inputSession = null;
+  clearTimeout(wheelRelease);
   clearTimeout(scrollIdle);
   routeLocked = false;
   document.documentElement.classList.remove('is-page-moving');
 }
 
-function moveToPosition(top, stop, behavior) {
-  cancelWorkMotion();
-  const destination = Math.max(0, Math.min(top, document.documentElement.scrollHeight - innerHeight));
-  const start = scrollY;
+function pageStops() {
+  if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
+  return [...entryTops, Math.max(0, document.documentElement.scrollHeight - innerHeight)];
+}
+
+function wakeMotion() {
+  document.documentElement.classList.add('is-page-moving');
   routeLocked = true;
-  motionTarget = stop;
-  if (reducedMotion.matches || behavior !== 'smooth' || Math.abs(destination - start) < 1) {
+  if (motionFrame) return;
+  if (motionState) motionState.time = performance.now();
+  motionFrame = requestAnimationFrame(tickMotion);
+}
+
+function tickMotion(now) {
+  motionFrame = null;
+  const state = motionState;
+  if (!state) return;
+  if (state.kind !== 'direct') {
+    const next = advanceSpring(state.position, state.velocity, state.target, (now - state.time) / 1000, state.kind === 'follow' ? 42 : 22);
+    state.position = next.position;
+    state.velocity = next.velocity;
+  } else state.position = state.target;
+  state.time = now;
+  const bounds = inputSession?.bounds || [0, Math.max(0, document.documentElement.scrollHeight - innerHeight)];
+  const bounded = Math.max(bounds[0], Math.min(bounds[1], state.position));
+  if (bounded !== state.position) state.velocity = 0;
+  state.position = bounded;
+  window.scrollTo({ top: state.position, behavior: 'instant' });
+  if (inputSession) syncActiveWork({ duringMotion: true, route: false });
+  const resting = Math.abs(state.target - state.position) < 0.35 && Math.abs(state.velocity) < 5;
+  if (state.kind === 'direct' || resting) {
+    if (state.kind === 'settle') {
+      window.scrollTo({ top: state.target, behavior: 'instant' });
+      motionState = null;
+      motionTarget = null;
+      routeLocked = false;
+      document.documentElement.classList.remove('is-page-moving');
+      syncActiveWork();
+    }
+    // A held gesture stays in follow mode even if it has no new input for several frames.
+    return;
+  }
+  motionFrame = requestAnimationFrame(tickMotion);
+}
+
+function moveToPosition(top, stop, behavior) {
+  const destination = Math.max(0, Math.min(top, document.documentElement.scrollHeight - innerHeight));
+  if (reducedMotion.matches || behavior !== 'smooth' || Math.abs(destination - scrollY) < 0.5) {
+    cancelWorkMotion();
     window.scrollTo({ top: destination, behavior: 'instant' });
-    routeLocked = false;
-    motionTarget = null;
     syncActiveWork();
     return;
   }
-  document.documentElement.classList.add('is-page-moving');
-  const started = performance.now();
-  const tick = (now) => {
-    const progress = Math.min(1, (now - started) / 440);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    window.scrollTo({ top: start + (destination - start) * eased, behavior: 'instant' });
-    if (progress < 1) motionFrame = requestAnimationFrame(tick);
-    else {
-      motionFrame = null;
-      motionTarget = null;
-      window.scrollTo({ top: destination, behavior: 'instant' });
-      document.documentElement.classList.remove('is-page-moving');
-      routeLocked = false;
-      syncActiveWork();
-    }
-  };
-  motionFrame = requestAnimationFrame(tick);
+  clearTimeout(wheelRelease);
+  inputSession = null;
+  const distance = destination - scrollY;
+  const direction = Math.sign(distance);
+  // Carry release velocity toward the stop, capped to keep critically damped settling monotonic.
+  const velocity = direction * Math.min(Math.max(0, (motionState?.velocity || 0) * direction), 22 * Math.abs(distance));
+  motionTarget = stop;
+  motionState = { kind: 'settle', position: scrollY, velocity, target: destination, time: performance.now() };
+  wakeMotion();
 }
 
 function scrollToWork(index, { behavior = 'auto', focus = false } = {}) {
@@ -279,72 +317,161 @@ function pageInputEnabled() {
   return document.documentElement.classList.contains('is-paged-input');
 }
 
-function moveOnePage(direction) {
-  if (!pageInputEnabled() || !entries.length) return false;
-  if (entryTops.length !== entries.length || measuredHeight !== innerHeight) measureWorkPositions();
-  const end = Math.max(0, document.documentElement.scrollHeight - innerHeight);
-  const stops = [...entryTops, end];
-  let current = motionTarget;
-  if (current === null) {
-    current = stops.reduce((best, top, index) => Math.abs(top - scrollY) < Math.abs(stops[best] - scrollY) ? index : best, 0);
-  }
-  const next = Math.max(0, Math.min(stops.length - 1, current + direction));
-  if (next === current) return false;
-  if (next === entries.length) {
+function commitStop(stop, behavior = 'smooth') {
+  if (stop === entries.length) {
     currentIndex = works.length - 1;
     updateSelection();
     writeRoute(true);
     rememberCollection();
-    moveToPosition(end, next, 'smooth');
-  } else navigate(next, 'work', { behavior: 'smooth' });
-  return true;
+    moveToPosition(pageStops()[stop], stop, behavior);
+  } else navigate(stop, 'work', { behavior });
+}
+
+function beginFollow(kind, direction = 0) {
+  const stops = pageStops();
+  const anchor = motionTarget ?? nearestStop(stops, scrollY);
+  const candidate = adjacentStop(stops, anchor, direction);
+  if (kind === 'wheel' && candidate === anchor) return null;
+  const start = scrollY;
+  cancelWorkMotion();
+  const session = {
+    kind, stops, anchor, candidate, start, offset: 0, dragged: false,
+    bounds: [Math.min(start, stops[adjacentStop(stops, anchor, -1)]), Math.max(start, stops[adjacentStop(stops, anchor, 1)])],
+    samplePosition: start, sampleTime: performance.now(),
+  };
+  inputSession = session;
+  motionTarget = candidate;
+  routeLocked = true;
+  document.documentElement.classList.add('is-page-moving');
+  for (const index of [anchor - 1, anchor, anchor + 1]) {
+    const entry = entries[index];
+    if (entry) { entry.entered = true; (entry.figure.getAnimations?.() || []).forEach((animation) => animation.cancel()); }
+  }
+  return session;
+}
+
+function followInput(session, offset, direct = false) {
+  if (inputSession !== session) return;
+  session.offset = offset;
+  const target = followPosition(session.stops, session.anchor, session.start, offset);
+  const now = performance.now();
+  let velocity = motionState?.velocity || 0;
+  direct = direct || reducedMotion.matches;
+  if (direct && Math.abs(target - session.samplePosition) >= 0.25) {
+    velocity = Math.max(-innerHeight * 6, Math.min(innerHeight * 6, (target - session.samplePosition) / Math.max(0.008, (now - session.sampleTime) / 1000)));
+    session.samplePosition = target;
+    session.sampleTime = now;
+  }
+  motionState = { kind: direct ? 'direct' : 'follow', position: motionState?.position ?? scrollY, velocity, target, time: motionState?.time ?? now };
+  wakeMotion();
+}
+
+function finishFollow(session, direction) {
+  if (inputSession !== session) return;
+  clearTimeout(wheelRelease);
+  if (motionState?.kind === 'direct') {
+    // Flush the last finger position before using its velocity for the release motion.
+    window.scrollTo({ top: motionState.target, behavior: 'instant' });
+    motionState.position = motionState.target;
+    if (performance.now() - session.sampleTime > 80) motionState.velocity = 0;
+  }
+  inputSession = null;
+  commitStop(adjacentStop(session.stops, session.anchor, direction));
+}
+
+function armWheelRelease(session) {
+  clearTimeout(wheelRelease);
+  wheelRelease = setTimeout(() => {
+    if (inputSession === session && pageInputEnabled()) finishFollow(session, Math.sign(session.candidate - session.anchor));
+  }, 200);
 }
 
 window.addEventListener('wheel', (event) => {
   if (!pageInputEnabled() || event.defaultPrevented) { wheelGesture.reset(); return; }
   if (!event.cancelable) return;
   const intent = wheelGesture.read(event, performance.now(), innerHeight);
-  if (intent.consume) { event.preventDefault(); return; }
-  if (intent.direction && moveOnePage(intent.direction)) {
+  if (intent.direction) {
+    if (!beginFollow('wheel', intent.direction)) return;
     wheelGesture.claim();
+  }
+  if (intent.direction || intent.consume) {
     event.preventDefault();
+    const session = inputSession;
+    if (session?.kind === 'wheel') {
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
+      followInput(session, session.offset + delta);
+      armWheelRelease(session);
+    }
+  } else if (inputSession?.kind === 'wheel') {
+    if (event.ctrlKey || event.metaKey || event.altKey || event.shiftKey) {
+      cancelWorkMotion(); syncActiveWork();
+    } else armWheelRelease(inputSession);
   }
 }, { passive: false });
 
 const touchPoint = (touch) => ({ id: touch.identifier, x: touch.clientX, y: touch.clientY });
 const shell = document.querySelector('.site-shell');
 shell.addEventListener('touchstart', (event) => {
-  if (!pageInputEnabled() || event.touches.length !== 1) { touchGesture.reset(); return; }
+  if (!pageInputEnabled() || event.touches.length !== 1) { touchGesture.reset(); cancelWorkMotion(); syncActiveWork(); return; }
   wheelGesture.reset();
+  beginFollow('touch');
   touchGesture.start(touchPoint(event.touches[0]));
 }, { passive: true });
 shell.addEventListener('touchmove', (event) => {
-  if (!pageInputEnabled() || event.touches.length !== 1) { touchGesture.reset(); return; }
-  touchGesture.move(touchPoint(event.touches[0]));
+  if (!pageInputEnabled() || event.touches.length !== 1) {
+    touchGesture.reset();
+    if (inputSession?.kind === 'touch') { cancelWorkMotion(); syncActiveWork(); }
+    return;
+  }
+  const preview = touchGesture.preview(touchPoint(event.touches[0]));
+  if (preview?.vertical && inputSession?.kind === 'touch') {
+    inputSession.dragged = true;
+    followInput(inputSession, preview.offset, true);
+  }
 }, { passive: true });
 shell.addEventListener('touchend', (event) => {
-  if (!pageInputEnabled() || event.touches.length || !event.changedTouches.length) { touchGesture.reset(); return; }
-  const direction = touchGesture.end(touchPoint(event.changedTouches[0]));
-  if (direction) {
+  if (!pageInputEnabled() || event.touches.length || !event.changedTouches.length) {
+    touchGesture.reset();
+    if (inputSession?.kind === 'touch') { cancelWorkMotion(); syncActiveWork(); }
+    return;
+  }
+  const point = touchPoint(event.changedTouches[0]);
+  const preview = touchGesture.preview(point);
+  const session = inputSession;
+  if (preview?.vertical && session?.kind === 'touch') {
+    session.dragged = true;
+    followInput(session, preview.offset, true);
+  }
+  const direction = touchGesture.end(point);
+  if (session?.kind === 'touch' && session.dragged) {
     // Suppress only the recognized swipe's compatibility click, keeping taps and pinches native.
     if (event.cancelable) event.preventDefault();
-    moveOnePage(direction);
+    finishFollow(session, direction);
+  } else if (session?.kind === 'touch') {
+    cancelWorkMotion(); syncActiveWork();
   }
 }, { passive: false });
-shell.addEventListener('touchcancel', () => touchGesture.reset(), { passive: true });
+shell.addEventListener('touchcancel', () => {
+  touchGesture.reset();
+  const session = inputSession;
+  if (session?.kind === 'touch') {
+    if (session.dragged && pageInputEnabled()) finishFollow(session, 0);
+    else { cancelWorkMotion(); syncActiveWork(); }
+  }
+}, { passive: true });
 window.addEventListener('blur', () => { wheelGesture.reset(); touchGesture.reset(); cancelWorkMotion(); syncActiveWork(); });
 window.visualViewport?.addEventListener('resize', updateSnapMode);
 window.addEventListener('pointerdown', (event) => {
   if (event.pointerType === 'mouse') {
     wheelGesture.reset();
-    if (motionFrame) { cancelWorkMotion(); syncActiveWork(); }
+    if (motionState || inputSession) { cancelWorkMotion(); syncActiveWork(); }
   }
 }, { passive: true });
 window.addEventListener('keydown', (event) => {
   if (!pageInputEnabled() || event.altKey || event.ctrlKey || event.metaKey) return;
   if (['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' ', 'Home', 'End'].includes(event.key)) {
     wheelGesture.reset();
-    if (motionFrame) { cancelWorkMotion(); syncActiveWork(); }
+    if (motionState || inputSession) { cancelWorkMotion(); syncActiveWork(); }
   }
 });
 
@@ -698,7 +825,9 @@ document.addEventListener('keydown', (event) => {
 });
 function restoreRoute() {
   const route = readRoute();
-  if (route.collection === currentCollection && route.index === currentIndex && route.view === currentView) return;
+  const interrupted = Boolean(motionState || inputSession);
+  if (route.collection === currentCollection && route.index === currentIndex && route.view === currentView && !interrupted) return;
+  if (interrupted) cancelWorkMotion();
   rememberCollection();
   closeDialogsForNavigation();
   setCollection(route.collection, route.index);
@@ -713,7 +842,10 @@ window.addEventListener('popstate', restoreRoute);
 window.addEventListener('hashchange', restoreRoute);
 // Native keyboard and scrollbar movement still update the active photograph.
 window.addEventListener('scroll', () => {
-  if (routeLocked && !motionFrame) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
+  // A scrollbar, focus change, or browser action can move independently of our last rendered frame.
+  const expected = motionState?.position ?? inputSession?.start;
+  if (expected !== undefined && Math.abs(scrollY - expected) > 2) cancelWorkMotion();
+  if (routeLocked && !motionState && !inputSession) { clearTimeout(scrollIdle); scrollIdle = setTimeout(unlockRoute, 120); }
   if (!scrollFrame) scrollFrame = requestAnimationFrame(() => { scrollFrame = null; syncActiveWork(); });
 }, { passive: true });
 let resizeFrame;
@@ -722,10 +854,18 @@ window.addEventListener('resize', () => {
   resizeFrame = requestAnimationFrame(() => {
     resizeFrame = null;
     if (currentView === 'work') measureWorkPositions();
-    if (motionFrame) {
+    if (inputSession) {
+      const session = inputSession;
+      const stops = pageStops();
+      session.start += stops[session.anchor] - session.stops[session.anchor];
+      session.stops = stops;
+      session.bounds = [Math.min(session.start, stops[adjacentStop(stops, session.anchor, -1)]), Math.max(session.start, stops[adjacentStop(stops, session.anchor, 1)])];
+      followInput(session, session.offset, session.kind === 'touch');
+      return;
+    }
+    if (motionState) {
       const stop = motionTarget;
-      if (stop === entries.length) moveToPosition(Math.max(0, document.documentElement.scrollHeight - innerHeight), stop, 'auto');
-      else scrollToWork(currentIndex);
+      moveToPosition(pageStops()[stop], stop, 'smooth');
       return;
     }
     if (currentView === 'work' && !lightbox.open && !about.open && routeLocked) {
@@ -737,7 +877,7 @@ window.addEventListener('resize', () => {
 reducedMotion.addEventListener?.('change', () => {
   if (reducedMotion.matches) {
     entries.forEach(({ figure }) => (figure.getAnimations?.() || []).forEach((animation) => animation.cancel()));
-    if (motionFrame) {
+    if (motionState && !inputSession) {
       const stop = motionTarget;
       if (stop === entries.length) moveToPosition(document.documentElement.scrollHeight - innerHeight, stop, 'auto');
       else scrollToWork(currentIndex);
