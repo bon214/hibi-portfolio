@@ -8,15 +8,16 @@
 
 ## 現在の状態
 
-- 指定されたInstagramの2アカウントからカラー20点・モノクロ20点、計40点を選定しています。画面下部の「Color」「Monochrome」で作品群とサイト全体の配色を切り替えます。
-- 2026年10月26日の各20点掲載の指示に基づき、投稿に紐づく幅1440pxのJPEGから閲覧用WebPを生成しました。各作品の4サイズとサムネイル、計200ファイルで約20.61 MBです。元画像より大きくせず、白い余白や署名を含めて維持します。
-- `npm run check`で各20点の枚数、出典アカウント、画像の形式・実寸法・容量を確認します。以前のモノクロ試作用画像は差し替え済みです。
-- 2026年10月25日にv1を公開しました。公開URLのPC・スマートフォン相当の表示と操作を確認済みです。
-- 初回v1は展示主催者の一次資料で確認した5点を掲載していました。現在の選定はInstagram由来の40点に更新し、共有用画像も現行作品から作成しています。
-- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。40点版は2026年10月26日に公開し、209ファイルのHTTP応答・MIME・SHA-256の一致を確認しました。
+- 2026年10月29日の差し替え依頼に基づき、ユーザー提供フォルダの`color/`・`monochrome/`から各20点、計40点を掲載します。画面下部の「Color」「Monochrome」で作品群とサイト全体の配色を切り替えます。
+- 原寸の提供画像は変更・公開せず、`assets/photos/provided/`に閲覧用WebP 200ファイル（合計32,781,660 bytes）を生成しました。長辺400・800・1400・2200pxを候補に、原寸以下で縮小します。構図を切り取らず、写真自体への色調変更は行いません。
+- 提供画像のICCはAdobe RGB 38点・ROMM RGB 1点・Display P3 1点です。閲覧コピーにICCを保持し、EXIF・GPS・XMPを除去します。
+- `npm run check`で各20点の枚数、提供ファイルの相対名・SHA-256・重複、画像の形式・実寸法・容量を確認します。各作品の閲覧サイズとサムネイルの重複参照を除いた合計は2MB未満です。
+- 掲載順はユーザーから編集を任されており、鑑賞の流れを考えて構成します。作品ごとの固定IDは並べ替えても変更しません。
+- 初回v1は2026年10月25日に5点を公開し、10月26日にInstagram由来のカラー20点・モノクロ20点へ更新しました。これらは今回の提供40点とは区別した過去の掲載記録です。
+- 管理先は公開リポジトリ [bon214/hibi-portfolio](https://github.com/bon214/hibi-portfolio)、公開URLは [https://bon214.github.io/hibi-portfolio/](https://bon214.github.io/hibi-portfolio/) です。今回の公開確認は[検証記録](docs/validation.md)に記録します。
 - 月1回程度、Codexへ写真の差し替え・並べ替えを依頼する運用です。管理画面・認証・データベースは使用しません。
 
-写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'v1'`は今回の公開版への選定を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
+写真の出典と今回の公開範囲は [写真の出典と扱い](docs/asset-sources.md) を参照してください。`selectionStatus: 'approved'`はユーザーによる公開選定指示を表し、個別作品について別途本人承認を得たという記録ではありません。制作基準を記した`要件定義.md`はローカル文書としてGit管理対象外です。
 
 カラー／モノクロの要件・素材・確認記録は[コレクション切り替え](docs/collections.md)を参照してください。
 
@@ -42,13 +43,12 @@ Pythonの起動コマンドを直接使う場合は、`python3 -m http.server 41
 | `app.js` | 縦スクロール、入場アニメーション、一覧、拡大、作者紹介、URLと操作の制御 |
 | `data/works.js` | 作家紹介・活動歴・外部リンク、作品の固定ID、画像参照、寸法、代替テキスト、掲載順 |
 | `assets/profile/hibi.webp` | 本人のlit.linkで使用されているプロフィール画像 |
-| `assets/photos/instagram/` | カラー20点・モノクロ20点の現行閲覧用WebP |
-| `assets/photos/v1/` | 初回v1の閲覧コピー。現行の作品一覧には使用しない |
+| `assets/photos/provided/` | ユーザー提供のカラー20点・モノクロ20点から作成した閲覧用WebP |
 | `assets/share.jpg` | SNSなどでの共有用画像 |
 | `assets/reference/` | 取得元の原寸画像。Git管理対象外 |
 | `assets/photos/reference/` | 旧ローカル試作用画像。Git管理対象外 |
-| `scripts/prepare-v1-assets.py` | 原寸取得画像からv1閲覧コピーを生成。PillowのWebP対応が必要 |
-| `scripts/prepare-instagram-assets.py` | 選定リストと取得済み画像から現行閲覧コピーと寸法・SHA記録を生成 |
+| `scripts/prepare-provided-assets.py` | 提供フォルダと非公開の選定リストから現行閲覧コピー・寸法・SHA記録を生成。PillowのWebP対応が必要 |
+| `scripts/prepare-v1-assets.py` / `scripts/prepare-instagram-assets.py` | 過去のv1・Instagram由来画像の生成スクリプト。現行の提供40点には使用しない |
 | `scripts/prepare-reference-assets.mjs` | 旧参照画像の再取得。通常の起動には不要 |
 | `scripts/check-content.mjs` | 作品データ、実画像寸法、必須ファイルの整合確認 |
 | `scripts/verify-public.mjs` | 公開URLのHTTP応答、MIME、SHA-256、入口HTMLを検証 |
@@ -82,4 +82,4 @@ GitHub Pagesの公開元は`main`の`/(root)`です。公開元のルートに`i
 
 PublicリポジトリのGitHub Pagesと標準runnerは無料対象です。有料runner、独自ドメインの購入、有料サービスの契約は行いません。[GitHub公式料金説明](https://docs.github.com/en/billing/concepts/product-billing/github-actions)
 
-原寸取得画像、旧試作コピー、QA用スクリーンショット、秘密情報、アクセストークンはコミットしません。v1画像を再生成する場合だけ、原寸取得画像を用意し、PillowのWebP対応があるPythonで`python3 scripts/prepare-v1-assets.py`を実行します。`npm run references`は公開元から旧参照素材を再取得する別工程で、ネットワークとmacOSの`sips`を使用します。
+提供された原寸画像、選定入力・生成manifest、旧試作コピー、QA用スクリーンショット、秘密情報、アクセストークンはコミットしません。現行画像の再生成には`python3 scripts/prepare-provided-assets.py --source-dir /path/to/originals`を使い、Git管理対象外の`artifacts/provided-selection.json`を用意します。`npm run references`と旧版の生成スクリプトは、現在の提供40点の更新には使用しません。

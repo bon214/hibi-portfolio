@@ -7,6 +7,9 @@ const allowPreview = process.argv.includes('--allow-preview');
 const root = fileURLToPath(new URL('../', import.meta.url));
 const ids = new Set();
 const checked = new Set();
+const imageBytes = new Map();
+const providedFilenames = new Set();
+const providedHashes = new Set();
 let totalBytes = 0;
 function dimensions(bytes) {
   if (bytes.toString('ascii',0,4) === 'RIFF' && bytes.toString('ascii',8,12) === 'WEBP') {
@@ -40,8 +43,34 @@ async function checkImage(src, expected) {
   const size=dimensions(bytes);
   if(expected) assert.deepEqual(size,expected,`${src}: dimensions differ from data`);
   assert(bytes.length>0&&bytes.length<2_000_000,`${src}: image exceeds viewing budget`);
-  if(!checked.has(src)){checked.add(src);totalBytes+=bytes.length;}
+  imageBytes.set(absolute,bytes.length);
+  if(!checked.has(absolute)){checked.add(absolute);totalBytes+=bytes.length;}
   return size;
+}
+function checkSource(work) {
+  if(typeof work.source==='string') {
+    if(allowPreview) return;
+    const source=new URL(work.source);
+    const collection=collections.find(item=>item.id===work.collection);
+    assert.equal(source.origin,'https://www.instagram.com',`${work.id}: Instagram source required`);
+    assert(source.pathname.startsWith(new URL(collection.instagram).pathname+'p/'),`${work.id}: source must belong to its collection account`);
+    return;
+  }
+  const source=work.source;
+  assert(source&&typeof source==='object'&&!Array.isArray(source)&&source.type==='provided',`${work.id}: provided source metadata required`);
+  assert(typeof source.file==='string',`${work.id}: provided source filename required`);
+  // Sources are provenance only: originals stay outside the published repository.
+  // Require one filename below its collection folder, with no absolute or nested paths.
+  const match=/^(color|monochrome)\/([^/\\\u0000-\u001f\u007f]+\.(?:jpe?g|png|webp))$/i.exec(source.file);
+  assert(match&&match[0]===source.file,`${work.id}: provided source must be a safe collection-relative JPG, JPEG, PNG or WebP filename`);
+  const folder={color:'color',mono:'monochrome'}[work.collection];
+  assert.equal(match[1],folder,`${work.id}: provided source folder must match its collection`);
+  assert(typeof source.sha256==='string'&&source.sha256.length===64&&/^[a-f0-9]{64}$/.test(source.sha256),`${work.id}: provided source SHA-256 must be 64 lowercase hexadecimal characters`);
+  const filename=match[2].normalize('NFC').toLowerCase();
+  assert(!providedFilenames.has(filename),`${work.id}: duplicate provided source filename`);
+  assert(!providedHashes.has(source.sha256),`${work.id}: duplicate provided source SHA-256`);
+  providedFilenames.add(filename);
+  providedHashes.add(source.sha256);
 }
 assert(artist.name&&artist.designation&&artist.description,'Artist identity and factual description required');
 assert(artist.viewingNote&&artist.essay?.label,'Artist profile content required');
@@ -70,16 +99,14 @@ for(const work of works) {
   assert(Number.isInteger(work.width)&&work.width>0&&Number.isInteger(work.height)&&work.height>0,`${work.id}: dimensions required`);
   assert(typeof work.alt==='string'&&work.alt.trim(),`${work.id}: alt required`);
   assert(['v1','approved',...(allowPreview?['preview']:[])].includes(work.selectionStatus),`${work.id}: preview image must be replaced with a selected original before publication (use check:preview for local review)`);
-  if(!allowPreview) {
-    const source=new URL(work.source);
-    const collection=collections.find(item=>item.id===work.collection);
-    assert.equal(source.origin,'https://www.instagram.com',`${work.id}: Instagram source required`);
-    assert(source.pathname.startsWith(new URL(collection.instagram).pathname+'p/'),`${work.id}: source must belong to its collection account`);
-  }
+  checkSource(work);
   await checkImage(work.src,{width:work.width,height:work.height});
   await checkImage(work.thumbnail);
   assert(work.variants?.length>=2,`${work.id}: responsive viewing copies required`);
   for(const variant of work.variants) await checkImage(variant.src,{width:variant.width,height:variant.height});
+  const workImages=new Set([work.thumbnail,...work.variants.map(variant=>variant.src)].map(src=>resolve(root,src)));
+  const workBytes=[...workImages].reduce((sum,path)=>sum+imageBytes.get(path),0);
+  assert(workBytes<2_000_000,`${work.id}: responsive viewing copies and thumbnail exceed the per-work budget`);
 }
 const html=await readFile(resolve(root,'index.html'),'utf8');
 assert(!/noindex/i.test(html),'Publication entry must not contain noindex');

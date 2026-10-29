@@ -1,4 +1,4 @@
-// Forty works selected from the supplied Instagram accounts on 2026-10-26.
+// Forty photographs supplied by the user on 2026-10-29.
 // Fixed IDs survive reordering; collection-specific order follows this array.
 export const artist = {
   "name": "日々",
@@ -60,1402 +60,1562 @@ export const collections = [
 
 export const works = [
   {
-    "id": "hibi-color-c3ka-2gvly8",
+    "id": "hibi-color-a98db0f242d2",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c3ka-2gvly8-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c3ka-2gvly8-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "自転車の並ぶ夜の路地で、奥の店の明かりを背に猫が道を横切っている。",
+    "src": "assets/photos/provided/hibi-color-a98db0f242d2-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-a98db0f242d2-thumb.webp",
+    "width": 2200,
+    "height": 1468,
+    "alt": "高架下の光が差す歩道を二人が歩き、奥に自動販売機、上方に電車が見える。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C3ka-2GvLY8/",
+    "source": {
+      "type": "provided",
+      "file": "color/Q1013383.jpg",
+      "sha256": "a98db0f242d2e66b5b050b72eb82aa8942ecd11068c728648274c0184426c6ec"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c3ka-2gvly8-400.webp",
+        "src": "assets/photos/provided/hibi-color-a98db0f242d2-400.webp",
         "width": 400,
-        "height": 320
+        "height": 267
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3ka-2gvly8-800.webp",
+        "src": "assets/photos/provided/hibi-color-a98db0f242d2-800.webp",
         "width": 800,
-        "height": 640
+        "height": 534
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3ka-2gvly8-1400.webp",
+        "src": "assets/photos/provided/hibi-color-a98db0f242d2-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 934
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3ka-2gvly8-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-a98db0f242d2-2200.webp",
+        "width": 2200,
+        "height": 1468
       }
     ]
   },
   {
-    "id": "hibi-color-c24kdsgpogc",
+    "id": "hibi-color-5dec5045a532",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c24kdsgpogc-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c24kdsgpogc-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "電飾看板の光る交差点で、黄色いフードの人物が柱のそばでスマートフォンを見ている。",
+    "src": "assets/photos/provided/hibi-color-5dec5045a532-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-5dec5045a532-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "青緑色の壁に囲まれた暗い階段の上で、赤い服の人が光の差す出口へ歩いている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C24kdsgPOgC/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1030370.jpg",
+      "sha256": "5dec5045a532a887a5292fcb4e1ca8b1a19e95b134167a9b72795ba2f5c2285b"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c24kdsgpogc-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-color-5dec5045a532-400.webp",
+        "width": 266,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c24kdsgpogc-800.webp",
-        "width": 640,
+        "src": "assets/photos/provided/hibi-color-5dec5045a532-800.webp",
+        "width": 531,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c24kdsgpogc-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-color-5dec5045a532-1400.webp",
+        "width": 930,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c24kdsgpogc-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-color-5dec5045a532-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c2m3qiqv9rn",
+    "id": "hibi-color-57db1e65acf1",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "街の明かりが反射する濡れた路面に、星模様のズボンと靴を履いた人物の足元が写る。",
+    "src": "assets/photos/provided/hibi-color-57db1e65acf1-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-57db1e65acf1-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "柱の明るい部分に映る人影と、暗い床を折れ曲がって伸びる黄色い点字ブロック。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2m3qIQv9Rn/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1010640-強化-SR.jpg",
+      "sha256": "57db1e65acf13d1bca155f3d1a41b06230f25abf85d544d780666f5e2b76a45e"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-400.webp",
+        "src": "assets/photos/provided/hibi-color-57db1e65acf1-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-800.webp",
+        "src": "assets/photos/provided/hibi-color-57db1e65acf1-800.webp",
         "width": 800,
-        "height": 640
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-1400.webp",
+        "src": "assets/photos/provided/hibi-color-57db1e65acf1-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2m3qiqv9rn-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-57db1e65acf1-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   },
   {
-    "id": "hibi-color-c3nh3b9pxgo",
+    "id": "hibi-color-960f9bae22d5",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "夜の街の光と濡れた歩道を背景に、壁の陰からスマートフォンを操作する手が見える。",
+    "src": "assets/photos/provided/hibi-color-960f9bae22d5-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-960f9bae22d5-thumb.webp",
+    "width": 2200,
+    "height": 1455,
+    "alt": "椅子に座る人々を上から捉えた風景。円が描かれた床に、窓枠の影が格子状に落ちる。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C3nH3b9Pxgo/",
+    "source": {
+      "type": "provided",
+      "file": "color/L1005337.jpg",
+      "sha256": "960f9bae22d5119d3072ae4ef4973d280b8716ca3d7040c3199cafdbdef98925"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-400.webp",
-        "width": 320,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-960f9bae22d5-400.webp",
+        "width": 400,
+        "height": 264
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-800.webp",
-        "width": 640,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-960f9bae22d5-800.webp",
+        "width": 800,
+        "height": 529
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-1400.webp",
-        "width": 1121,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-960f9bae22d5-1400.webp",
+        "width": 1400,
+        "height": 926
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3nh3b9pxgo-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-color-960f9bae22d5-2200.webp",
+        "width": 2200,
+        "height": 1455
       }
     ]
   },
   {
-    "id": "hibi-color-c3t5apbpm-l",
+    "id": "hibi-color-e37f7085e8af",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c3t5apbpm-l-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c3t5apbpm-l-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "下半分が曇ったガラス越しに人影が並び、上部には明るい店内が見える。",
+    "src": "assets/photos/provided/hibi-color-e37f7085e8af-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-e37f7085e8af-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "大きな白い壁と柱の下、青緑色の壁に沿った長いベンチに一人が座っている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C3t5ApBPM-l/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1032655.jpg",
+      "sha256": "e37f7085e8af66291290a006ea4a88ea6551534caf7e44e49489f8c1cc306348"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c3t5apbpm-l-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-e37f7085e8af-400.webp",
+        "width": 266,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3t5apbpm-l-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-e37f7085e8af-800.webp",
+        "width": 531,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3t5apbpm-l-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-e37f7085e8af-1400.webp",
+        "width": 930,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c3t5apbpm-l-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-e37f7085e8af-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c2mwrljvzwv",
+    "id": "hibi-color-5de539b3a3e0",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2mwrljvzwv-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2mwrljvzwv-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "曇ったガラス越しに人物の暗い後ろ姿が見え、奥の街路と明かりがにじんでいる。",
+    "src": "assets/photos/provided/hibi-color-5de539b3a3e0-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-5de539b3a3e0-thumb.webp",
+    "width": 1467,
+    "height": 2200,
+    "alt": "空と光を映す大きな窓の内側で、二人が長いベンチに離れて座っている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2MwRLJvzWV/",
+    "source": {
+      "type": "provided",
+      "file": "color/P1000476.jpg",
+      "sha256": "5de539b3a3e0bbabe3a95b16e00c6ab300c99956642e9543e430811010b2334f"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2mwrljvzwv-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-5de539b3a3e0-400.webp",
+        "width": 267,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2mwrljvzwv-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-5de539b3a3e0-800.webp",
+        "width": 533,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2mwrljvzwv-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-5de539b3a3e0-1400.webp",
+        "width": 933,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2mwrljvzwv-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-5de539b3a3e0-2200.webp",
+        "width": 1467,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c1amw-rpttt",
+    "id": "hibi-color-082a0b95681e",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c1amw-rpttt-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c1amw-rpttt-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "明るい店内を背に通路の人影が並び、その下にも明かりと行き交う人々が見える。",
+    "src": "assets/photos/provided/hibi-color-082a0b95681e-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-082a0b95681e-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "木々と空を映すバスのフロントガラス越しに、運転席の人の手元が見える。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C1amW_rPttT/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1032171.jpg",
+      "sha256": "082a0b95681e509560fb4a7b41647fb23c271f945d15712601533c2584fbdc2e"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c1amw-rpttt-400.webp",
+        "src": "assets/photos/provided/hibi-color-082a0b95681e-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1amw-rpttt-800.webp",
+        "src": "assets/photos/provided/hibi-color-082a0b95681e-800.webp",
         "width": 800,
-        "height": 640
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1amw-rpttt-1400.webp",
+        "src": "assets/photos/provided/hibi-color-082a0b95681e-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1amw-rpttt-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-082a0b95681e-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   },
   {
-    "id": "hibi-color-c2eoagrp1z7",
+    "id": "hibi-color-7413c0dc00e0",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2eoagrp1z7-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2eoagrp1z7-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "夜の歩道を透明な傘を差した人物が歩き、奥には明かりに照らされたアーチ状の構造物が見える。",
+    "src": "assets/photos/provided/hibi-color-7413c0dc00e0-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-7413c0dc00e0-thumb.webp",
+    "width": 1467,
+    "height": 2200,
+    "alt": "木々に囲まれた川と石の多い岸辺。手前の小舟に、笠をかぶった人が乗っている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2eoAgrP1z7/",
+    "source": {
+      "type": "provided",
+      "file": "color/HR6_3617.jpg",
+      "sha256": "7413c0dc00e02ac3c423e344234c2a93398a7064952918434eb338acb49605e6"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2eoagrp1z7-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-7413c0dc00e0-400.webp",
+        "width": 267,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2eoagrp1z7-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-7413c0dc00e0-800.webp",
+        "width": 533,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2eoagrp1z7-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-7413c0dc00e0-1400.webp",
+        "width": 933,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2eoagrp1z7-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-7413c0dc00e0-2200.webp",
+        "width": 1467,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c2htjbnp65p",
+    "id": "hibi-color-ed021b4d6858",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2htjbnp65p-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2htjbnp65p-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "階段の入口で手すりに寄りかかり顔に手を添える人物の向こうに、青く照らされた橋が見える。",
+    "src": "assets/photos/provided/hibi-color-ed021b4d6858-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-ed021b4d6858-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "赤茶色の木々を映す水辺で、淡い青色の壁の陰から人が身を乗り出し、水面に手を触れている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2htJbNP65p/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1032654.jpg",
+      "sha256": "ed021b4d6858652a9a96ae4003f9300683ceddf4e489c1cc68b91afabeff1f97"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2htjbnp65p-400.webp",
-        "width": 320,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-ed021b4d6858-400.webp",
+        "width": 400,
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2htjbnp65p-800.webp",
-        "width": 640,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-ed021b4d6858-800.webp",
+        "width": 800,
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2htjbnp65p-1400.webp",
-        "width": 1121,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-ed021b4d6858-1400.webp",
+        "width": 1400,
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2htjbnp65p-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-color-ed021b4d6858-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   },
   {
-    "id": "hibi-color-c07xgqnp-zi",
+    "id": "hibi-color-e96fe5e7ead7",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c07xgqnp-zi-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c07xgqnp-zi-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "大きなロゴのある暗い建物の前で、板を担いだ人物が三角コーンの並ぶ歩道を歩いている。",
+    "src": "assets/photos/provided/hibi-color-e96fe5e7ead7-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-e96fe5e7ead7-thumb.webp",
+    "width": 1455,
+    "height": 2200,
+    "alt": "白い横帯のある窓越しに見える、光の当たったオレンジ色の椅子と白いテーブル。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C07xGqnP-Zi/",
+    "source": {
+      "type": "provided",
+      "file": "color/L1006074.jpg",
+      "sha256": "e96fe5e7ead7ee4ac1aaa2b56f889ffa93c13000510070f2259eaff1be8721fe"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c07xgqnp-zi-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-color-e96fe5e7ead7-400.webp",
+        "width": 264,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c07xgqnp-zi-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-color-e96fe5e7ead7-800.webp",
+        "width": 529,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c07xgqnp-zi-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-color-e96fe5e7ead7-1400.webp",
+        "width": 926,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c07xgqnp-zi-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-color-e96fe5e7ead7-2200.webp",
+        "width": 1455,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c08jirrvbni",
+    "id": "hibi-color-d024c4f0e992",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c08jirrvbni-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c08jirrvbni-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "帽子をかぶった人物のシルエットの向こうに、看板が並ぶ明るい街路と車両が見える。",
+    "src": "assets/photos/provided/hibi-color-d024c4f0e992-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-d024c4f0e992-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "窓のブラインドの下に見える、スマートフォンを持つ手とノートパソコン、飲食物の載ったトレー。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C08JIRrvbNI/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1030479.jpg",
+      "sha256": "d024c4f0e992ff7409bba5ba8edd763e6435c51b2c34b5e850df805114152628"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c08jirrvbni-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-d024c4f0e992-400.webp",
+        "width": 266,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08jirrvbni-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-d024c4f0e992-800.webp",
+        "width": 531,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08jirrvbni-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-d024c4f0e992-1400.webp",
+        "width": 930,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08jirrvbni-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-d024c4f0e992-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c1bz4x-v7md",
+    "id": "hibi-color-8f0073f98080",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c1bz4x-v7md-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c1bz4x-v7md-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "広告が貼られた柱のそばに人物が立ち、右側の暗い入口と赤い三角コーンが大きく写る。",
+    "src": "assets/photos/provided/hibi-color-8f0073f98080-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-8f0073f98080-thumb.webp",
+    "width": 1467,
+    "height": 2200,
+    "alt": "カフェのガラス扉越しに見える人々と、ガラスに重なる街路樹や車の反射。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C1Bz4x_v7md/",
+    "source": {
+      "type": "provided",
+      "file": "color/_DSC1355.jpg",
+      "sha256": "8f0073f98080107e34607aa49215b84b0d8ff9a0e445dc43e9e136543c3569d2"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c1bz4x-v7md-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-color-8f0073f98080-400.webp",
+        "width": 267,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1bz4x-v7md-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-color-8f0073f98080-800.webp",
+        "width": 534,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1bz4x-v7md-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-color-8f0073f98080-1400.webp",
+        "width": 934,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c1bz4x-v7md-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-color-8f0073f98080-2200.webp",
+        "width": 1467,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c0qbb9bvrru",
+    "id": "hibi-color-93d2097acd91",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c0qbb9bvrru-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c0qbb9bvrru-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "縦格子の壁の左側に人物の影が映り、壁の大部分は暗く写っている。",
+    "src": "assets/photos/provided/hibi-color-93d2097acd91-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-93d2097acd91-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "すりガラスの前のカウンターで、上着を着た人がテーブルに顔を伏せている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C0qbB9bvRRu/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1001322.jpg",
+      "sha256": "93d2097acd913cf2c6cd1563cdfa3954b8762a356a3e2ca37211de21447571a0"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c0qbb9bvrru-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-93d2097acd91-400.webp",
+        "width": 266,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0qbb9bvrru-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-93d2097acd91-800.webp",
+        "width": 531,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0qbb9bvrru-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-93d2097acd91-1400.webp",
+        "width": 930,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0qbb9bvrru-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-93d2097acd91-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c2pi3hopran",
+    "id": "hibi-color-6f1b4419af7f",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2pi3hopran-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2pi3hopran-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "日差しの当たる建物の壁に柱の影が伸び、その前を人物が歩いている。",
+    "src": "assets/photos/provided/hibi-color-6f1b4419af7f-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-6f1b4419af7f-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "帽子をかぶった人の大きなシルエットの向こうに、日差しを受けた街の看板や車、人々が見える。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2Pi3hOPraN/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1031068.jpg",
+      "sha256": "6f1b4419af7fb694578c39e11b4a76b5a56ce4af7618493a2b9336a64d3b4ff4"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2pi3hopran-400.webp",
-        "width": 320,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-6f1b4419af7f-400.webp",
+        "width": 400,
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2pi3hopran-800.webp",
-        "width": 641,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-6f1b4419af7f-800.webp",
+        "width": 800,
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2pi3hopran-1400.webp",
-        "width": 1121,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-6f1b4419af7f-1400.webp",
+        "width": 1400,
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2pi3hopran-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-color-6f1b4419af7f-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   },
   {
-    "id": "hibi-color-c08xx1zv8rl",
+    "id": "hibi-color-5fe10cb8b714",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c08xx1zv8rl-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c08xx1zv8rl-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "暗い石張りの建物の前をスーツ姿の人物が歩き、足元に日差しの帯が伸びている。",
+    "src": "assets/photos/provided/hibi-color-5fe10cb8b714-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-5fe10cb8b714-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "夜の街の看板を背に、曇ったガラスの囲いの陰に立つ人と、路上の標識が並ぶ。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C08xx1Zv8rl/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1035779.jpg",
+      "sha256": "5fe10cb8b714c2f03f882b1220df8940f806db8189a4adbca0f4aaf77cf82260"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c08xx1zv8rl-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-color-5fe10cb8b714-400.webp",
+        "width": 266,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08xx1zv8rl-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-color-5fe10cb8b714-800.webp",
+        "width": 531,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08xx1zv8rl-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-color-5fe10cb8b714-1400.webp",
+        "width": 930,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c08xx1zv8rl-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-color-5fe10cb8b714-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c0-tfbvpj-1",
+    "id": "hibi-color-ec0afecadf52",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "バスのフロントガラスに空と木々が映り込み、車内の人物の腕と運転席が重なって見える。",
+    "src": "assets/photos/provided/hibi-color-ec0afecadf52-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-ec0afecadf52-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "曇りと水滴のついた窓越しに見える、白いマスクを着けた人の横顔。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C0_TfBVPj_1/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1039970.jpg",
+      "sha256": "ec0afecadf52844dee1b555904c2abe2a17335dbc546b089ffca6ed78c10c60d"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-400.webp",
-        "width": 400,
-        "height": 320
+        "src": "assets/photos/provided/hibi-color-ec0afecadf52-400.webp",
+        "width": 266,
+        "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-800.webp",
-        "width": 800,
-        "height": 640
+        "src": "assets/photos/provided/hibi-color-ec0afecadf52-800.webp",
+        "width": 531,
+        "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-1400.webp",
-        "width": 1400,
-        "height": 1120
+        "src": "assets/photos/provided/hibi-color-ec0afecadf52-1400.webp",
+        "width": 930,
+        "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0-tfbvpj-1-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-color-ec0afecadf52-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-color-c2j95zfvdju",
+    "id": "hibi-color-1e8c36afab51",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c2j95zfvdju-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c2j95zfvdju-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "街の建物と横断歩道が映り込む窓越しに、テーブルを囲んで座る人々が見える。",
+    "src": "assets/photos/provided/hibi-color-1e8c36afab51-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-1e8c36afab51-thumb.webp",
+    "width": 2200,
+    "height": 1468,
+    "alt": "雨の夜、傘を差す人々が歩道を行き交い、濡れた路面に車や看板の光が映る。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C2J95ZFvdjU/",
+    "source": {
+      "type": "provided",
+      "file": "color/Q1003755.jpg",
+      "sha256": "1e8c36afab51baddd8ca0c61c903f5225354c1e53d207f37dd0026bd253a976c"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c2j95zfvdju-400.webp",
-        "width": 320,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-1e8c36afab51-400.webp",
+        "width": 400,
+        "height": 267
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2j95zfvdju-800.webp",
-        "width": 640,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-1e8c36afab51-800.webp",
+        "width": 800,
+        "height": 534
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2j95zfvdju-1400.webp",
-        "width": 1121,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-1e8c36afab51-1400.webp",
+        "width": 1400,
+        "height": 934
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c2j95zfvdju-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-color-1e8c36afab51-2200.webp",
+        "width": 2200,
+        "height": 1468
       }
     ]
   },
   {
-    "id": "hibi-color-c0lkjccp5ip",
+    "id": "hibi-color-4f29c9668c0c",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c0lkjccp5ip-1797.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c0lkjccp5ip-thumb.webp",
-    "width": 1440,
-    "height": 1797,
-    "alt": "バスの座席に座る人物の後ろ姿に日が差し、周囲にオレンジ色の手すりが並んでいる。",
+    "src": "assets/photos/provided/hibi-color-4f29c9668c0c-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-4f29c9668c0c-thumb.webp",
+    "width": 2200,
+    "height": 1467,
+    "alt": "夜の街で火花と煙が上がり、明るい照明を背に人々のシルエットが浮かぶ。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C0lkJcCP5iP/",
+    "source": {
+      "type": "provided",
+      "file": "color/_DSC0899.jpg",
+      "sha256": "4f29c9668c0c39036b2b57df66628b11e925226f0e6a14b135ecffba0094d836"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c0lkjccp5ip-400.webp",
-        "width": 321,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-4f29c9668c0c-400.webp",
+        "width": 400,
+        "height": 267
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0lkjccp5ip-800.webp",
-        "width": 641,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-4f29c9668c0c-800.webp",
+        "width": 800,
+        "height": 534
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0lkjccp5ip-1400.webp",
-        "width": 1122,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-4f29c9668c0c-1400.webp",
+        "width": 1400,
+        "height": 934
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0lkjccp5ip-1797.webp",
-        "width": 1440,
-        "height": 1797
+        "src": "assets/photos/provided/hibi-color-4f29c9668c0c-2200.webp",
+        "width": 2200,
+        "height": 1467
       }
     ]
   },
   {
-    "id": "hibi-color-c0i8wcbpauw",
+    "id": "hibi-color-152e45506310",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c0i8wcbpauw-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c0i8wcbpauw-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "車内の座席に人々が座り、大きな窓の外には黄色く色づいた木々が見える。",
+    "src": "assets/photos/provided/hibi-color-152e45506310-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-152e45506310-thumb.webp",
+    "width": 2200,
+    "height": 1462,
+    "alt": "白く照らされたガラス張りの衣料品店の前に立ち、手元を見る人のシルエット。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C0i8wcBPauw/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1036867.jpg",
+      "sha256": "152e455063102dde2d003fb7f36ccb06ae0e9397895a9b6769fa0517cb7b3650"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c0i8wcbpauw-400.webp",
-        "width": 320,
-        "height": 400
+        "src": "assets/photos/provided/hibi-color-152e45506310-400.webp",
+        "width": 400,
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0i8wcbpauw-800.webp",
-        "width": 641,
-        "height": 800
+        "src": "assets/photos/provided/hibi-color-152e45506310-800.webp",
+        "width": 800,
+        "height": 532
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0i8wcbpauw-1400.webp",
-        "width": 1121,
-        "height": 1400
+        "src": "assets/photos/provided/hibi-color-152e45506310-1400.webp",
+        "width": 1400,
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-color-c0i8wcbpauw-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-color-152e45506310-2200.webp",
+        "width": 2200,
+        "height": 1462
       }
     ]
   },
   {
-    "id": "hibi-color-c0kjj7evchw",
+    "id": "hibi-color-2351be6b489e",
     "collection": "color",
-    "src": "assets/photos/instagram/hibi-color-c0kjj7evchw-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-color-c0kjj7evchw-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "青い川面に向かってカメラを構える人物が草の生えた岸辺に立ち、対岸には木々が並んでいる。",
+    "src": "assets/photos/provided/hibi-color-2351be6b489e-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-color-2351be6b489e-thumb.webp",
+    "width": 1455,
+    "height": 2200,
+    "alt": "暗い屋根の下、明るい街を背に、椅子に座って両腕を上げる人のシルエット。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibigraph116/p/C0kjJ7EvCHw/",
+    "source": {
+      "type": "provided",
+      "file": "color/M1035947.jpg",
+      "sha256": "2351be6b489e544a261917faeb075e8f1dc3f7025f654fd9dcef6cbabe374d3c"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-color-c0kjj7evchw-400.webp",
-        "width": 400,
-        "height": 320
-      },
-      {
-        "src": "assets/photos/instagram/hibi-color-c0kjj7evchw-800.webp",
-        "width": 800,
-        "height": 640
-      },
-      {
-        "src": "assets/photos/instagram/hibi-color-c0kjj7evchw-1400.webp",
-        "width": 1400,
-        "height": 1120
-      },
-      {
-        "src": "assets/photos/instagram/hibi-color-c0kjj7evchw-1440.webp",
-        "width": 1440,
-        "height": 1152
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c2htguvpsjj",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2htguvpsjj-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2htguvpsjj-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "店の明かりが濡れた路面に映る夜の路地を、傘を差した人物が歩いている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2htguVpSJj/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2htguvpsjj-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-color-2351be6b489e-400.webp",
+        "width": 265,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2htguvpsjj-800.webp",
-        "width": 640,
+        "src": "assets/photos/provided/hibi-color-2351be6b489e-800.webp",
+        "width": 529,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2htguvpsjj-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-color-2351be6b489e-1400.webp",
+        "width": 926,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2htguvpsjj-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-color-2351be6b489e-2200.webp",
+        "width": 1455,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c2eohefpy3w",
+    "id": "hibi-mono-a8c1fae1275d",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2eohefpy3w-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2eohefpy3w-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "夜の濡れた歩道で、透明な傘を差した人物が明るい看板のそばに立っている。",
+    "src": "assets/photos/provided/hibi-mono-a8c1fae1275d-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-a8c1fae1275d-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "建物の間に縦長の光が差し込み、明るい壁の前をひとりの人物が横切る。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2eoHEFpy3W/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1035387.jpg",
+      "sha256": "a8c1fae1275db0e0a648575c1316c27365032c8820f756b25b717999d4103105"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c2eohefpy3w-400.webp",
-        "width": 400,
-        "height": 320
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2eohefpy3w-800.webp",
-        "width": 800,
-        "height": 640
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2eohefpy3w-1400.webp",
-        "width": 1400,
-        "height": 1120
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2eohefpy3w-1440.webp",
-        "width": 1440,
-        "height": 1152
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c2pi9frj4vd",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "暗い街路で電話ボックスが照らされ、その上に木の枝が浮かび上がっている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2Pi9FrJ4vd/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-mono-a8c1fae1275d-400.webp",
+        "width": 266,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-mono-a8c1fae1275d-800.webp",
+        "width": 531,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-mono-a8c1fae1275d-1400.webp",
+        "width": 930,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2pi9frj4vd-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-mono-a8c1fae1275d-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c1amcdcbp6n",
+    "id": "hibi-mono-cc1537c25648",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "店の明かりが並ぶ夜の歩道を、背を向けた人物が歩いている。",
+    "src": "assets/photos/provided/hibi-mono-cc1537c25648-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-cc1537c25648-thumb.webp",
+    "width": 2200,
+    "height": 1468,
+    "alt": "光の当たる石張りの太い柱が連なり、その間を傘を差した人が歩く。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C1amcDCBp6N/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/Q1011180.jpg",
+      "sha256": "cc1537c25648ef2744df8e5e98643d6f3352090428502112466d43b34edb0e65"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-400.webp",
+        "src": "assets/photos/provided/hibi-mono-cc1537c25648-400.webp",
         "width": 400,
-        "height": 320
+        "height": 267
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-800.webp",
+        "src": "assets/photos/provided/hibi-mono-cc1537c25648-800.webp",
         "width": 800,
-        "height": 640
+        "height": 534
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-cc1537c25648-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 934
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1amcdcbp6n-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-mono-cc1537c25648-2200.webp",
+        "width": 2200,
+        "height": 1468
       }
     ]
   },
   {
-    "id": "hibi-mono-c0i9aqbjbyi",
+    "id": "hibi-mono-2e7dbffecaaa",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-1797.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-thumb.webp",
-    "width": 1440,
-    "height": 1797,
-    "alt": "明るい店先に二人が並び、手前の人物は大きなリュックを背負っている。",
+    "src": "assets/photos/provided/hibi-mono-2e7dbffecaaa-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-2e7dbffecaaa-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "高架の下に広がる大きな影。白い傘を差し、荷物を引く人が横断歩道の向こうを歩く。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C0i9AqBJBYi/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1000297.jpg",
+      "sha256": "2e7dbffecaaa0d777dbb107a1926c1c3edc2fd2a7c5e56cb1c5d8d3c42963bf4"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-400.webp",
-        "width": 321,
+        "src": "assets/photos/provided/hibi-mono-2e7dbffecaaa-400.webp",
+        "width": 266,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-mono-2e7dbffecaaa-800.webp",
+        "width": 531,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-1400.webp",
-        "width": 1122,
+        "src": "assets/photos/provided/hibi-mono-2e7dbffecaaa-1400.webp",
+        "width": 930,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0i9aqbjbyi-1797.webp",
-        "width": 1440,
-        "height": 1797
+        "src": "assets/photos/provided/hibi-mono-2e7dbffecaaa-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c2j-fpzjncr",
+    "id": "hibi-mono-74e44cfb429d",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-1800.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-thumb.webp",
-    "width": 1440,
-    "height": 1800,
-    "alt": "文字と料理の写真が並ぶ店内で、人物がテーブルに向かって座っている。",
+    "src": "assets/photos/provided/hibi-mono-74e44cfb429d-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-74e44cfb429d-thumb.webp",
+    "width": 2200,
+    "height": 1468,
+    "alt": "強い光に照らされた横断歩道に、ヘルメット姿の人が立つ。手前には左向きの矢印標識。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2J-FPZJNCr/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/Q1012564.jpg",
+      "sha256": "74e44cfb429d2cf79284f981ec7e1eb01bd3313991fcf3addbf04087e20c5ed7"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-mono-74e44cfb429d-400.webp",
+        "width": 400,
+        "height": 267
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-74e44cfb429d-800.webp",
+        "width": 800,
+        "height": 534
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-74e44cfb429d-1400.webp",
+        "width": 1400,
+        "height": 934
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-74e44cfb429d-2200.webp",
+        "width": 2200,
+        "height": 1468
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-7c9852a4cf10",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-7c9852a4cf10-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-7c9852a4cf10-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "ガラス張りの建物の前で、小型ショベルカーを囲むヘルメット姿の人々。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1000195.jpg",
+      "sha256": "7c9852a4cf103483aaeff431dfef97e878ede144188e9b311f6d0ca58a1462e9"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-7c9852a4cf10-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-7c9852a4cf10-800.webp",
+        "width": 800,
+        "height": 531
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-7c9852a4cf10-1400.webp",
+        "width": 1400,
+        "height": 930
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-7c9852a4cf10-2200.webp",
+        "width": 2200,
+        "height": 1461
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-e8d87b5bbf40",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-e8d87b5bbf40-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-e8d87b5bbf40-thumb.webp",
+    "width": 2200,
+    "height": 1467,
+    "alt": "「うどん」の暖簾が下がる店内。積まれた容器や調理場の間に人々が立つ。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/_R000048.jpg",
+      "sha256": "e8d87b5bbf40a2743aa641b18c9c347521c04cc59a0a644eb05ae4b24e72a0a9"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-e8d87b5bbf40-400.webp",
+        "width": 400,
+        "height": 267
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-e8d87b5bbf40-800.webp",
+        "width": 800,
+        "height": 533
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-e8d87b5bbf40-1400.webp",
+        "width": 1400,
+        "height": 933
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-e8d87b5bbf40-2200.webp",
+        "width": 2200,
+        "height": 1467
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-a0c182d1912d",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-a0c182d1912d-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-a0c182d1912d-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "文字や落書きのある壁の前で、荷台に箱を載せた自転車に腰かけた人が手元を見る。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1036173.jpg",
+      "sha256": "a0c182d1912da0b0a08fafc7fd8402d65bcfde4b92f1febe56860473f941135f"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-a0c182d1912d-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-a0c182d1912d-800.webp",
+        "width": 800,
+        "height": 531
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-a0c182d1912d-1400.webp",
+        "width": 1400,
+        "height": 930
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-a0c182d1912d-2200.webp",
+        "width": 2200,
+        "height": 1461
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-3a8db708e955",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-3a8db708e955-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-3a8db708e955-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "店舗のガラス壁にもたれて座る人。その姿と、道路や向かいの建物が窓に映る。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1029227.jpg",
+      "sha256": "3a8db708e95509570a16eec61d31d3dd9dd177fc5af6be56fdbdea19eee6cf1c"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-3a8db708e955-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-3a8db708e955-800.webp",
+        "width": 800,
+        "height": 531
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-3a8db708e955-1400.webp",
+        "width": 1400,
+        "height": 930
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-3a8db708e955-2200.webp",
+        "width": 2200,
+        "height": 1461
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-d0624527c843",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-d0624527c843-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-d0624527c843-thumb.webp",
+    "width": 1467,
+    "height": 2200,
+    "alt": "ショーウインドーに並ぶマネキンと、ガラスに映り込む人の姿や街の明かり。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/_DSC1200.jpg",
+      "sha256": "d0624527c8434cfcdc13d138b2ce3ec32e7bd5e5beb46415b14e26bb7025a629"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-d0624527c843-400.webp",
+        "width": 267,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-800.webp",
-        "width": 640,
+        "src": "assets/photos/provided/hibi-mono-d0624527c843-800.webp",
+        "width": 534,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-1400.webp",
-        "width": 1120,
+        "src": "assets/photos/provided/hibi-mono-d0624527c843-1400.webp",
+        "width": 934,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2j-fpzjncr-1800.webp",
-        "width": 1440,
-        "height": 1800
+        "src": "assets/photos/provided/hibi-mono-d0624527c843-2200.webp",
+        "width": 1467,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c3nh-iip1l4",
+    "id": "hibi-mono-c97eabca27d8",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "明るい店内のカウンターに向かって、背を向けた人物が丸い椅子に座っている。",
+    "src": "assets/photos/provided/hibi-mono-c97eabca27d8-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-c97eabca27d8-thumb.webp",
+    "width": 2200,
+    "height": 1463,
+    "alt": "白いすのこ状のテーブルに、飲み物のカップ、サングラス、包み入りの菓子が並ぶ。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C3nH_IIp1L4/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1002981.jpg",
+      "sha256": "c97eabca27d8a526e58a3ea2a4d944f57478a80e57e65015008ddcb412269c0d"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-mono-c97eabca27d8-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-c97eabca27d8-800.webp",
+        "width": 800,
+        "height": 532
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-c97eabca27d8-1400.webp",
+        "width": 1400,
+        "height": 931
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-c97eabca27d8-2200.webp",
+        "width": 2200,
+        "height": 1463
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-b20cf1286c01",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-b20cf1286c01-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-b20cf1286c01-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "格子模様の透明なカーテン越しに、明るい照明とカウンターに並ぶ人々の姿が見える。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1037541.jpg",
+      "sha256": "b20cf1286c0101b277bfc3349ab261670503afbb823b25b2f4560f863aa43020"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-b20cf1286c01-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-b20cf1286c01-800.webp",
+        "width": 800,
+        "height": 531
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-b20cf1286c01-1400.webp",
+        "width": 1400,
+        "height": 930
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-b20cf1286c01-2200.webp",
+        "width": 2200,
+        "height": 1461
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-076b6900989d",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-076b6900989d-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-076b6900989d-thumb.webp",
+    "width": 1461,
+    "height": 2200,
+    "alt": "光を反射する格子模様の透明なカーテン。その向こうに、カウンターに向く白いシャツの人が見える。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1038994.jpg",
+      "sha256": "076b6900989d5b33e25fdd7e55bb567d4d1f6db5b16c55a956da859e6391902d"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-076b6900989d-400.webp",
+        "width": 266,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-800.webp",
-        "width": 640,
+        "src": "assets/photos/provided/hibi-mono-076b6900989d-800.webp",
+        "width": 531,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-mono-076b6900989d-1400.webp",
+        "width": 930,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3nh-iip1l4-1799.webp",
-        "width": 1440,
-        "height": 1799
+        "src": "assets/photos/provided/hibi-mono-076b6900989d-2200.webp",
+        "width": 1461,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c0-tmtsp2d5",
+    "id": "hibi-mono-e5622e473309",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-thumb.webp",
-    "width": 1440,
-    "height": 1150,
-    "alt": "白い服と帽子を身につけた人物が、看板のある細い通路を奥へ進んでいる。",
+    "src": "assets/photos/provided/hibi-mono-e5622e473309-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-e5622e473309-thumb.webp",
+    "width": 2200,
+    "height": 1455,
+    "alt": "照明のついた店先と自転車。右側の細い入口前を小さな人影が通り過ぎる。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C0_TmTSp2d5/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/L1007403.jpg",
+      "sha256": "e5622e473309521e3e4d4c7a8743309029430ea5c6cc06311b85b37155da18dc"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-400.webp",
+        "src": "assets/photos/provided/hibi-mono-e5622e473309-400.webp",
         "width": 400,
-        "height": 319
+        "height": 265
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-800.webp",
+        "src": "assets/photos/provided/hibi-mono-e5622e473309-800.webp",
         "width": 800,
-        "height": 639
+        "height": 529
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-e5622e473309-1400.webp",
         "width": 1400,
-        "height": 1118
+        "height": 926
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0-tmtsp2d5-1440.webp",
-        "width": 1440,
-        "height": 1150
+        "src": "assets/photos/provided/hibi-mono-e5622e473309-2200.webp",
+        "width": 2200,
+        "height": 1455
       }
     ]
   },
   {
-    "id": "hibi-mono-c3kbhilp50o",
+    "id": "hibi-mono-e5b3a8f12233",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c3kbhilp50o-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c3kbhilp50o-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "暗い路地の出口に人物が立ち、その向こうに看板と行き交う人々が見える。",
+    "src": "assets/photos/provided/hibi-mono-e5b3a8f12233-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-e5b3a8f12233-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "周囲が暗い中、明るく照らされた宝くじ売り場の窓口にひとりの人物が立つ。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C3kbHiLp50O/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/L1002941.jpg",
+      "sha256": "e5b3a8f122331210a4ebd7c8ddcad0a5b88e877964fc330959f1e1397eb6c6fe"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c3kbhilp50o-400.webp",
+        "src": "assets/photos/provided/hibi-mono-e5b3a8f12233-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3kbhilp50o-800.webp",
+        "src": "assets/photos/provided/hibi-mono-e5b3a8f12233-800.webp",
         "width": 800,
-        "height": 640
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3kbhilp50o-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-e5b3a8f12233-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3kbhilp50o-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-mono-e5b3a8f12233-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   },
   {
-    "id": "hibi-mono-c3t5ik5jbwu",
+    "id": "hibi-mono-ce935a2eafc0",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "人々が行き交う広場で、複数のスーツケースと荷物に囲まれて人物が座っている。",
+    "src": "assets/photos/provided/hibi-mono-ce935a2eafc0-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-ce935a2eafc0-thumb.webp",
+    "width": 2200,
+    "height": 1463,
+    "alt": "駅のホームに差し込む光の中で、ひとりの人物が手元を見つめている。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C3t5Ik5JBwu/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1029452.jpg",
+      "sha256": "ce935a2eafc0ee913453d18408c99b5bc81ca9314d62e54c6dcbbe32d4bb96c9"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-400.webp",
+        "src": "assets/photos/provided/hibi-mono-ce935a2eafc0-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-800.webp",
+        "src": "assets/photos/provided/hibi-mono-ce935a2eafc0-800.webp",
         "width": 800,
-        "height": 640
+        "height": 532
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-ce935a2eafc0-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 931
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c3t5ik5jbwu-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-mono-ce935a2eafc0-2200.webp",
+        "width": 2200,
+        "height": 1463
       }
     ]
   },
   {
-    "id": "hibi-mono-c2m3ychjyn4",
+    "id": "hibi-mono-9b137431dd47",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "街角の建物脇に自転車が並び、その奥に人物が立っている。",
+    "src": "assets/photos/provided/hibi-mono-9b137431dd47-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-9b137431dd47-thumb.webp",
+    "width": 2200,
+    "height": 1462,
+    "alt": "駅のホームに立つ人々が、明るい壁や広告を背景に黒い輪郭となって浮かぶ。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2m3yCHJYn4/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1038824.jpg",
+      "sha256": "9b137431dd477eab040a397ceabd656887f65f0b1f695445c5ea8258855f5000"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-400.webp",
+        "src": "assets/photos/provided/hibi-mono-9b137431dd47-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-800.webp",
+        "src": "assets/photos/provided/hibi-mono-9b137431dd47-800.webp",
         "width": 800,
-        "height": 640
+        "height": 532
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-9b137431dd47-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c2m3ychjyn4-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-mono-9b137431dd47-2200.webp",
+        "width": 2200,
+        "height": 1462
       }
     ]
   },
   {
-    "id": "hibi-mono-c07w7xmv-kx",
+    "id": "hibi-mono-399770e324bc",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "歩道の車止めに腰掛けた人物が、片手にスマートフォンを持ち、もう片方の手を頭に添えている。",
+    "src": "assets/photos/provided/hibi-mono-399770e324bc-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-399770e324bc-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "バスと階段のある建物の暗がり。光の当たる壁を背景に、歩く人々の輪郭が見える。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C07w7XMv-KX/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1030543.jpg",
+      "sha256": "399770e324bc2c7ddd518077419c9ff963eafa475319b9e27b326adf9008b202"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-mono-399770e324bc-400.webp",
+        "width": 400,
+        "height": 266
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-399770e324bc-800.webp",
+        "width": 800,
+        "height": 531
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-399770e324bc-1400.webp",
+        "width": 1400,
+        "height": 930
+      },
+      {
+        "src": "assets/photos/provided/hibi-mono-399770e324bc-2200.webp",
+        "width": 2200,
+        "height": 1461
+      }
+    ]
+  },
+  {
+    "id": "hibi-mono-583e91332e00",
+    "collection": "mono",
+    "src": "assets/photos/provided/hibi-mono-583e91332e00-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-583e91332e00-thumb.webp",
+    "width": 1468,
+    "height": 2200,
+    "alt": "屋根に覆われた細い路地。明るい出口近くに、しゃがんで手を伸ばす人の姿が見える。",
+    "title": null,
+    "caption": null,
+    "selectionStatus": "approved",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/Q1010430.jpg",
+      "sha256": "583e91332e00cc318363bf27ba5a19961ca28fb5eb2a2eb20ca1fd8d0b40cba1"
+    },
+    "variants": [
+      {
+        "src": "assets/photos/provided/hibi-mono-583e91332e00-400.webp",
+        "width": 267,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-mono-583e91332e00-800.webp",
+        "width": 534,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-mono-583e91332e00-1400.webp",
+        "width": 934,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c07w7xmv-kx-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-mono-583e91332e00-2200.webp",
+        "width": 1468,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c08jprlpaao",
+    "id": "hibi-mono-7409a026fbb1",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c08jprlpaao-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c08jprlpaao-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "木々のある通りの歩道で、手前の二人と奥で寄り添う二人の背中が見える。",
+    "src": "assets/photos/provided/hibi-mono-7409a026fbb1-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-7409a026fbb1-thumb.webp",
+    "width": 1468,
+    "height": 2200,
+    "alt": "看板の連なる細い路地に強い光が差し込み、中央を歩く人の影が路面に長く伸びる。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C08JPRLpaaO/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/Q1010346.jpg",
+      "sha256": "7409a026fbb1a63a1c21181bcdde6c8ec78557df08a4f21aad6e6c73c681e1b3"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c08jprlpaao-400.webp",
-        "width": 400,
-        "height": 320
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08jprlpaao-800.webp",
-        "width": 800,
-        "height": 640
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08jprlpaao-1400.webp",
-        "width": 1400,
-        "height": 1120
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08jprlpaao-1440.webp",
-        "width": 1440,
-        "height": 1152
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c0kjpbyv8lo",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "木々に囲まれた歩道で、並んで立つ二人に向けて別の人物がスマートフォンを構えている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C0kjPbYv8Lo/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-400.webp",
-        "width": 400,
-        "height": 320
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-800.webp",
-        "width": 800,
-        "height": 640
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-1400.webp",
-        "width": 1400,
-        "height": 1120
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0kjpbyv8lo-1440.webp",
-        "width": 1440,
-        "height": 1152
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c1b2yuvjrya",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-1798.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-thumb.webp",
-    "width": 1440,
-    "height": 1798,
-    "alt": "枝葉を広げる木々の下で、人物が低い石の縁に腰掛けている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C1B2YUvJRYA/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-400.webp",
-        "width": 320,
+        "src": "assets/photos/provided/hibi-mono-7409a026fbb1-400.webp",
+        "width": 267,
         "height": 400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-800.webp",
-        "width": 641,
+        "src": "assets/photos/provided/hibi-mono-7409a026fbb1-800.webp",
+        "width": 534,
         "height": 800
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-1400.webp",
-        "width": 1121,
+        "src": "assets/photos/provided/hibi-mono-7409a026fbb1-1400.webp",
+        "width": 934,
         "height": 1400
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c1b2yuvjrya-1798.webp",
-        "width": 1440,
-        "height": 1798
+        "src": "assets/photos/provided/hibi-mono-7409a026fbb1-2200.webp",
+        "width": 1468,
+        "height": 2200
       }
     ]
   },
   {
-    "id": "hibi-mono-c24kkggjrrd",
+    "id": "hibi-mono-1aba70d0eb42",
     "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c24kkggjrrd-1799.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c24kkggjrrd-thumb.webp",
-    "width": 1440,
-    "height": 1799,
-    "alt": "木々と空を映す水面に、一羽の水鳥が浮かんでいる。",
+    "src": "assets/photos/provided/hibi-mono-1aba70d0eb42-2200.webp",
+    "thumbnail": "assets/photos/provided/hibi-mono-1aba70d0eb42-thumb.webp",
+    "width": 2200,
+    "height": 1461,
+    "alt": "縦の細い線が並ぶ壁に、人の影が大きく映り、斜めの影が重なる。",
     "title": null,
     "caption": null,
     "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C24kkggJRrd/",
+    "source": {
+      "type": "provided",
+      "file": "monochrome/M1032143.jpg",
+      "sha256": "1aba70d0eb427d5b764c7736061232649d90c8460ebeb108bb7f19f71024b6e7"
+    },
     "variants": [
       {
-        "src": "assets/photos/instagram/hibi-mono-c24kkggjrrd-400.webp",
-        "width": 320,
-        "height": 400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c24kkggjrrd-800.webp",
-        "width": 640,
-        "height": 800
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c24kkggjrrd-1400.webp",
-        "width": 1121,
-        "height": 1400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c24kkggjrrd-1799.webp",
-        "width": 1440,
-        "height": 1799
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c0qbiy3jph1",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "横縞模様の広がる広場を一人の人物が横切り、奥には長い屋根の建物が見える。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C0qbIY3JPH1/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-400.webp",
+        "src": "assets/photos/provided/hibi-mono-1aba70d0eb42-400.webp",
         "width": 400,
-        "height": 320
+        "height": 266
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-800.webp",
+        "src": "assets/photos/provided/hibi-mono-1aba70d0eb42-800.webp",
         "width": 800,
-        "height": 640
+        "height": 531
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-1400.webp",
+        "src": "assets/photos/provided/hibi-mono-1aba70d0eb42-1400.webp",
         "width": 1400,
-        "height": 1120
+        "height": 930
       },
       {
-        "src": "assets/photos/instagram/hibi-mono-c0qbiy3jph1-1440.webp",
-        "width": 1440,
-        "height": 1152
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c0lkthppyf6",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c0lkthppyf6-1797.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c0lkthppyf6-thumb.webp",
-    "width": 1440,
-    "height": 1797,
-    "alt": "窓のある壁に人物の横向きの影が映り、右上から木の枝の影が伸びている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C0lkThppyf6/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0lkthppyf6-400.webp",
-        "width": 321,
-        "height": 400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0lkthppyf6-800.webp",
-        "width": 641,
-        "height": 800
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0lkthppyf6-1400.webp",
-        "width": 1122,
-        "height": 1400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c0lkthppyf6-1797.webp",
-        "width": 1440,
-        "height": 1797
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c08x318prxk",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c08x318prxk-1797.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c08x318prxk-thumb.webp",
-    "width": 1440,
-    "height": 1797,
-    "alt": "大きな柱の下部に人物の影が映り、その上には木の枝葉の影が広がっている。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C08x318prXK/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08x318prxk-400.webp",
-        "width": 321,
-        "height": 400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08x318prxk-800.webp",
-        "width": 641,
-        "height": 800
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08x318prxk-1400.webp",
-        "width": 1122,
-        "height": 1400
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c08x318prxk-1797.webp",
-        "width": 1440,
-        "height": 1797
-      }
-    ]
-  },
-  {
-    "id": "hibi-mono-c2mwzkzj1lz",
-    "collection": "mono",
-    "src": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-1440.webp",
-    "thumbnail": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-thumb.webp",
-    "width": 1440,
-    "height": 1152,
-    "alt": "暗い階段に人物のシルエットが見え、背後の大きな窓から光が差している。",
-    "title": null,
-    "caption": null,
-    "selectionStatus": "approved",
-    "source": "https://www.instagram.com/hibi_mono/p/C2MwZkZJ1lz/",
-    "variants": [
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-400.webp",
-        "width": 400,
-        "height": 320
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-800.webp",
-        "width": 800,
-        "height": 640
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-1400.webp",
-        "width": 1400,
-        "height": 1120
-      },
-      {
-        "src": "assets/photos/instagram/hibi-mono-c2mwzkzj1lz-1440.webp",
-        "width": 1440,
-        "height": 1152
+        "src": "assets/photos/provided/hibi-mono-1aba70d0eb42-2200.webp",
+        "width": 2200,
+        "height": 1461
       }
     ]
   }

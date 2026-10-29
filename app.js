@@ -1,4 +1,4 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261028-photo-spacing';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-provided-photos';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
