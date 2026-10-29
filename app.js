@@ -1,6 +1,6 @@
-import { artist, collections, works as allWorks } from './data/works.js?v=20261029-sticky-header';
-import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-sticky-header';
-import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-sticky-header';
+import { artist, collections, works as allWorks } from './data/works.js?v=20261029-gallery-about';
+import { createWheelGesture, createTouchGesture } from './page-gestures.js?v=20261029-gallery-about';
+import { advanceSpring, nearestStop, adjacentStop, followPosition } from './scroll-motion.js?v=20261029-gallery-about';
 
 const $ = (id) => document.getElementById(id);
 const pad = (number) => String(number).padStart(2, '0');
@@ -469,7 +469,6 @@ function buildPhotoPositionNavigation() {
     button.className = 'photo-position-button';
     button.dataset.id = work.id;
     button.setAttribute('aria-label', `${index + 1}枚目の写真へ移動（全${works.length}枚）`);
-    button.title = `${pad(index + 1)} / ${pad(works.length)}`;
     const marker = document.createElement('span');
     marker.className = 'photo-position-marker';
     marker.setAttribute('aria-hidden', 'true');
@@ -489,7 +488,6 @@ function updatePhotoPositionNavigation() {
     button.dataset.distance = String(Math.min(2, Math.abs(index - currentIndex)));
     button.tabIndex = selected ? 0 : -1;
   });
-  $('photo-position-count').textContent = `${pad(works.length ? currentIndex + 1 : 0)}/${pad(works.length)}`;
   const selected = buttons[currentIndex];
   if (focusedWithin && !photoPositionNav.hidden && selected !== document.activeElement) selected?.focus({ preventScroll: true });
 }
@@ -518,7 +516,7 @@ function renderView() {
   $('work-view').hidden = isIndex;
   $('index-view').hidden = !isIndex;
   $('index-toggle').setAttribute('aria-expanded', String(isIndex));
-  $('index-toggle-label').textContent = isIndex ? '鑑賞に戻る' : '作品一覧';
+  $('index-toggle-label').textContent = isIndex ? 'Back to photos' : 'Gallery';
   $('gallery').hidden = !works.length;
   $('gallery-end').hidden = !works.length;
   if ($('collection-empty')) $('collection-empty').hidden = works.length > 0;
@@ -590,7 +588,6 @@ function buildGallery() {
     const entry = { article, figure, button, image, index, entered: index === 0 };
     entries.push(entry);
     button.setAttribute('aria-label', `写真 ${index + 1}`);
-    article.querySelector('.work-number').textContent = `${pad(index + 1)} / ${pad(works.length)}`;
     const caption = [work.title, work.caption].filter(Boolean).join(' — ');
     article.querySelector('.work-caption').textContent = caption;
     article.querySelector('.work-caption').hidden = !caption;
